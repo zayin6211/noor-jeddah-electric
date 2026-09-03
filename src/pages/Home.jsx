@@ -43,7 +43,10 @@ function Home() {
             </p>
 
             <div className="hero-actions">
-              <a className="button button-primary" href={`tel:${phoneNumber}`}>
+              <a
+                className="button button-primary"
+                href={`tel:${phoneNumber}`}
+              >
                 اتصل الآن
               </a>
 
@@ -57,7 +60,10 @@ function Home() {
               </a>
             </div>
 
-            <div className="hero-facts" aria-label="معلومات عن الخدمة">
+            <div
+              className="hero-facts"
+              aria-label="معلومات عن الخدمة"
+            >
               <div>
                 <strong>15 سنة</strong>
                 <span>خبرة</span>
@@ -75,10 +81,11 @@ function Home() {
             </div>
           </div>
 
-          <div className="hero-visual-placeholder" aria-hidden="true">
-            <div className="electric-icon">
-              ⚡
-            </div>
+          <div
+            className="hero-visual-placeholder"
+            aria-hidden="true"
+          >
+            <div className="electric-icon">⚡</div>
 
             <span>أعمال الكهرباء المنزلية</span>
           </div>
@@ -100,8 +107,14 @@ function Home() {
 
           <div className="services-grid">
             {services.map((service) => (
-              <article className="service-card" key={service.title}>
-                <div className="service-number" aria-hidden="true">
+              <article
+                className="service-card"
+                key={service.title}
+              >
+                <div
+                  className="service-number"
+                  aria-hidden="true"
+                >
                   ✓
                 </div>
 
@@ -168,7 +181,10 @@ function Home() {
           </div>
 
           <div className="cta-actions">
-            <a className="button button-light" href={`tel:${phoneNumber}`}>
+            <a
+              className="button button-light"
+              href={`tel:${phoneNumber}`}
+            >
               اتصل بـ {phoneNumber}
             </a>
 
