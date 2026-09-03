@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const phoneNumber = '0546856974'
 const whatsappUrl = 'https://wa.me/966546856974'
+const canonicalUrl = 'https://noor-jeddah-electric.com/'
 
 const services = [
   {
@@ -26,7 +28,68 @@ const services = [
   },
 ]
 
+function setMeta(name, content) {
+  let meta = document.head.querySelector(`meta[name="${name}"]`)
+
+  if (!meta) {
+    meta = document.createElement('meta')
+    meta.setAttribute('name', name)
+    document.head.appendChild(meta)
+  }
+
+  meta.setAttribute('content', content)
+}
+
+function setProperty(property, content) {
+  let meta = document.head.querySelector(
+    `meta[property="${property}"]`,
+  )
+
+  if (!meta) {
+    meta = document.createElement('meta')
+    meta.setAttribute('property', property)
+    document.head.appendChild(meta)
+  }
+
+  meta.setAttribute('content', content)
+}
+
+function setCanonical(url) {
+  let canonical = document.head.querySelector(
+    'link[rel="canonical"]',
+  )
+
+  if (!canonical) {
+    canonical = document.createElement('link')
+    canonical.setAttribute('rel', 'canonical')
+    document.head.appendChild(canonical)
+  }
+
+  canonical.setAttribute('href', url)
+}
+
 function Home() {
+  useEffect(() => {
+    const title =
+      'نور جدة للكهرباء | كهربائي منازل في جدة'
+
+    const description =
+      'نور جدة للكهرباء يقدم أعمال الكهرباء المنزلية وتشطيب الكهرباء للمنازل في جميع مناطق جدة. خبرة 15 سنة. تواصل مباشرة عبر الاتصال أو واتساب.'
+
+    document.title = title
+
+    setMeta('description', description)
+
+    setProperty('og:type', 'website')
+    setProperty('og:locale', 'ar_SA')
+    setProperty('og:site_name', 'نور جدة للكهرباء')
+    setProperty('og:title', title)
+    setProperty('og:description', description)
+    setProperty('og:url', canonicalUrl)
+
+    setCanonical(canonicalUrl)
+  }, [])
+
   return (
     <main>
       <section className="hero-section">
