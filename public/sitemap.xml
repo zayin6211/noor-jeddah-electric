@@ -3,14 +3,14 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
   <url>
-    <loc>https://noor-jeddah-electric.com/</loc>
+    <loc>https://noor-jeddah-electric.vercel.app/</loc>
   </url>
 
   <url>
-    <loc>https://noor-jeddah-electric.com/services</loc>
+    <loc>https://noor-jeddah-electric.vercel.app/services</loc>
   </url>
 
   <url>
-    <loc>https://noor-jeddah-electric.com/contact</loc>
+    <loc>https://noor-jeddah-electric.vercel.app/contact</loc>
   </url>
 </urlset>
