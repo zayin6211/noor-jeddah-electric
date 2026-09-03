@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const phoneNumber = '0546856974'
 const whatsappUrl = 'https://wa.me/966546856974'
-const canonicalUrl = 'https://noor-jeddah-electric.com/'
+const canonicalUrl = 'https://noor-jeddah-electric.vercel.app/'
 
 const services = [
   {

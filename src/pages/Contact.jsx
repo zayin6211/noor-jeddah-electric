@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 const phoneNumber = '0546856974'
 const whatsappUrl = 'https://wa.me/966546856974'
-const canonicalUrl = 'https://noor-jeddah-electric.com/contact'
+const canonicalUrl = 'https://noor-jeddah-electric.vercel.app/contact'
 
 function setMeta(name, content) {
   let meta = document.head.querySelector(`meta[name="${name}"]`)
