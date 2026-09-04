@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
+node_modules/
+dist/
+build/
+.react-router/
+.env
+.env.*
+!.env.example

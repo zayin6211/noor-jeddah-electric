@@ -1,9 +1,15 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+
+import heroImage from '../assets/588522761_1277704574403400_700824699880070196_n - Copy (2).webp'
+import electricalFinishingImage from '../assets/electrical-finishing-jeddah.webp'
+import lightingImage from '../assets/images (8).webp'
+import ceilingLightingImage from '../assets/images (9).webp'
+import electricalInstallationImage from '../assets/images (15).webp'
+import wiringImage from '../assets/images (20)_upscayl_4x_upscayl-standard-4x - Copy.webp'
+import interiorLightingImage from '../assets/images (17).webp'
 
 const phoneNumber = '0546856974'
 const whatsappUrl = 'https://wa.me/966546856974'
-const canonicalUrl = 'https://noor-jeddah-electric.vercel.app/'
 
 const services = [
   {
@@ -28,68 +34,46 @@ const services = [
   },
 ]
 
-function setMeta(name, content) {
-  let meta = document.head.querySelector(`meta[name="${name}"]`)
-
-  if (!meta) {
-    meta = document.createElement('meta')
-    meta.setAttribute('name', name)
-    document.head.appendChild(meta)
-  }
-
-  meta.setAttribute('content', content)
-}
-
-function setProperty(property, content) {
-  let meta = document.head.querySelector(
-    `meta[property="${property}"]`,
-  )
-
-  if (!meta) {
-    meta = document.createElement('meta')
-    meta.setAttribute('property', property)
-    document.head.appendChild(meta)
-  }
-
-  meta.setAttribute('content', content)
-}
-
-function setCanonical(url) {
-  let canonical = document.head.querySelector(
-    'link[rel="canonical"]',
-  )
-
-  if (!canonical) {
-    canonical = document.createElement('link')
-    canonical.setAttribute('rel', 'canonical')
-    document.head.appendChild(canonical)
-  }
-
-  canonical.setAttribute('href', url)
-}
+const gallery = [
+  {
+    src: electricalFinishingImage,
+    alt: 'تشطيبات كهربائية منزلية ونقاط كهرباء داخل منزل',
+    width: 1024,
+    height: 768,
+  },
+  {
+    src: lightingImage,
+    alt: 'إضاءة داخلية وتشطيب أسقف في منزل',
+    width: 516,
+    height: 387,
+  },
+  {
+    src: ceilingLightingImage,
+    alt: 'تصميم وتركيب الإضاءة الداخلية في الأسقف',
+    width: 516,
+    height: 387,
+  },
+  {
+    src: electricalInstallationImage,
+    alt: 'تمديدات وتجهيزات كهربائية أثناء أعمال التشطيب',
+    width: 415,
+    height: 739,
+  },
+  {
+    src: wiringImage,
+    alt: 'تمديدات كهربائية وتجهيز أسلاك داخل المبنى',
+    width: 898,
+    height: 1600,
+  },
+  {
+    src: interiorLightingImage,
+    alt: 'تشطيب إنارة داخلية في منزل',
+    width: 335,
+    height: 597,
+  },
+]
 
 function Home() {
-  useEffect(() => {
-    const title =
-      'نور جدة للكهرباء | كهربائي منازل في جدة'
-
-    const description =
-      'نور جدة للكهرباء يقدم أعمال الكهرباء المنزلية وتشطيب الكهرباء للمنازل في جميع مناطق جدة. خبرة 15 سنة. تواصل مباشرة عبر الاتصال أو واتساب.'
-
-    document.title = title
-
-    setMeta('description', description)
-
-    setProperty('og:type', 'website')
-    setProperty('og:locale', 'ar_SA')
-    setProperty('og:site_name', 'نور جدة للكهرباء')
-    setProperty('og:title', title)
-    setProperty('og:description', description)
-    setProperty('og:url', canonicalUrl)
-
-    setCanonical(canonicalUrl)
-  }, [])
-
   return (
     <main>
       <section className="hero-section">
@@ -109,6 +93,7 @@ function Home() {
               <a
                 className="button button-primary"
                 href={`tel:${phoneNumber}`}
+                aria-label={`الاتصال بنور جدة للكهرباء على الرقم ${phoneNumber}`}
               >
                 اتصل الآن
               </a>
@@ -117,7 +102,8 @@ function Home() {
                 className="button button-secondary"
                 href={whatsappUrl}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
+                aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"
               >
                 تواصل عبر واتساب
               </a>
@@ -144,13 +130,17 @@ function Home() {
             </div>
           </div>
 
-          <div
-            className="hero-visual-placeholder"
-            aria-hidden="true"
-          >
-            <div className="electric-icon">⚡</div>
-
-            <span>أعمال الكهرباء المنزلية</span>
+          <div className="hero-image-wrapper">
+            <img
+              className="hero-image"
+              src={heroImage}
+              alt="تشطيب كهربائي وإضاءة داخلية لمنزل"
+              width="1600"
+              height="1200"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
         </div>
       </section>
@@ -191,21 +181,54 @@ function Home() {
           <div className="center-action">
             <Link className="text-link" to="/services">
               مشاهدة جميع تفاصيل الخدمات
-              <span aria-hidden="true"> ←</span>
+              <span aria-hidden="true">←</span>
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="section section--soft">
-        <div className="container experience-grid">
-          <div>
-            <span className="eyebrow">لماذا نور جدة؟</span>
+      <section className="section gallery-section">
+        <div className="container">
+          <div className="section-heading">
+            <span className="eyebrow">معرض الصور</span>
 
-            <h2>خبرة عملية في أعمال الكهرباء للمنازل</h2>
+            <h2>نماذج وصور لأعمال الكهرباء والإنارة</h2>
 
             <p>
-              نور جدة للكهرباء يقدم خدمة كهربائية سكنية مستقلة في
+              مجموعة من الصور المرتبطة بأعمال الكهرباء والتشطيب
+              والإضاءة المنزلية.
+            </p>
+          </div>
+
+          <div className="gallery-grid">
+            {gallery.map((image) => (
+              <figure
+                className="gallery-item"
+                key={image.src}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width={image.width}
+                  height={image.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="section-heading">
+            <span className="eyebrow">خبرة وتواصل مباشر</span>
+
+            <h2>كهربائي منازل في جدة لأعمال الكهرباء للمنازل</h2>
+
+            <p>
+              نور جدة للكهرباء يقدم خدمة كهربائي سكنية مستقلة في
               جميع مناطق جدة، مع خبرة تمتد إلى 15 سنة في مجال
               الكهرباء.
             </p>
@@ -214,17 +237,23 @@ function Home() {
           <div className="benefits-list">
             <div>
               <strong>خبرة 15 سنة</strong>
-              <span>خبرة عملية في مجال الكهرباء.</span>
+              <span>
+                خبرة عملية في مجال الكهرباء.
+              </span>
             </div>
 
             <div>
               <strong>خدمة داخل جدة</strong>
-              <span>الخدمة متاحة في جميع مناطق جدة.</span>
+              <span>
+                الخدمة متاحة في جميع مناطق جدة.
+              </span>
             </div>
 
             <div>
               <strong>تواصل مباشر</strong>
-              <span>تواصل مباشرة عبر الاتصال أو واتساب.</span>
+              <span>
+                تواصل مباشرة عبر الاتصال أو واتساب.
+              </span>
             </div>
           </div>
         </div>
@@ -255,7 +284,7 @@ function Home() {
               className="button button-outline-light"
               href={whatsappUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               واتساب
             </a>

@@ -1,9 +1,7 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const phoneNumber = '0546856974'
 const whatsappUrl = 'https://wa.me/966546856974'
-const canonicalUrl = 'https://noor-jeddah-electric.vercel.app/services'
 
 const services = [
   {
@@ -38,68 +36,7 @@ const services = [
   },
 ]
 
-function setMeta(name, content) {
-  let meta = document.head.querySelector(`meta[name="${name}"]`)
-
-  if (!meta) {
-    meta = document.createElement('meta')
-    meta.setAttribute('name', name)
-    document.head.appendChild(meta)
-  }
-
-  meta.setAttribute('content', content)
-}
-
-function setProperty(property, content) {
-  let meta = document.head.querySelector(
-    `meta[property="${property}"]`,
-  )
-
-  if (!meta) {
-    meta = document.createElement('meta')
-    meta.setAttribute('property', property)
-    document.head.appendChild(meta)
-  }
-
-  meta.setAttribute('content', content)
-}
-
-function setCanonical(url) {
-  let canonical = document.head.querySelector(
-    'link[rel="canonical"]',
-  )
-
-  if (!canonical) {
-    canonical = document.createElement('link')
-    canonical.setAttribute('rel', 'canonical')
-    document.head.appendChild(canonical)
-  }
-
-  canonical.setAttribute('href', url)
-}
-
 function Services() {
-  useEffect(() => {
-    const title =
-      'خدمات الكهرباء المنزلية في جدة | نور جدة للكهرباء'
-
-    const description =
-      'خدمات الكهرباء المنزلية في جدة من نور جدة للكهرباء، وتشمل تأسيس الكهرباء والتمديدات ونقاط الكهرباء والإنارة والمفاتيح والأفياش.'
-
-    document.title = title
-
-    setMeta('description', description)
-
-    setProperty('og:type', 'website')
-    setProperty('og:locale', 'ar_SA')
-    setProperty('og:site_name', 'نور جدة للكهرباء')
-    setProperty('og:title', title)
-    setProperty('og:description', description)
-    setProperty('og:url', canonicalUrl)
-
-    setCanonical(canonicalUrl)
-  }, [])
-
   return (
     <main>
       <section className="page-hero">
@@ -153,6 +90,7 @@ function Services() {
             <a
               className="button button-primary"
               href={`tel:${phoneNumber}`}
+              aria-label={`الاتصال بنور جدة للكهرباء على الرقم ${phoneNumber}`}
             >
               اتصل الآن
             </a>
@@ -161,7 +99,8 @@ function Services() {
               className="button button-secondary"
               href={whatsappUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"
             >
               واتساب
             </a>

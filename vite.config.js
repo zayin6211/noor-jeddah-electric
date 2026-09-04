@@ -1,7 +1,24 @@
-import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import { reactRouter } from '@react-router/dev/vite'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    reactRouter(),
+  ],
+
+  build: {
+    target: 'es2020',
+    sourcemap: false,
+    cssCodeSplit: true,
+    assetsInlineLimit: 4096,
+    reportCompressedSize: true,
+  },
+
+  server: {
+    host: true,
+  },
+
+  preview: {
+    host: true,
+  },
 })

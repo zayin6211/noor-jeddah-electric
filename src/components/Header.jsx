@@ -7,8 +7,15 @@ function Header() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <Link className="brand" to="/" aria-label="نور جدة للكهرباء - الرئيسية">
-          <span className="brand-mark" aria-hidden="true">
+        <Link
+          className="brand"
+          to="/"
+          aria-label="نور جدة للكهرباء - الصفحة الرئيسية"
+        >
+          <span
+            className="brand-mark"
+            aria-hidden="true"
+          >
             ن
           </span>
 
@@ -18,39 +25,41 @@ function Header() {
           </span>
         </Link>
 
-        <nav className="main-nav" aria-label="التنقل الرئيسي">
+        <nav
+          className="main-nav"
+          aria-label="التنقل الرئيسي"
+        >
           <NavLink
             to="/"
-            className={({ isActive }) => (isActive ? 'active' : '')}
+            end
           >
             الرئيسية
           </NavLink>
 
-          <NavLink
-            to="/services"
-            className={({ isActive }) => (isActive ? 'active' : '')}
-          >
+          <NavLink to="/services">
             الخدمات
           </NavLink>
 
-          <NavLink
-            to="/contact"
-            className={({ isActive }) => (isActive ? 'active' : '')}
-          >
+          <NavLink to="/contact">
             تواصل معنا
           </NavLink>
         </nav>
 
         <div className="header-actions">
-          <a className="header-phone" href={`tel:${phoneNumber}`}>
-            اتصال مباشر
+          <a
+            className="header-phone"
+            href={`tel:${phoneNumber}`}
+            aria-label={`الاتصال بنور جدة للكهرباء على الرقم ${phoneNumber}`}
+          >
+            اتصل الآن
           </a>
 
           <a
             className="header-whatsapp"
             href={whatsappUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"
           >
             واتساب
           </a>
