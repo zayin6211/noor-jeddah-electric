@@ -1,4 +1,32 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "build/client",
+  "rewrites": [
+    {
+      "source": "/services",
+      "destination": "/services/index.html"
+    },
+    {
+      "source": "/services/electrical-foundation",
+      "destination": "/services/electrical-foundation/index.html"
+    },
+    {
+      "source": "/services/electrical-wiring",
+      "destination": "/services/electrical-wiring/index.html"
+    },
+    {
+      "source": "/services/electrical-finishing",
+      "destination": "/services/electrical-finishing/index.html"
+    },
+    {
+      "source": "/services/lighting",
+      "destination": "/services/lighting/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
