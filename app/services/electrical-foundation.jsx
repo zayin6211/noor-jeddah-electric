@@ -1,51 +1,66 @@
 import { Link } from 'react-router-dom'
+import {
+  createBreadcrumbSchema,
+  createPageMeta,
+  createServiceSchema,
+} from '../../src/lib/seo'
 
-const SITE_URL = 'https://noor-jeddah-electric.vercel.app'
+const TITLE = 'تأسيس كهرباء المنازل في جدة | نور جدة للكهرباء'
 
-export const meta = () => [
-  {
-    title: 'تأسيس كهرباء المنازل في جدة | نور جدة للكهرباء',
-  },
-  {
-    name: 'description',
-    content:
-      'خدمة تأسيس كهرباء المنازل في جدة من نور جدة للكهرباء، تشمل تجهيز نقاط الكهرباء والتمديدات الأولية للمنازل ضمن مراحل البناء والتشطيب.',
-  },
-  {
-    tagName: 'link',
-    rel: 'canonical',
-    href: `${SITE_URL}/services/electrical-foundation`,
-  },
-  {
-    property: 'og:type',
-    content: 'website',
-  },
-  {
-    property: 'og:locale',
-    content: 'ar_SA',
-  },
-  {
-    property: 'og:site_name',
-    content: 'نور جدة للكهرباء',
-  },
-  {
-    property: 'og:title',
-    content: 'تأسيس كهرباء المنازل في جدة | نور جدة للكهرباء',
-  },
-  {
-    property: 'og:description',
-    content:
-      'خدمة تأسيس كهرباء المنازل وتجهيز نقاط الكهرباء والتمديدات الأولية في جدة.',
-  },
-  {
-    property: 'og:url',
-    content: `${SITE_URL}/services/electrical-foundation`,
-  },
-]
+const DESCRIPTION =
+  'خدمة تأسيس كهرباء المنازل في جدة من نور جدة للكهرباء، تشمل تجهيز نقاط الكهرباء والتمديدات الأولية للمنازل ضمن مراحل البناء والتشطيب.'
+
+const PATH = '/services/electrical-foundation'
+
+export const meta = () =>
+  createPageMeta({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: PATH,
+  })
 
 export default function ElectricalFoundation() {
+  const serviceSchema = createServiceSchema({
+    name: 'تأسيس كهرباء المنازل',
+    description:
+      'أعمال تأسيس الكهرباء للمنازل وتجهيز نقاط الاستخدام والتمديدات الأولية ضمن مراحل البناء والتشطيب في جدة.',
+    serviceType: 'تأسيس الكهرباء',
+    path: PATH,
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema({
+    items: [
+      {
+        name: 'الرئيسية',
+        path: '/',
+      },
+      {
+        name: 'خدمات الكهرباء',
+        path: '/services',
+      },
+      {
+        name: 'تأسيس كهرباء المنازل',
+        path: PATH,
+      },
+    ],
+  })
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(serviceSchema),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+
       <section className="page-hero">
         <div className="container">
           <span className="eyebrow">خدمات الكهرباء المنزلية</span>

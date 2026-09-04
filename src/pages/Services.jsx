@@ -8,31 +8,43 @@ const services = [
     title: 'تأسيس الكهرباء',
     description:
       'أعمال تأسيس الكهرباء للمنازل وتجهيز نقاط الاستخدام ضمن مراحل البناء والتشطيب.',
+    path: '/services/electrical-foundation',
+    linkLabel: 'تفاصيل تأسيس الكهرباء',
   },
   {
     title: 'التمديدات الكهربائية',
     description:
       'تنفيذ أعمال التمديدات الكهربائية للمنازل ضمن أعمال التشطيب الكهربائي.',
+    path: '/services/electrical-wiring',
+    linkLabel: 'تفاصيل التمديدات الكهربائية',
   },
   {
-    title: 'نقاط الكهرباء',
+    title: 'تشطيب الكهرباء',
     description:
-      'تجهيز وتركيب نقاط الكهرباء التي يحتاجها المنزل للاستخدام اليومي.',
+      'أعمال تشطيب الكهرباء للمنازل وتجهيز النقاط النهائية للكهرباء والإنارة والمفاتيح والأفياش.',
+    path: '/services/electrical-finishing',
+    linkLabel: 'تفاصيل تشطيب الكهرباء',
   },
   {
     title: 'الإنارة',
     description:
       'تنفيذ أعمال نقاط وتركيب الإنارة ضمن مراحل تشطيب الكهرباء.',
+    path: '/services/lighting',
+    linkLabel: 'تفاصيل أعمال الإنارة',
   },
   {
-    title: 'المفاتيح',
+    title: 'نقاط الكهرباء',
     description:
-      'تركيب وتجهيز نقاط المفاتيح ضمن أعمال الكهرباء المنزلية.',
+      'تجهيز وتركيب نقاط الكهرباء التي يحتاجها المنزل للاستخدام اليومي.',
+    path: null,
+    linkLabel: null,
   },
   {
-    title: 'الأفياش',
+    title: 'المفاتيح والأفياش',
     description:
-      'تركيب وتجهيز نقاط الأفياش ضمن تشطيب الكهرباء للمنزل.',
+      'تركيب وتجهيز نقاط المفاتيح والأفياش ضمن أعمال الكهرباء المنزلية.',
+    path: null,
+    linkLabel: null,
   },
 ]
 
@@ -43,7 +55,9 @@ function Services() {
         <div className="container">
           <span className="eyebrow">الخدمات</span>
 
-          <h1>خدمات الكهرباء المنزلية في جدة</h1>
+          <h1>
+            خدمات الكهرباء المنزلية في جدة
+          </h1>
 
           <p>
             أعمال تأسيس وتمديد وتشطيب الكهرباء للمنازل في جميع
@@ -54,6 +68,21 @@ function Services() {
 
       <section className="section">
         <div className="container">
+          <div className="section-heading">
+            <span className="eyebrow">
+              خدمات نور جدة للكهرباء
+            </span>
+
+            <h2>
+              خدمات كهربائية مرتبطة باحتياج المنزل
+            </h2>
+
+            <p>
+              تعرّف على الخدمات الأساسية المتاحة، ثم تواصل مباشرة
+              للاستفسار عن العمل الذي تحتاجه.
+            </p>
+          </div>
+
           <div className="services-grid services-grid--large">
             {services.map((service) => (
               <article
@@ -70,6 +99,18 @@ function Services() {
                 <h2>{service.title}</h2>
 
                 <p>{service.description}</p>
+
+                {service.path ? (
+                  <Link
+                    className="text-link"
+                    to={service.path}
+                  >
+                    {service.linkLabel}
+                    <span aria-hidden="true">
+                      ←
+                    </span>
+                  </Link>
+                ) : null}
               </article>
             ))}
           </div>
@@ -79,7 +120,9 @@ function Services() {
       <section className="section section--soft">
         <div className="container simple-cta">
           <div>
-            <h2>هل لديك عمل كهربائي للمنزل؟</h2>
+            <h2>
+              هل لديك عمل كهربائي للمنزل؟
+            </h2>
 
             <p>
               تواصل مباشرة للاستفسار عن احتياجك وتفاصيل الخدمة.
@@ -105,7 +148,10 @@ function Services() {
               واتساب
             </a>
 
-            <Link className="text-link" to="/contact">
+            <Link
+              className="text-link"
+              to="/contact"
+            >
               صفحة التواصل
             </Link>
           </div>

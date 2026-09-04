@@ -37,11 +37,11 @@ function Header() {
           </NavLink>
 
           <NavLink to="/services">
-            الخدمات
+            خدماتنا
           </NavLink>
 
           <NavLink to="/contact">
-            تواصل معنا
+            اتصل بنا
           </NavLink>
         </nav>
 

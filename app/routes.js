@@ -29,4 +29,6 @@ export default [
   ),
 
   route('contact', './contact.jsx'),
+
+  route('*', './not-found.jsx'),
 ]

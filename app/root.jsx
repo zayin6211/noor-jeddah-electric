@@ -10,7 +10,6 @@ import Header from '../src/components/Header'
 import Footer from '../src/components/Footer'
 
 import '../src/index.css'
-import '../src/App.css'
 
 const SITE_URL = 'https://noor-jeddah-electric.vercel.app'
 
@@ -93,7 +92,7 @@ export function Layout({ children }) {
         />
       </head>
 
-      <body>
+      <body suppressHydrationWarning>
         <Header />
 
         {children}

@@ -1,52 +1,66 @@
 import { Link } from 'react-router-dom'
+import {
+  createBreadcrumbSchema,
+  createPageMeta,
+  createServiceSchema,
+} from '../../src/lib/seo'
 
-const SITE_URL = 'https://noor-jeddah-electric.vercel.app'
+const TITLE = 'تركيب ونقاط الإنارة للمنازل في جدة | نور جدة للكهرباء'
 
-export const meta = () => [
-  {
-    title: 'تركيب ونقاط الإنارة للمنازل في جدة | نور جدة للكهرباء',
-  },
-  {
-    name: 'description',
-    content:
-      'خدمات نقاط وتركيب الإنارة للمنازل في جدة ضمن أعمال التشطيب الكهربائي، مع تجهيز نقاط الإنارة حسب احتياج المنزل.',
-  },
-  {
-    tagName: 'link',
-    rel: 'canonical',
-    href: `${SITE_URL}/services/lighting`,
-  },
-  {
-    property: 'og:type',
-    content: 'website',
-  },
-  {
-    property: 'og:locale',
-    content: 'ar_SA',
-  },
-  {
-    property: 'og:site_name',
-    content: 'نور جدة للكهرباء',
-  },
-  {
-    property: 'og:title',
-    content:
-      'تركيب ونقاط الإنارة للمنازل في جدة | نور جدة للكهرباء',
-  },
-  {
-    property: 'og:description',
-    content:
-      'تجهيز نقاط وتركيب الإنارة ضمن أعمال الكهرباء المنزلية والتشطيب في جدة.',
-  },
-  {
-    property: 'og:url',
-    content: `${SITE_URL}/services/lighting`,
-  },
-]
+const DESCRIPTION =
+  'خدمات نقاط وتركيب الإنارة للمنازل في جدة ضمن أعمال التشطيب الكهربائي، مع تجهيز نقاط الإنارة حسب احتياج المنزل.'
+
+const PATH = '/services/lighting'
+
+export const meta = () =>
+  createPageMeta({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: PATH,
+  })
 
 export default function Lighting() {
+  const serviceSchema = createServiceSchema({
+    name: 'نقاط وتركيب الإنارة للمنازل',
+    description:
+      'خدمات تجهيز نقاط الإنارة وتنفيذ الأعمال المرتبطة بتشطيب الكهرباء داخل المنازل في جدة.',
+    serviceType: 'الإنارة',
+    path: PATH,
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema({
+    items: [
+      {
+        name: 'الرئيسية',
+        path: '/',
+      },
+      {
+        name: 'خدمات الكهرباء',
+        path: '/services',
+      },
+      {
+        name: 'الإنارة',
+        path: PATH,
+      },
+    ],
+  })
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(serviceSchema),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+
       <section className="page-hero">
         <div className="container">
           <span className="eyebrow">خدمات الكهرباء المنزلية</span>

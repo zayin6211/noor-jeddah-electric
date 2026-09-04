@@ -1,51 +1,66 @@
 import { Link } from 'react-router-dom'
+import {
+  createBreadcrumbSchema,
+  createPageMeta,
+  createServiceSchema,
+} from '../../src/lib/seo'
 
-const SITE_URL = 'https://noor-jeddah-electric.vercel.app'
+const TITLE = 'تشطيب كهرباء المنازل في جدة | نور جدة للكهرباء'
 
-export const meta = () => [
-  {
-    title: 'تشطيب كهرباء المنازل في جدة | نور جدة للكهرباء',
-  },
-  {
-    name: 'description',
-    content:
-      'أعمال تشطيب الكهرباء للمنازل في جدة، تشمل نقاط الكهرباء والإنارة والمفاتيح والأفياش ضمن المراحل النهائية للتشطيب.',
-  },
-  {
-    tagName: 'link',
-    rel: 'canonical',
-    href: `${SITE_URL}/services/electrical-finishing`,
-  },
-  {
-    property: 'og:type',
-    content: 'website',
-  },
-  {
-    property: 'og:locale',
-    content: 'ar_SA',
-  },
-  {
-    property: 'og:site_name',
-    content: 'نور جدة للكهرباء',
-  },
-  {
-    property: 'og:title',
-    content: 'تشطيب كهرباء المنازل في جدة | نور جدة للكهرباء',
-  },
-  {
-    property: 'og:description',
-    content:
-      'تشطيب الكهرباء للمنازل ونقاط الكهرباء والإنارة والمفاتيح والأفياش في جدة.',
-  },
-  {
-    property: 'og:url',
-    content: `${SITE_URL}/services/electrical-finishing`,
-  },
-]
+const DESCRIPTION =
+  'أعمال تشطيب الكهرباء للمنازل في جدة، تشمل نقاط الكهرباء والإنارة والمفاتيح والأفياش ضمن المراحل النهائية للتشطيب.'
+
+const PATH = '/services/electrical-finishing'
+
+export const meta = () =>
+  createPageMeta({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: PATH,
+  })
 
 export default function ElectricalFinishing() {
+  const serviceSchema = createServiceSchema({
+    name: 'تشطيب كهرباء المنازل',
+    description:
+      'أعمال تشطيب الكهرباء للمنازل وتجهيز النقاط النهائية للكهرباء والإنارة والمفاتيح والأفياش في جدة.',
+    serviceType: 'تشطيب الكهرباء',
+    path: PATH,
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema({
+    items: [
+      {
+        name: 'الرئيسية',
+        path: '/',
+      },
+      {
+        name: 'خدمات الكهرباء',
+        path: '/services',
+      },
+      {
+        name: 'تشطيب كهرباء المنازل',
+        path: PATH,
+      },
+    ],
+  })
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(serviceSchema),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+
       <section className="page-hero">
         <div className="container">
           <span className="eyebrow">خدمات الكهرباء المنزلية</span>

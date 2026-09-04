@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 
 import heroImage from '../assets/588522761_1277704574403400_700824699880070196_n - Copy (2).webp'
+import heroImage1024 from '../assets/588522761_1277704574403400_700824699880070196_n - Copy (2)-1024.webp'
+import heroImage768 from '../assets/588522761_1277704574403400_700824699880070196_n - Copy (2)-768.webp'
 import electricalFinishingImage from '../assets/electrical-finishing-jeddah.webp'
 import lightingImage from '../assets/images (8).webp'
 import ceilingLightingImage from '../assets/images (9).webp'
@@ -131,16 +133,32 @@ function Home() {
           </div>
 
           <div className="hero-image-wrapper">
-            <img
-              className="hero-image"
-              src={heroImage}
-              alt="تشطيب كهربائي وإضاءة داخلية لمنزل"
-              width="1600"
-              height="1200"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
+            <picture>
+              <source
+                media="(max-width: 767px)"
+                srcSet={heroImage768}
+                width="768"
+                height="576"
+              />
+
+              <source
+                media="(max-width: 1199px)"
+                srcSet={heroImage1024}
+                width="1024"
+                height="768"
+              />
+
+              <img
+                className="hero-image"
+                src={heroImage}
+                alt="تشطيب كهربائي وإضاءة داخلية لمنزل"
+                width="1600"
+                height="1200"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+            </picture>
           </div>
         </div>
       </section>
@@ -237,57 +255,18 @@ function Home() {
           <div className="benefits-list">
             <div>
               <strong>خبرة 15 سنة</strong>
-              <span>
-                خبرة عملية في مجال الكهرباء.
-              </span>
+              <span>خبرة عملية في مجال الكهرباء.</span>
             </div>
 
             <div>
               <strong>خدمة داخل جدة</strong>
-              <span>
-                الخدمة متاحة في جميع مناطق جدة.
-              </span>
+              <span>الخدمة متاحة في جميع مناطق جدة.</span>
             </div>
 
             <div>
               <strong>تواصل مباشر</strong>
-              <span>
-                تواصل مباشرة عبر الاتصال أو واتساب.
-              </span>
+              <span>تواصل مباشرة عبر الاتصال أو واتساب.</span>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="cta-section">
-        <div className="container cta-content">
-          <div>
-            <span className="eyebrow">تواصل الآن</span>
-
-            <h2>تحتاج كهربائيًا لمنزلك في جدة؟</h2>
-
-            <p>
-              تواصل مباشرة مع علي للاستفسار عن أعمال الكهرباء التي
-              تحتاجها.
-            </p>
-          </div>
-
-          <div className="cta-actions">
-            <a
-              className="button button-light"
-              href={`tel:${phoneNumber}`}
-            >
-              اتصل بـ {phoneNumber}
-            </a>
-
-            <a
-              className="button button-outline-light"
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              واتساب
-            </a>
           </div>
         </div>
       </section>
