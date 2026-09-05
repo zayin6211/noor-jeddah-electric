@@ -1,4 +1,4 @@
-export default async function handler() {
+export default function handler(req, res) {
   const databaseUrl = globalThis.process?.env?.DATABASE_URL;
   const databaseUrlUnpooled = globalThis.process?.env?.DATABASE_URL_UNPOOLED;
 
@@ -14,20 +14,11 @@ export default async function handler() {
     }
   };
 
-  return new Response(
-    JSON.stringify({
-      ok: true,
-      hasDatabaseUrl: Boolean(databaseUrl),
-      hasDatabaseUrlUnpooled: Boolean(databaseUrlUnpooled),
-      pooledHost: getHost(databaseUrl),
-      unpooledHost: getHost(databaseUrlUnpooled),
-    }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "no-store",
-      },
-    },
-  );
+  res.status(200).json({
+    ok: true,
+    hasDatabaseUrl: Boolean(databaseUrl),
+    hasDatabaseUrlUnpooled: Boolean(databaseUrlUnpooled),
+    pooledHost: getHost(databaseUrl),
+    unpooledHost: getHost(databaseUrlUnpooled),
+  });
 }
