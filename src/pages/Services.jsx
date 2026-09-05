@@ -46,6 +46,20 @@ const services = [
     path: null,
     linkLabel: null,
   },
+  {
+    title: 'إصلاح الأعطال الكهربائية',
+    description:
+      'فحص وإصلاح الأعطال الكهربائية المنزلية والمساعدة في تحديد سبب المشكلة.',
+    path: null,
+    linkLabel: null,
+  },
+  {
+    title: 'أعمال الكهرباء المنزلية',
+    description:
+      'تنفيذ أعمال الكهرباء المنزلية المرتبطة باحتياج المنزل ومراحل التشطيب والاستخدام.',
+    path: null,
+    linkLabel: null,
+  },
 ]
 
 function Services() {
