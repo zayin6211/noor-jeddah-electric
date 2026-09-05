@@ -1,6 +1,7 @@
 export const meta = () => [
   {
-    title: 'الصفحة غير موجودة | نور جدة للكهرباء',
+    title:
+      'الصفحة غير موجودة | نور جدة للكهرباء',
   },
   {
     name: 'description',
@@ -8,9 +9,9 @@ export const meta = () => [
       'الصفحة المطلوبة غير موجودة. يمكنك العودة إلى خدمات الكهرباء المنزلية في جدة أو التواصل مع نور جدة للكهرباء.',
   },
   {
-    tagName: 'meta',
     name: 'robots',
-    content: 'noindex, follow',
+    content:
+      'noindex, follow',
   },
 ]
 
@@ -19,9 +20,13 @@ export default function NotFoundRoute() {
     <main>
       <section className="page-hero">
         <div className="container">
-          <span className="eyebrow">404</span>
+          <span className="eyebrow">
+            404
+          </span>
 
-          <h1>الصفحة غير موجودة</h1>
+          <h1>
+            الصفحة غير موجودة
+          </h1>
 
           <p>
             الصفحة التي تبحث عنها غير موجودة أو ربما تم تغيير رابطها.
@@ -32,7 +37,9 @@ export default function NotFoundRoute() {
       <section className="section">
         <div className="container">
           <div className="detail-cta">
-            <h2>يمكنك متابعة التصفح</h2>
+            <h2>
+              يمكنك متابعة التصفح
+            </h2>
 
             <p>
               انتقل إلى الصفحة الرئيسية أو اطلع على خدمات الكهرباء
