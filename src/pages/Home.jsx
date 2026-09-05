@@ -3,12 +3,14 @@ import { Link } from 'react-router'
 
 import {
   BUSINESS_PHONE,
+  SERVICES,
   WHATSAPP_URL,
 } from '../lib/seo'
 
 import heroImage from '../assets/588522761_1277704574403400_700824699880070196_n - Copy (2).webp'
 import heroImage1024 from '../assets/588522761_1277704574403400_700824699880070196_n - Copy (2)-1024.webp'
 import heroImage768 from '../assets/588522761_1277704574403400_700824699880070196_n - Copy (2)-768.webp'
+
 import electricalFinishingImage from '../assets/electrical-finishing-jeddah.webp'
 import lightingImage from '../assets/images (8).webp'
 import ceilingLightingImage from '../assets/images (9).webp'
@@ -16,37 +18,10 @@ import electricalInstallationImage from '../assets/images (15).webp'
 import wiringImage from '../assets/images (20)_upscayl_4x_upscayl-standard-4x - Copy.webp'
 import interiorLightingImage from '../assets/images (17).webp'
 
-const services = [
-  {
-    title: 'تأسيس الكهرباء',
-    description:
-      'أعمال تأسيس الكهرباء للمنازل وتجهيز نقاط الاستخدام وفق احتياج المنزل.',
-    path: '/services/electrical-foundation',
-  },
-  {
-    title: 'التمديدات الكهربائية',
-    description:
-      'تنفيذ أعمال التمديدات الكهربائية ضمن مراحل تشطيب المنزل.',
-    path: '/services/electrical-wiring',
-  },
-  {
-    title: 'نقاط الكهرباء والإنارة',
-    description:
-      'تجهيز وتركيب نقاط الكهرباء والإنارة بما يناسب الاستخدام اليومي.',
-    path: '/services/lighting',
-  },
-  {
-    title: 'المفاتيح والأفياش',
-    description:
-      'تركيب نقاط المفاتيح والأفياش ضمن أعمال التشطيب الكهربائي للمنزل.',
-    path: '/services/electrical-finishing',
-  },
-]
-
 const gallery = [
   {
     src: electricalFinishingImage,
-    alt: 'تشطيبات كهربائية منزلية ونقاط كهرباء داخل منزل',
+    alt: 'تشطيبات كهربائية منزلية ونقاط كهرباء داخل منزل في جدة',
     width: 1024,
     height: 768,
   },
@@ -64,19 +39,19 @@ const gallery = [
   },
   {
     src: electricalInstallationImage,
-    alt: 'تمديدات وتجهيزات كهربائية أثناء أعمال التشطيب',
+    alt: 'تمديدات وتجهيزات كهربائية أثناء أعمال التشطيب في جدة',
     width: 415,
     height: 739,
   },
   {
     src: wiringImage,
-    alt: 'تمديدات كهربائية وتجهيز أسلاك داخل المبنى',
+    alt: 'تمديدات كهربائية وتجهيز أسلاك داخل مبنى',
     width: 898,
     height: 1600,
   },
   {
     src: interiorLightingImage,
-    alt: 'تشطيب إنارة داخلية في منزل',
+    alt: 'تشطيب وتركيب إنارة داخلية في منزل',
     width: 335,
     height: 597,
   },
@@ -374,8 +349,9 @@ function Home() {
               />
 
               <img
+                className="hero-image"
                 src={heroImage}
-                alt="أعمال كهرباء وتشطيب كهربائي داخل منزل"
+                alt="أعمال كهرباء وتشطيب كهربائي داخل منزل في جدة"
                 width="1024"
                 height="768"
                 fetchPriority="high"
@@ -400,13 +376,14 @@ function Home() {
             <p>
               خدمات كهربائية مرتبطة باحتياجات
               المنزل من التأسيس والتمديدات
-              إلى الإنارة والتشطيب.
+              والتشطيب والإنارة إلى إصلاح
+              الأعطال الكهربائية.
             </p>
           </div>
 
-          <div className="services-grid">
-            {services.map(
-              (service) => (
+          <div className="services-grid services-grid--large">
+            {SERVICES.map(
+              (service, index) => (
                 <article
                   className="service-card"
                   key={service.path}
@@ -415,7 +392,9 @@ function Home() {
                     className="service-number"
                     aria-hidden="true"
                   >
-                    ✓
+                    {String(
+                      index + 1,
+                    ).padStart(2, '0')}
                   </div>
 
                   <h3>
@@ -439,6 +418,18 @@ function Home() {
               ),
             )}
           </div>
+
+          <div className="center-action">
+            <Link
+              className="text-link"
+              to="/services"
+            >
+              عرض جميع خدمات الكهرباء
+              <span aria-hidden="true">
+                ←
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -455,7 +446,7 @@ function Home() {
 
             <p>
               صور توضيحية لأعمال الكهرباء
-              والتشطيب الكهربائي.
+              والتشطيب الكهربائي للمنازل.
             </p>
           </div>
 
@@ -481,14 +472,17 @@ function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section
+        className="section reviews-section"
+        aria-labelledby="reviews-heading"
+      >
         <div className="container">
           <div className="section-heading">
             <span className="eyebrow">
               آراء العملاء
             </span>
 
-            <h2>
+            <h2 id="reviews-heading">
               تقييمات وتجارب العملاء
             </h2>
 
@@ -499,224 +493,242 @@ function Home() {
             </p>
           </div>
 
-          {reviewsLoading ? (
-            <p
-              className="reviews-status"
-              role="status"
-            >
-              جارٍ تحميل التقييمات...
-            </p>
-          ) : reviewsError ? (
-            <p
-              className="reviews-status reviews-status-error"
-              role="alert"
-            >
-              {reviewsError}
-            </p>
-          ) : reviews.length === 0 ? (
-            <p className="reviews-status">
-              لا توجد تقييمات منشورة حاليًا.
-            </p>
-          ) : (
-            <div className="reviews-grid">
-              {reviews.map(
-                (review) => (
-                  <article
-                    className="review-card"
-                    key={review.id}
-                  >
-                    <div className="review-card-header">
-                      <strong>
-                        {review.name}
-                      </strong>
-
-                      <StarRating
-                        rating={
-                          review.rating
-                        }
-                      />
-                    </div>
-
-                    <p>
-                      {review.comment}
-                    </p>
-                  </article>
-                ),
-              )}
-            </div>
-          )}
-
-          <div className="review-form-wrapper">
-            <div className="section-heading">
-              <span className="eyebrow">
-                شارك تجربتك
-              </span>
-
+          <div className="reviews-layout">
+            <div className="reviews-list">
               <h3>
-                أضف تقييمك
+                تقييمات العملاء
               </h3>
-            </div>
 
-            <form
-              className="review-form"
-              onSubmit={
-                handleReviewSubmit
-              }
-            >
-              <div className="form-field">
-                <label htmlFor="review-name">
-                  الاسم
-                </label>
-
-                <input
-                  id="review-name"
-                  name="name"
-                  type="text"
-                  value={name}
-                  onChange={(event) =>
-                    setName(
-                      event.target.value,
-                    )
-                  }
-                  maxLength={60}
-                  required
-                  autoComplete="name"
-                />
-              </div>
-
-              <fieldset className="form-field">
-                <legend>
-                  التقييم
-                </legend>
-
-                <div
-                  className="rating-selector"
-                  onMouseLeave={() =>
-                    setHoverRating(0)
-                  }
-                >
-                  {Array.from(
-                    {
-                      length: 5,
-                    },
-                    (_, index) => {
-                      const value =
-                        index + 1
-
-                      return (
-                        <button
-                          key={value}
-                          type="button"
-                          className={
-                            value <=
-                            displayedRating
-                              ? 'rating-star is-active'
-                              : 'rating-star'
-                          }
-                          onMouseEnter={() =>
-                            setHoverRating(
-                              value,
-                            )
-                          }
-                          onFocus={() =>
-                            setHoverRating(
-                              value,
-                            )
-                          }
-                          onBlur={() =>
-                            setHoverRating(
-                              0,
-                            )
-                          }
-                          onClick={() =>
-                            setRating(
-                              value,
-                            )
-                          }
-                          aria-label={`اختيار ${value} من 5`}
-                          aria-pressed={
-                            value === rating
-                          }
-                        >
-                          ★
-                        </button>
-                      )
-                    },
-                  )}
-                </div>
-              </fieldset>
-
-              <div className="form-field">
-                <label htmlFor="review-comment">
-                  التعليق
-                </label>
-
-                <textarea
-                  id="review-comment"
-                  name="comment"
-                  value={comment}
-                  onChange={(event) =>
-                    setComment(
-                      event.target.value,
-                    )
-                  }
-                  maxLength={500}
-                  required
-                  rows={5}
-                />
-              </div>
-
-              <div
-                className="honeypot-field"
-                aria-hidden="true"
-              >
-                <label htmlFor="review-website">
-                  Website
-                </label>
-
-                <input
-                  id="review-website"
-                  name="website"
-                  type="text"
-                  value={website}
-                  onChange={(event) =>
-                    setWebsite(
-                      event.target.value,
-                    )
-                  }
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
-              </div>
-
-              {submitMessage && (
+              {reviewsLoading ? (
                 <p
-                  className="review-form-message review-form-message-success"
+                  className="reviews-status"
                   role="status"
                 >
-                  {submitMessage}
+                  جارٍ تحميل التقييمات...
                 </p>
-              )}
-
-              {submitError && (
+              ) : reviewsError ? (
                 <p
-                  className="review-form-message review-form-message-error"
+                  className="reviews-status reviews-status-error"
                   role="alert"
                 >
-                  {submitError}
+                  {reviewsError}
                 </p>
-              )}
+              ) : reviews.length === 0 ? (
+                <p className="reviews-status">
+                  لا توجد تقييمات منشورة حاليًا.
+                </p>
+              ) : (
+                <div className="reviews-items">
+                  {reviews.map(
+                    (review) => (
+                      <article
+                        className="review-card"
+                        key={review.id}
+                      >
+                        <div className="review-card-header">
+                          <div>
+                            <h4>
+                              {review.name}
+                            </h4>
 
-              <button
-                className="button button-primary review-submit"
-                type="submit"
-                disabled={submitLoading}
+                            <StarRating
+                              rating={
+                                review.rating
+                              }
+                            />
+                          </div>
+                        </div>
+
+                        <p>
+                          {review.comment}
+                        </p>
+                      </article>
+                    ),
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="review-form-wrapper">
+              <div className="section-heading">
+                <span className="eyebrow">
+                  شارك تجربتك
+                </span>
+
+                <h3>
+                  أضف تقييمك
+                </h3>
+              </div>
+
+              <form
+                className="review-form"
+                onSubmit={
+                  handleReviewSubmit
+                }
               >
-                {submitLoading
-                  ? 'جارٍ الإرسال...'
-                  : 'إرسال التقييم'}
-              </button>
-            </form>
+                <div className="form-field">
+                  <label htmlFor="review-name">
+                    الاسم
+                  </label>
+
+                  <input
+                    id="review-name"
+                    name="name"
+                    type="text"
+                    value={name}
+                    onChange={(event) =>
+                      setName(
+                        event.target.value,
+                      )
+                    }
+                    maxLength={60}
+                    required
+                    autoComplete="name"
+                  />
+                </div>
+
+                <fieldset className="rating-fieldset">
+                  <legend>
+                    التقييم
+                  </legend>
+
+                  <div
+                    className="rating-options"
+                    onMouseLeave={() =>
+                      setHoverRating(0)
+                    }
+                  >
+                    {Array.from(
+                      {
+                        length: 5,
+                      },
+                      (_, index) => {
+                        const value =
+                          index + 1
+
+                        const isFilled =
+                          value <=
+                          displayedRating
+
+                        return (
+                          <button
+                            key={value}
+                            type="button"
+                            className={
+                              isFilled
+                                ? 'rating-option is-filled'
+                                : 'rating-option'
+                            }
+                            onMouseEnter={() =>
+                              setHoverRating(
+                                value,
+                              )
+                            }
+                            onFocus={() =>
+                              setHoverRating(
+                                value,
+                              )
+                            }
+                            onBlur={() =>
+                              setHoverRating(
+                                0,
+                              )
+                            }
+                            onClick={() =>
+                              setRating(
+                                value,
+                              )
+                            }
+                            aria-label={`اختيار ${value} من 5`}
+                            aria-pressed={
+                              value === rating
+                            }
+                          >
+                            <span
+                              className="rating-star"
+                              aria-hidden="true"
+                            >
+                              ★
+                            </span>
+                          </button>
+                        )
+                      },
+                    )}
+                  </div>
+                </fieldset>
+
+                <div className="form-field">
+                  <label htmlFor="review-comment">
+                    التعليق
+                  </label>
+
+                  <textarea
+                    id="review-comment"
+                    name="comment"
+                    value={comment}
+                    onChange={(event) =>
+                      setComment(
+                        event.target.value,
+                      )
+                    }
+                    maxLength={500}
+                    required
+                    rows={5}
+                  />
+                </div>
+
+                <div
+                  className="review-honeypot"
+                  aria-hidden="true"
+                >
+                  <label htmlFor="review-website">
+                    Website
+                  </label>
+
+                  <input
+                    id="review-website"
+                    name="website"
+                    type="text"
+                    value={website}
+                    onChange={(event) =>
+                      setWebsite(
+                        event.target.value,
+                      )
+                    }
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {submitMessage && (
+                  <p
+                    className="review-form-message review-form-message-success"
+                    role="status"
+                  >
+                    {submitMessage}
+                  </p>
+                )}
+
+                {submitError && (
+                  <p
+                    className="review-form-message review-form-message-error"
+                    role="alert"
+                  >
+                    {submitError}
+                  </p>
+                )}
+
+                <button
+                  className="button button-primary review-submit"
+                  type="submit"
+                  disabled={submitLoading}
+                >
+                  {submitLoading
+                    ? 'جارٍ الإرسال...'
+                    : 'إرسال التقييم'}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>

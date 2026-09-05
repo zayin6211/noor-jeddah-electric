@@ -96,7 +96,15 @@ export const SERVICES =
  */
 
 export function absoluteUrl(path = '/') {
+  if (
+    typeof path === 'string' &&
+    /^https?:\/\//i.test(path)
+  ) {
+    return path
+  }
+
   const normalizedPath =
+    typeof path === 'string' &&
     path.startsWith('/')
       ? path
       : `/${path}`
@@ -145,7 +153,8 @@ export function createPageMeta({
 
     {
       name: 'google-site-verification',
-      content: GOOGLE_SITE_VERIFICATION,
+      content:
+        GOOGLE_SITE_VERIFICATION,
     },
 
     {
