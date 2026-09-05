@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import heroImage from '../assets/588522761_1277704574403400_700824699880070196_n - Copy (2).webp'
@@ -75,7 +76,132 @@ const gallery = [
   },
 ]
 
+function StarRating({ rating }) {
+  return (
+    <div
+      className="review-stars"
+      aria-label={`التقييم ${rating} من 5`}
+    >
+      {Array.from({ length: 5 }, (_, index) => (
+        <span
+          key={index}
+          aria-hidden="true"
+          className={index < rating ? 'is-filled' : ''}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  )
+}
+
 function Home() {
+  const [reviews, setReviews] = useState([])
+  const [reviewsLoading, setReviewsLoading] = useState(true)
+  const [reviewsError, setReviewsError] = useState('')
+
+  const [name, setName] = useState('')
+  const [rating, setRating] = useState(5)
+  const [comment, setComment] = useState('')
+  const [website, setWebsite] = useState('')
+
+  const [submitLoading, setSubmitLoading] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
+  const [submitError, setSubmitError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadReviews() {
+      try {
+        const response = await fetch('/api/reviews')
+
+        if (!response.ok) {
+          throw new Error('تعذر تحميل التقييمات.')
+        }
+
+        const data = await response.json()
+
+        if (!cancelled) {
+          setReviews(Array.isArray(data.reviews) ? data.reviews : [])
+        }
+      } catch {
+        if (!cancelled) {
+          setReviewsError('تعذر تحميل التقييمات حاليًا.')
+        }
+      } finally {
+        if (!cancelled) {
+          setReviewsLoading(false)
+        }
+      }
+    }
+
+    loadReviews()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  async function handleReviewSubmit(event) {
+    event.preventDefault()
+
+    setSubmitMessage('')
+    setSubmitError('')
+
+    if (website.trim()) {
+      setSubmitError('تعذر إرسال التقييم.')
+      return
+    }
+
+    setSubmitLoading(true)
+
+    try {
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          rating,
+          comment,
+          website,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || 'تعذر إرسال التقييم حاليًا.',
+        )
+      }
+
+      if (data.review) {
+        setReviews((currentReviews) => [
+          data.review,
+          ...currentReviews,
+        ])
+      }
+
+      setName('')
+      setRating(5)
+      setComment('')
+      setWebsite('')
+
+      setSubmitMessage('تم إرسال تقييمك بنجاح، شكرًا لك.')
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : 'تعذر إرسال التقييم حاليًا.',
+      )
+    } finally {
+      setSubmitLoading(false)
+    }
+  }
+
   return (
     <main>
       <section className="hero-section">
@@ -234,6 +360,194 @@ function Home() {
                 />
               </figure>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section reviews-section">
+        <div className="container">
+          <div className="section-heading">
+            <span className="eyebrow">آراء العملاء</span>
+
+            <h2>شاركنا تجربتك مع نور جدة للكهرباء</h2>
+
+            <p>
+              يمكنك مشاركة تقييمك للخدمة، وسنظهر التقييمات المنشورة
+              للزوار في الموقع.
+            </p>
+          </div>
+
+          <div className="reviews-layout">
+            <div className="reviews-list">
+              <h3>التقييمات</h3>
+
+              {reviewsLoading && (
+                <p className="reviews-status">
+                  جارٍ تحميل التقييمات...
+                </p>
+              )}
+
+              {!reviewsLoading && reviewsError && (
+                <p className="reviews-status reviews-status-error">
+                  {reviewsError}
+                </p>
+              )}
+
+              {!reviewsLoading &&
+                !reviewsError &&
+                reviews.length === 0 && (
+                  <p className="reviews-status">
+                    لا توجد تقييمات منشورة حتى الآن. كن أول من يشارك
+                    تجربته.
+                  </p>
+                )}
+
+              {!reviewsLoading &&
+                !reviewsError &&
+                reviews.length > 0 && (
+                  <div className="reviews-items">
+                    {reviews.map((review) => (
+                      <article
+                        className="review-card"
+                        key={review.id}
+                      >
+                        <div className="review-card-header">
+                          <div>
+                            <h4>{review.name}</h4>
+                            <StarRating rating={review.rating} />
+                          </div>
+                        </div>
+
+                        <p>{review.comment}</p>
+                      </article>
+                    ))}
+                  </div>
+                )}
+            </div>
+
+            <div className="review-form-wrapper">
+              <h3>أضف تقييمك</h3>
+
+              <form
+                className="review-form"
+                onSubmit={handleReviewSubmit}
+              >
+                <div className="form-field">
+                  <label htmlFor="review-name">
+                    الاسم
+                  </label>
+
+                  <input
+                    id="review-name"
+                    name="name"
+                    type="text"
+                    value={name}
+                    onChange={(event) =>
+                      setName(event.target.value)
+                    }
+                    maxLength={60}
+                    autoComplete="name"
+                    required
+                  />
+                </div>
+
+                <fieldset className="rating-fieldset">
+                  <legend>التقييم</legend>
+
+                  <div className="rating-options">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                      <label
+                        className="rating-option"
+                        key={value}
+                      >
+                        <input
+                          type="radio"
+                          name="rating"
+                          value={value}
+                          checked={rating === value}
+                          onChange={() => setRating(value)}
+                        />
+
+                        <span aria-hidden="true">
+                          ★
+                        </span>
+
+                        <span className="visually-hidden">
+                          {value} من 5
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div className="form-field">
+                  <label htmlFor="review-comment">
+                    التعليق
+                  </label>
+
+                  <textarea
+                    id="review-comment"
+                    name="comment"
+                    value={comment}
+                    onChange={(event) =>
+                      setComment(event.target.value)
+                    }
+                    maxLength={500}
+                    rows={5}
+                    required
+                  />
+                </div>
+
+                <div
+                  className="review-honeypot"
+                  aria-hidden="true"
+                >
+                  <label htmlFor="review-website">
+                    الموقع الإلكتروني
+                  </label>
+
+                  <input
+                    id="review-website"
+                    name="website"
+                    type="text"
+                    value={website}
+                    onChange={(event) =>
+                      setWebsite(event.target.value)
+                    }
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {submitMessage && (
+                  <p
+                    className="review-form-message review-form-message-success"
+                    role="status"
+                  >
+                    {submitMessage}
+                  </p>
+                )}
+
+                {submitError && (
+                  <p
+                    className="review-form-message review-form-message-error"
+                    role="alert"
+                  >
+                    {submitError}
+                  </p>
+                )}
+
+                <button
+                  className="button button-primary review-submit"
+                  type="submit"
+                  disabled={submitLoading}
+                >
+                  {submitLoading
+                    ? 'جارٍ الإرسال...'
+                    : 'إرسال التقييم'}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>
