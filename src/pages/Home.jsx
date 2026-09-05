@@ -76,21 +76,38 @@ const gallery = [
   },
 ]
 
+function normalizeRating(value) {
+  const numericRating = Number(value)
+
+  if (!Number.isFinite(numericRating)) {
+    return 0
+  }
+
+  return Math.min(5, Math.max(0, Math.round(numericRating)))
+}
+
 function StarRating({ rating }) {
+  const normalizedRating = normalizeRating(rating)
+
   return (
     <div
       className="review-stars"
-      aria-label={`التقييم ${rating} من 5`}
+      role="img"
+      aria-label={`التقييم ${normalizedRating} من 5`}
     >
-      {Array.from({ length: 5 }, (_, index) => (
-        <span
-          key={index}
-          aria-hidden="true"
-          className={index < rating ? 'is-filled' : ''}
-        >
-          ★
-        </span>
-      ))}
+      {Array.from({ length: 5 }, (_, index) => {
+        const filled = index < normalizedRating
+
+        return (
+          <span
+            key={index}
+            aria-hidden="true"
+            className={filled ? 'is-filled' : ''}
+          >
+            ★
+          </span>
+        )
+      })}
     </div>
   )
 }
@@ -102,6 +119,7 @@ function Home() {
 
   const [name, setName] = useState('')
   const [rating, setRating] = useState(5)
+  const [hoverRating, setHoverRating] = useState(0)
   const [comment, setComment] = useState('')
   const [website, setWebsite] = useState('')
 
@@ -187,6 +205,7 @@ function Home() {
 
       setName('')
       setRating(5)
+      setHoverRating(0)
       setComment('')
       setWebsite('')
 
@@ -201,6 +220,8 @@ function Home() {
       setSubmitLoading(false)
     }
   }
+
+  const displayedRating = hoverRating || rating
 
   return (
     <main>
@@ -452,36 +473,51 @@ function Home() {
                 </div>
 
                 <fieldset className="rating-fieldset">
-                  <legend>التقييم</legend>
+                  <legend>
+                    التقييم: {displayedRating} من 5
+                  </legend>
 
-                  <div className="rating-options">
-                    {[1, 2, 3, 4, 5].map((value) => (
-                      <label
-                        className="rating-option"
-                        key={value}
-                      >
-                        <input
-                          type="radio"
-                          name="rating"
-                          value={value}
-                          checked={rating === value}
-                          onChange={() => setRating(value)}
-                        />
+                  <div
+                    className="rating-options"
+                    onMouseLeave={() => setHoverRating(0)}
+                  >
+                    {[1, 2, 3, 4, 5].map((value) => {
+                      const isFilled = value <= displayedRating
 
-                        <span
-                          aria-hidden="true"
-                          className={
-                            value <= rating ? 'is-filled' : ''
+                      return (
+                        <label
+                          className={`rating-option${
+                            isFilled ? ' is-filled' : ''
+                          }`}
+                          key={value}
+                          onMouseEnter={() =>
+                            setHoverRating(value)
                           }
                         >
-                          ★
-                        </span>
+                          <input
+                            type="radio"
+                            name="rating"
+                            value={value}
+                            checked={rating === value}
+                            onChange={() => {
+                              setRating(value)
+                              setHoverRating(0)
+                            }}
+                          />
 
-                        <span className="visually-hidden">
-                          {value} من 5
-                        </span>
-                      </label>
-                    ))}
+                          <span
+                            className="rating-star"
+                            aria-hidden="true"
+                          >
+                            ★
+                          </span>
+
+                          <span className="visually-hidden">
+                            {value} من 5
+                          </span>
+                        </label>
+                      )
+                    })}
                   </div>
                 </fieldset>
 
