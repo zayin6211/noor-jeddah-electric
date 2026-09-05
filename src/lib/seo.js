@@ -69,6 +69,9 @@ export const GOOGLE_SITE_VERIFICATION =
 export const DEFAULT_ROBOTS =
   'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 
+export const DEFAULT_SOCIAL_IMAGE =
+  '/og-image.webp'
+
 export const NOINDEX_ROBOTS =
   'noindex, follow'
 
@@ -122,7 +125,7 @@ export function createPageMeta({
   title,
   description,
   path = '/',
-  image = null,
+  image = DEFAULT_SOCIAL_IMAGE,
   indexable = true,
 }) {
   if (!title || !description) {
@@ -235,10 +238,59 @@ export function createPageMeta({
         name: 'twitter:image:alt',
         content: BUSINESS_NAME,
       },
+
+      {
+        property: 'og:image:width',
+        content: '1024',
+      },
+
+      {
+        property: 'og:image:height',
+        content: '768',
+      },
+
+      {
+        property: 'og:image:type',
+        content: 'image/webp',
+      },
     )
   }
 
   return descriptors
+}
+
+/**
+ * =========================================================
+ * WEBSITE STRUCTURED DATA
+ * =========================================================
+ */
+
+export const websiteSchema = {
+  '@context':
+    'https://schema.org',
+
+  '@type':
+    'WebSite',
+
+  '@id':
+    `${SITE_URL}/#website`,
+
+  name:
+    BUSINESS_NAME,
+
+  alternateName:
+    BUSINESS_NAME_EN,
+
+  url:
+    absoluteUrl('/'),
+
+  inLanguage:
+    'ar',
+
+  publisher: {
+    '@id':
+      `${SITE_URL}/#business`,
+  },
 }
 
 /**
@@ -271,6 +323,9 @@ export const businessSchema = {
 
   url:
     absoluteUrl('/'),
+
+  image:
+    absoluteUrl(DEFAULT_SOCIAL_IMAGE),
 
   areaServed: {
     '@type':

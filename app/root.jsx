@@ -11,6 +11,7 @@ import Footer from '../src/components/Footer'
 
 import {
   businessSchema,
+  websiteSchema,
   DEFAULT_ROBOTS,
   GOOGLE_SITE_VERIFICATION,
 } from '../src/lib/seo'
@@ -62,6 +63,13 @@ export function Layout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(businessSchema),
+          }}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
           }}
         />
       </head>

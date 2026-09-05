@@ -14,6 +14,9 @@ export const meta = () =>
 
     path:
       '/services',
+
+    image:
+      '/og-image.webp',
   })
 
 export default function ServicesRoute() {

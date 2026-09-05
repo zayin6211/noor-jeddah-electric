@@ -78,6 +78,10 @@ button {
   cursor: pointer;
 }
 
+a {
+  cursor: pointer;
+}
+
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
@@ -462,11 +466,15 @@ main {
 
 .service-card {
   min-height: 235px;
+  display: block;
   padding: 25px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  color: inherit;
+  text-decoration: none;
   background: #ffffff;
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -475,6 +483,11 @@ main {
 .service-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
+}
+
+.service-card:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 4px;
 }
 
 .service-card--detailed {
@@ -502,22 +515,18 @@ main {
   margin-bottom: 22px;
 }
 
-.service-card-link {
+.service-card .text-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-.service-card-link span {
+.service-card .text-link > span {
   transition: transform 0.2s ease;
 }
 
-.service-card-link:hover span {
+.service-card:hover .text-link > span {
   transform: translateX(-3px);
-}
-
-.service-card-link:focus-visible {
-  border-radius: 6px;
 }
 
 .center-action {

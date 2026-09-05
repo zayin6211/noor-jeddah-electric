@@ -47,9 +47,12 @@ function Services() {
           <div className="services-grid services-grid--large">
             {SERVICES.map(
               (service) => (
-                <article
+                <Link
                   className="service-card service-card--detailed"
                   key={service.id}
+                  to={service.path}
+                  aria-label={`التعرف على ${service.shortName}`}
+                  reloadDocument
                 >
                   <div
                     className="service-number"
@@ -66,21 +69,17 @@ function Services() {
                     {service.description}
                   </p>
 
-                  <Link
+                  <span
                     className="text-link"
-                    to={service.path}
-                    aria-label={`تفاصيل ${service.shortName}`}
-                    reloadDocument
+                    aria-hidden="true"
                   >
                     تفاصيل {service.shortName}
 
-                    <span
-                      aria-hidden="true"
-                    >
+                    <span>
                       ←
                     </span>
-                  </Link>
-                </article>
+                  </span>
+                </Link>
               ),
             )}
           </div>

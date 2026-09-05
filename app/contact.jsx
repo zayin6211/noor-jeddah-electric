@@ -10,6 +10,9 @@ export const meta = () =>
     description:
       'تواصل مباشرة مع علي من نور جدة للكهرباء لطلب خدمات الكهرباء المنزلية والتشطيب في جميع مناطق جدة عبر الاتصال أو واتساب.',
     path: '/contact',
+
+    image:
+      '/og-image.webp',
   })
 
 export default function ContactRoute() {

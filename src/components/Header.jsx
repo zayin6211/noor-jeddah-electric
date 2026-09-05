@@ -4,6 +4,10 @@ import {
   WHATSAPP_URL,
 } from '../lib/seo'
 
+function navigateTo(path) {
+  window.location.assign(path)
+}
+
 function Header() {
   return (
     <header className="site-header">
@@ -12,6 +16,10 @@ function Header() {
           className="brand"
           href="/"
           aria-label={`${BUSINESS_NAME} - الصفحة الرئيسية`}
+          onClick={(event) => {
+            event.preventDefault()
+            navigateTo('/')
+          }}
         >
           <span
             className="brand-mark"
@@ -35,15 +43,33 @@ function Header() {
           className="main-nav"
           aria-label="التنقل الرئيسي"
         >
-          <a href="/">
+          <a
+            href="/"
+            onClick={(event) => {
+              event.preventDefault()
+              navigateTo('/')
+            }}
+          >
             الرئيسية
           </a>
 
-          <a href="/services">
+          <a
+            href="/services"
+            onClick={(event) => {
+              event.preventDefault()
+              navigateTo('/services')
+            }}
+          >
             الخدمات
           </a>
 
-          <a href="/contact">
+          <a
+            href="/contact"
+            onClick={(event) => {
+              event.preventDefault()
+              navigateTo('/contact')
+            }}
+          >
             التواصل
           </a>
         </nav>

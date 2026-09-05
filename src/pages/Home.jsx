@@ -415,9 +415,12 @@ function Home() {
                 service,
                 index,
               ) => (
-                <article
+                <Link
                   className="service-card"
                   key={service.path}
+                  to={service.path}
+                  reloadDocument
+                  aria-label={`التعرف على ${service.title}`}
                 >
                   <div
                     className="service-number"
@@ -436,20 +439,17 @@ function Home() {
                     {service.description}
                   </p>
 
-                  <Link
+                  <span
                     className="text-link"
-                    to={service.path}
-                    reloadDocument
+                    aria-hidden="true"
                   >
                     تفاصيل الخدمة
 
-                    <span
-                      aria-hidden="true"
-                    >
+                    <span>
                       ←
                     </span>
-                  </Link>
-                </article>
+                  </span>
+                </Link>
               ),
             )}
           </div>
