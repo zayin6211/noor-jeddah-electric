@@ -19,21 +19,25 @@ const services = [
     title: 'تأسيس الكهرباء',
     description:
       'أعمال تأسيس الكهرباء للمنازل وتجهيز نقاط الاستخدام وفق احتياج المنزل.',
+    path: '/services/electrical-foundation',
   },
   {
     title: 'التمديدات الكهربائية',
     description:
       'تنفيذ أعمال التمديدات الكهربائية ضمن مراحل تشطيب المنزل.',
+    path: '/services/electrical-wiring',
   },
   {
     title: 'نقاط الكهرباء والإنارة',
     description:
       'تجهيز وتركيب نقاط الكهرباء والإنارة بما يناسب الاستخدام اليومي.',
+    path: '/services/lighting',
   },
   {
     title: 'المفاتيح والأفياش',
     description:
       'تركيب نقاط المفاتيح والأفياش ضمن أعمال التشطيب الكهربائي للمنزل.',
+    path: '/services/electrical-finishing',
   },
 ]
 
@@ -325,9 +329,11 @@ function Home() {
 
           <div className="services-grid">
             {services.map((service) => (
-              <article
+              <Link
                 className="service-card"
                 key={service.title}
+                to={service.path}
+                aria-label={`عرض تفاصيل خدمة ${service.title}`}
               >
                 <div
                   className="service-number"
@@ -339,7 +345,12 @@ function Home() {
                 <h3>{service.title}</h3>
 
                 <p>{service.description}</p>
-              </article>
+
+                <span className="service-card-link">
+                  عرض تفاصيل الخدمة
+                  <span aria-hidden="true">←</span>
+                </span>
+              </Link>
             ))}
           </div>
 
