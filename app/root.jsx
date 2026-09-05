@@ -12,17 +12,12 @@ import Footer from '../src/components/Footer'
 import {
   businessSchema,
   websiteSchema,
-  DEFAULT_ROBOTS,
   GOOGLE_SITE_VERIFICATION,
 } from '../src/lib/seo'
 
 import '../src/index.css'
 
 export const meta = () => [
-  {
-    name: 'robots',
-    content: DEFAULT_ROBOTS,
-  },
   {
     name: 'google-site-verification',
     content: GOOGLE_SITE_VERIFICATION,

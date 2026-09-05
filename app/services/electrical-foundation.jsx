@@ -230,7 +230,9 @@ export default function ElectricalFoundation() {
                         className="text-link"
                         aria-hidden="true"
                       >
-                        تفاصيل الخدمة
+                        عرض تفاصيل{' '}
+                        {relatedService.shortName}
+
                         <span>
                           ←
                         </span>

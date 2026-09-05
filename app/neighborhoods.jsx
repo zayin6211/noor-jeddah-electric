@@ -3,26 +3,44 @@ import { Link } from 'react-router'
 import {
   BUSINESS_NAME,
   BUSINESS_PHONE,
-  SERVICES,
   WHATSAPP_URL,
-} from '../lib/seo'
+  createPageMeta,
+} from '../src/lib/seo'
 
-function Services() {
+import {
+  NEIGHBORHOODS,
+} from '../src/lib/neighborhoods'
+
+export const meta = () =>
+  createPageMeta({
+    title:
+      'كهربائي أحياء جدة | كهربائي منازل في جميع أحياء جدة',
+
+    description:
+      'خدمات الكهرباء المنزلية في أحياء جدة المختلفة، تشمل التأسيس والتمديد والتشطيب والإنارة والإصلاح مع خدمة ميدانية في مواقع العملاء.',
+
+    path:
+      '/neighborhoods',
+  })
+
+export default function Neighborhoods() {
   return (
     <main>
       <section className="page-hero">
         <div className="container">
           <span className="eyebrow">
-            الخدمات
+            نطاق الخدمة
           </span>
 
           <h1>
-            خدمات الكهرباء المنزلية في جدة
+            كهربائي في أحياء جدة
           </h1>
 
           <p>
-            أعمال تأسيس وتمديد وتشطيب الكهرباء
-            للمنازل في جميع مناطق جدة.
+            {BUSINESS_NAME} يقدم خدمات الكهرباء
+            المنزلية في أحياء جدة المختلفة،
+            مع الوصول إلى موقع العميل بحسب
+            نوع العمل المطلوب.
           </p>
         </div>
       </section>
@@ -31,49 +49,47 @@ function Services() {
         <div className="container">
           <div className="section-heading">
             <span className="eyebrow">
-              خدمات نور جدة للكهرباء
+              أحياء جدة
             </span>
 
             <h2>
-              خدمات كهربائية مرتبطة باحتياج المنزل
+              اختر الحي لمعرفة خدمات الكهرباء المتاحة
             </h2>
 
             <p>
-              تعرّف على الخدمات الأساسية المتاحة،
-              ثم تواصل مباشرة للاستفسار عن العمل الذي تحتاجه.
+              اختر منطقتك داخل جدة للوصول إلى
+              صفحة مخصصة تتناول احتياجات الكهرباء
+              المنزلية والخدمات التي يمكن طلبها.
             </p>
           </div>
 
           <div className="services-grid services-grid--large">
-            {SERVICES.map(
-              (service) => (
+            {NEIGHBORHOODS.map(
+              (neighborhood) => (
                 <Link
                   className="service-card service-card--detailed"
-                  key={service.id}
-                  to={service.path}
-                  aria-label={`التعرف على ${service.shortName}`}
+                  key={
+                    neighborhood.slug
+                  }
+                  to={`/neighborhoods/${neighborhood.slug}`}
                   reloadDocument
+                  aria-label={`كهربائي ${neighborhood.name} جدة`}
                 >
-                  <div
-                    className="service-number"
-                    aria-hidden="true"
-                  >
-                    ✓
-                  </div>
-
                   <h3>
-                    {service.name}
+                    كهربائي {neighborhood.name}
+                    {' جدة'}
                   </h3>
 
                   <p>
-                    {service.description}
+                    {neighborhood.description}
                   </p>
 
                   <span
                     className="text-link"
                     aria-hidden="true"
                   >
-                    تفاصيل {service.shortName}
+                    خدمات الكهرباء في{' '}
+                    {neighborhood.name}
 
                     <span>
                       ←
@@ -90,12 +106,13 @@ function Services() {
         <div className="container simple-cta">
           <div>
             <h2>
-              هل لديك عمل كهربائي للمنزل؟
+              تحتاج كهربائي داخل أحد أحياء جدة؟
             </h2>
 
             <p>
-              تواصل مباشرة للاستفسار عن احتياجك
-              وتفاصيل الخدمة.
+              {BUSINESS_NAME} يعمل في مواقع
+              العملاء داخل جدة. تواصل مباشرة
+              لتوضيح الحي ونوع العمل المطلوب.
             </p>
           </div>
 
@@ -120,10 +137,10 @@ function Services() {
 
             <Link
               className="text-link"
-              to="/contact"
+              to="/services"
               reloadDocument
             >
-              صفحة التواصل
+              جميع الخدمات
             </Link>
           </div>
         </div>
@@ -131,5 +148,3 @@ function Services() {
     </main>
   )
 }
-
-export default Services

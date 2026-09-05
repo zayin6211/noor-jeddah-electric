@@ -1,5 +1,9 @@
 import type { Config } from '@react-router/dev/config'
 
+import {
+  NEIGHBORHOOD_PATHS,
+} from './src/lib/neighborhoods'
+
 export default {
   ssr: false,
 
@@ -17,6 +21,10 @@ export default {
     '/services/lighting',
 
     '/services/electrical-repair',
+
+    '/neighborhoods',
+
+    ...NEIGHBORHOOD_PATHS,
 
     '/contact',
   ],

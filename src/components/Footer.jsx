@@ -48,6 +48,13 @@ function Footer() {
             </Link>
 
             <Link
+              to="/neighborhoods"
+              reloadDocument
+            >
+              كهربائي أحياء جدة
+            </Link>
+
+            <Link
               to="/contact"
               reloadDocument
             >

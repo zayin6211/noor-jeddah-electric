@@ -230,7 +230,9 @@ export default function ElectricalRepair() {
                         className="text-link"
                         aria-hidden="true"
                       >
-                        تفاصيل الخدمة
+                        عرض تفاصيل{' '}
+                        {relatedService.shortName}
+
                         <span>
                           ←
                         </span>

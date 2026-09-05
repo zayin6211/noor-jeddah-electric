@@ -21,7 +21,7 @@ import interiorLightingImage from '../assets/images (17).webp'
 const gallery = [
   {
     src: electricalFinishingImage,
-    alt: 'تشطيبات كهربائية ونقاط كهرباء داخل منزل في جدة',
+    alt: 'تشطيبات كهربائية منزلية ونقاط كهرباء داخل منزل في جدة',
     width: 1024,
     height: 768,
   },
@@ -33,19 +33,19 @@ const gallery = [
   },
   {
     src: ceilingLightingImage,
-    alt: 'تجهيز وتركيب نقاط الإنارة الداخلية في الأسقف',
+    alt: 'تصميم وتركيب الإضاءة الداخلية في الأسقف',
     width: 516,
     height: 387,
   },
   {
     src: electricalInstallationImage,
-    alt: 'تمديدات وتجهيزات كهربائية أثناء تشطيب منزل في جدة',
+    alt: 'تمديدات وتجهيزات كهربائية أثناء أعمال التشطيب في جدة',
     width: 415,
     height: 739,
   },
   {
     src: wiringImage,
-    alt: 'تمديدات وأسلاك كهربائية داخل مبنى',
+    alt: 'تمديدات كهربائية وتجهيز أسلاك داخل مبنى',
     width: 898,
     height: 1600,
   },
@@ -58,7 +58,8 @@ const gallery = [
 ]
 
 function normalizeRating(value) {
-  const numericRating = Number(value)
+  const numericRating =
+    Number(value)
 
   if (!Number.isFinite(numericRating)) {
     return 0
@@ -73,7 +74,9 @@ function normalizeRating(value) {
   )
 }
 
-function StarRating({ rating }) {
+function StarRating({
+  rating,
+}) {
   const normalizedRating =
     normalizeRating(rating)
 
@@ -160,7 +163,9 @@ function Home() {
     async function loadReviews() {
       try {
         const response =
-          await fetch('/api/reviews')
+          await fetch(
+            '/api/reviews',
+          )
 
         if (!response.ok) {
           throw new Error(
@@ -188,7 +193,9 @@ function Home() {
         }
       } finally {
         if (!cancelled) {
-          setReviewsLoading(false)
+          setReviewsLoading(
+            false,
+          )
         }
       }
     }
@@ -200,7 +207,9 @@ function Home() {
     }
   }, [])
 
-  async function handleReviewSubmit(event) {
+  async function handleReviewSubmit(
+    event,
+  ) {
     event.preventDefault()
 
     setSubmitMessage('')
@@ -288,14 +297,15 @@ function Home() {
 
             <h1>
               كهربائي منازل في جدة لأعمال
-              التأسيس والتمديد والتشطيب
+              التشطيب الكهربائي
             </h1>
 
             <p className="hero-description">
-              تنفيذ أعمال الكهرباء للمنازل
-              في جميع مناطق جدة، من تأسيس
-              وتمديد النقاط الكهربائية إلى
-              التشطيب والإنارة وإصلاح الأعطال.
+              تنفيذ أعمال تشطيب الكهرباء
+              للمنازل في جميع مناطق جدة،
+              من التأسيس والتمديدات إلى
+              نقاط الكهرباء والإنارة
+              والمفاتيح والأفياش.
             </p>
 
             <div className="hero-actions">
@@ -369,7 +379,7 @@ function Home() {
               <img
                 className="hero-image"
                 src={heroImage}
-                alt="أعمال تأسيس وتشطيب كهرباء داخل منزل في جدة"
+                alt="أعمال كهرباء وتشطيب كهربائي داخل منزل في جدة"
                 width="1024"
                 height="768"
                 fetchPriority="high"
@@ -384,19 +394,18 @@ function Home() {
         <div className="container">
           <div className="section-heading">
             <span className="eyebrow">
-              خدمات الكهرباء
+              الخدمات
             </span>
 
             <h2>
-              خدمات كهربائية للمنازل في جدة
+              خدمات الكهرباء المنزلية في جدة
             </h2>
 
             <p>
-              خدمات متكاملة لأعمال الكهرباء
-              المنزلية تشمل التأسيس والتمديدات
-              والتشطيب والإنارة وإصلاح الأعطال،
-              مع إمكانية التواصل مباشرة لشرح
-              احتياج المنزل.
+              خدمات كهربائية مرتبطة باحتياجات
+              المنزل من التأسيس والتمديدات
+              والتشطيب والإنارة إلى إصلاح
+              الأعطال الكهربائية.
             </p>
           </div>
 
@@ -411,7 +420,7 @@ function Home() {
                   key={service.path}
                   to={service.path}
                   reloadDocument
-                  aria-label={`التعرف على خدمة ${service.shortName}`}
+                  aria-label={`التعرف على ${service.title}`}
                 >
                   <div
                     className="service-number"
@@ -423,7 +432,7 @@ function Home() {
                   </div>
 
                   <h3>
-                    {service.shortName}
+                    {service.title}
                   </h3>
 
                   <p>
@@ -434,7 +443,7 @@ function Home() {
                     className="text-link"
                     aria-hidden="true"
                   >
-                    تفاصيل الخدمة
+                    عرض تفاصيل {service.shortName}
 
                     <span>
                       ←
@@ -453,7 +462,9 @@ function Home() {
             >
               عرض جميع خدمات الكهرباء
 
-              <span aria-hidden="true">
+              <span
+                aria-hidden="true"
+              >
                 ←
               </span>
             </Link>
@@ -462,81 +473,6 @@ function Home() {
       </section>
 
       <section className="section section--soft">
-        <div className="container">
-          <div className="section-heading">
-            <span className="eyebrow">
-              كهرباء المنازل في جدة
-            </span>
-
-            <h2>
-              من التأسيس إلى التشطيب وإصلاح
-              الأعطال الكهربائية
-            </h2>
-
-            <p>
-              تختلف احتياجات المنزل الكهربائية
-              حسب مرحلة البناء أو التشطيب وحسب
-              طبيعة الاستخدام. لذلك تشمل خدمات
-              نور جدة للكهرباء أعمال تأسيس النقاط
-              والتمديدات، واستكمال التشطيب
-              الكهربائي، وتجهيز نقاط الإنارة،
-              إضافة إلى فحص وإصلاح الأعطال
-              الكهربائية المنزلية.
-            </p>
-          </div>
-
-          <div className="benefits-list">
-            <div>
-              <strong>
-                تأسيس وتمديد الكهرباء
-              </strong>
-
-              <span>
-                تجهيز المسارات والنقاط الكهربائية
-                المناسبة لاحتياجات المنزل.
-              </span>
-            </div>
-
-            <div>
-              <strong>
-                التشطيب والإنارة
-              </strong>
-
-              <span>
-                استكمال النقاط الكهربائية ونقاط
-                الإنارة ضمن مراحل التشطيب.
-              </span>
-            </div>
-
-            <div>
-              <strong>
-                فحص وإصلاح الأعطال
-              </strong>
-
-              <span>
-                فحص المشكلات الكهربائية المنزلية
-                وتحديد نطاق العمل المناسب.
-              </span>
-            </div>
-          </div>
-
-          <div className="center-action">
-            <Link
-              className="text-link"
-              to="/services"
-              reloadDocument
-            >
-              تعرف على خدمات الكهرباء بالتفصيل
-
-              <span aria-hidden="true">
-                ←
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
         <div className="container">
           <div className="section-heading">
             <span className="eyebrow">
@@ -549,7 +485,7 @@ function Home() {
 
             <p>
               صور توضيحية لأعمال الكهرباء
-              والتشطيب والإنارة داخل المنازل.
+              والتشطيب الكهربائي للمنازل.
             </p>
           </div>
 
@@ -616,7 +552,8 @@ function Home() {
                 >
                   {reviewsError}
                 </p>
-              ) : reviews.length === 0 ? (
+              ) : reviews.length ===
+                0 ? (
                 <p className="reviews-status">
                   لا توجد تقييمات منشورة حاليًا.
                 </p>
@@ -631,7 +568,9 @@ function Home() {
                         <div className="review-card-header">
                           <div>
                             <h4>
-                              {review.name}
+                              {
+                                review.name
+                              }
                             </h4>
 
                             <StarRating
@@ -643,7 +582,9 @@ function Home() {
                         </div>
 
                         <p>
-                          {review.comment}
+                          {
+                            review.comment
+                          }
                         </p>
                       </article>
                     ),
@@ -679,9 +620,12 @@ function Home() {
                     name="name"
                     type="text"
                     value={name}
-                    onChange={(event) =>
+                    onChange={(
+                      event,
+                    ) =>
                       setName(
-                        event.target.value,
+                        event.target
+                          .value,
                       )
                     }
                     maxLength={60}
@@ -698,14 +642,19 @@ function Home() {
                   <div
                     className="rating-options"
                     onMouseLeave={() =>
-                      setHoverRating(0)
+                      setHoverRating(
+                        0,
+                      )
                     }
                   >
                     {Array.from(
                       {
                         length: 5,
                       },
-                      (_, index) => {
+                      (
+                        _,
+                        index,
+                      ) => {
                         const value =
                           index + 1
 
@@ -744,7 +693,8 @@ function Home() {
                             }
                             aria-label={`اختيار ${value} من 5`}
                             aria-pressed={
-                              value === rating
+                              value ===
+                              rating
                             }
                           >
                             <span
@@ -769,9 +719,12 @@ function Home() {
                     id="review-comment"
                     name="comment"
                     value={comment}
-                    onChange={(event) =>
+                    onChange={(
+                      event,
+                    ) =>
                       setComment(
-                        event.target.value,
+                        event.target
+                          .value,
                       )
                     }
                     maxLength={500}
@@ -793,9 +746,12 @@ function Home() {
                     name="website"
                     type="text"
                     value={website}
-                    onChange={(event) =>
+                    onChange={(
+                      event,
+                    ) =>
                       setWebsite(
-                        event.target.value,
+                        event.target
+                          .value,
                       )
                     }
                     tabIndex={-1}
@@ -824,7 +780,9 @@ function Home() {
                 <button
                   className="button button-primary review-submit"
                   type="submit"
-                  disabled={submitLoading}
+                  disabled={
+                    submitLoading
+                  }
                 >
                   {submitLoading
                     ? 'جارٍ الإرسال...'
@@ -840,21 +798,19 @@ function Home() {
         <div className="container">
           <div className="section-heading">
             <span className="eyebrow">
-              خدمة كهربائية داخل جدة
+              خبرة وتواصل مباشر
             </span>
 
             <h2>
-              كهربائي منازل في جدة لخدمات
-              الكهرباء السكنية
+              كهربائي منازل في جدة لأعمال
+              الكهرباء للمنازل
             </h2>
 
             <p>
-              نور جدة للكهرباء يقدم خدمات
-              كهربائية للمنازل في جميع مناطق
-              جدة، وتشمل أعمال التأسيس
-              والتمديدات والتشطيب والإنارة
-              وإصلاح الأعطال، مع تواصل مباشر
-              لمعرفة احتياج المنزل ونطاق العمل.
+              نور جدة للكهرباء يقدم خدمة كهربائي
+              سكنية مستقلة في جميع مناطق جدة،
+              مع خبرة تمتد إلى 15 سنة في مجال
+              الكهرباء.
             </p>
           </div>
 
@@ -865,8 +821,7 @@ function Home() {
               </strong>
 
               <span>
-                خبرة عملية في مجال الكهرباء
-                وأعمال المنازل.
+                خبرة عملية في مجال الكهرباء.
               </span>
             </div>
 
@@ -886,24 +841,9 @@ function Home() {
               </strong>
 
               <span>
-                تواصل مباشرة عبر الاتصال أو
-                واتساب لشرح احتياجك.
+                تواصل مباشرة عبر الاتصال أو واتساب.
               </span>
             </div>
-          </div>
-
-          <div className="center-action">
-            <Link
-              className="text-link"
-              to="/contact"
-              reloadDocument
-            >
-              تواصل مع نور جدة للكهرباء
-
-              <span aria-hidden="true">
-                ←
-              </span>
-            </Link>
           </div>
         </div>
       </section>

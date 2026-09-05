@@ -155,12 +155,6 @@ export function createPageMeta({
     },
 
     {
-      name: 'google-site-verification',
-      content:
-        GOOGLE_SITE_VERIFICATION,
-    },
-
-    {
       tagName: 'link',
       rel: 'canonical',
       href: canonicalUrl,

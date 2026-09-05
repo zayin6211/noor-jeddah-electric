@@ -6,7 +6,10 @@ import {
 export default [
   index('./home.jsx'),
 
-  route('services', './services.jsx'),
+  route(
+    'services',
+    './services.jsx',
+  ),
 
   route(
     'services/electrical-foundation',
@@ -33,7 +36,23 @@ export default [
     './services/electrical-repair.jsx',
   ),
 
-  route('contact', './contact.jsx'),
+  route(
+    'neighborhoods',
+    './neighborhoods.jsx',
+  ),
 
-  route('*', './not-found.jsx'),
+  route(
+    'neighborhoods/:slug',
+    './neighborhood.$slug.jsx',
+  ),
+
+  route(
+    'contact',
+    './contact.jsx',
+  ),
+
+  route(
+    '*',
+    './not-found.jsx',
+  ),
 ]
