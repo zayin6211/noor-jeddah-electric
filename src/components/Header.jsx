@@ -1,7 +1,9 @@
-import { Link, NavLink } from 'react-router-dom'
-
-const phoneNumber = '0546856974'
-const whatsappUrl = 'https://wa.me/966546856974'
+import { Link, NavLink } from 'react-router'
+import {
+  BUSINESS_NAME,
+  BUSINESS_PHONE,
+  WHATSAPP_URL,
+} from '../lib/seo'
 
 function Header() {
   return (
@@ -10,17 +12,14 @@ function Header() {
         <Link
           className="brand"
           to="/"
-          aria-label="نور جدة للكهرباء - الصفحة الرئيسية"
+          aria-label={`${BUSINESS_NAME} - الصفحة الرئيسية`}
         >
-          <span
-            className="brand-mark"
-            aria-hidden="true"
-          >
+          <span className="brand-mark" aria-hidden="true">
             ن
           </span>
 
           <span>
-            <strong>نور جدة للكهرباء</strong>
+            <strong>{BUSINESS_NAME}</strong>
             <small>كهربائي منازل في جدة</small>
           </span>
         </Link>
@@ -29,37 +28,34 @@ function Header() {
           className="main-nav"
           aria-label="التنقل الرئيسي"
         >
-          <NavLink
-            to="/"
-            end
-          >
+          <NavLink to="/" end>
             الرئيسية
           </NavLink>
 
           <NavLink to="/services">
-            خدماتنا
+            الخدمات
           </NavLink>
 
           <NavLink to="/contact">
-            اتصل بنا
+            التواصل
           </NavLink>
         </nav>
 
         <div className="header-actions">
           <a
             className="header-phone"
-            href={`tel:${phoneNumber}`}
-            aria-label={`الاتصال بنور جدة للكهرباء على الرقم ${phoneNumber}`}
+            href={`tel:${BUSINESS_PHONE}`}
+            aria-label={`الاتصال بـ${BUSINESS_NAME} على الرقم ${BUSINESS_PHONE}`}
           >
             اتصل الآن
           </a>
 
           <a
             className="header-whatsapp"
-            href={whatsappUrl}
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"
+            aria-label={`التواصل مع ${BUSINESS_NAME} عبر واتساب`}
           >
             واتساب
           </a>

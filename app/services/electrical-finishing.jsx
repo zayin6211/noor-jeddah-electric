@@ -1,125 +1,158 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
+
 import {
+  BUSINESS_PHONE,
   createBreadcrumbSchema,
   createPageMeta,
   createServiceSchema,
 } from '../../src/lib/seo'
 
-const TITLE = 'تشطيب كهرباء المنازل في جدة | نور جدة للكهرباء'
+import {
+  getServiceById,
+} from '../../src/lib/services'
 
-const DESCRIPTION =
-  'أعمال تشطيب الكهرباء للمنازل في جدة، تشمل نقاط الكهرباء والإنارة والمفاتيح والأفياش ضمن المراحل النهائية للتشطيب.'
-
-const PATH = '/services/electrical-finishing'
+const service =
+  getServiceById(
+    'electrical-finishing',
+  )
 
 export const meta = () =>
   createPageMeta({
-    title: TITLE,
-    description: DESCRIPTION,
-    path: PATH,
+    title:
+      service.title,
+
+    description:
+      service.description,
+
+    path:
+      service.path,
   })
 
 export default function ElectricalFinishing() {
-  const serviceSchema = createServiceSchema({
-    name: 'تشطيب كهرباء المنازل',
-    description:
-      'أعمال تشطيب الكهرباء للمنازل وتجهيز النقاط النهائية للكهرباء والإنارة والمفاتيح والأفياش في جدة.',
-    serviceType: 'تشطيب الكهرباء',
-    path: PATH,
-  })
+  const serviceSchema =
+    createServiceSchema({
+      name:
+        service.shortName,
 
-  const breadcrumbSchema = createBreadcrumbSchema({
-    items: [
-      {
-        name: 'الرئيسية',
-        path: '/',
-      },
-      {
-        name: 'خدمات الكهرباء',
-        path: '/services',
-      },
-      {
-        name: 'تشطيب كهرباء المنازل',
-        path: PATH,
-      },
-    ],
-  })
+      description:
+        service.description,
+
+      path:
+        service.path,
+    })
+
+  const breadcrumbSchema =
+    createBreadcrumbSchema({
+      items: [
+        {
+          name:
+            'الرئيسية',
+          path:
+            '/',
+        },
+
+        {
+          name:
+            'خدمات الكهرباء',
+          path:
+            '/services',
+        },
+
+        {
+          name:
+            service.shortName,
+          path:
+            service.path,
+        },
+      ],
+    })
 
   return (
     <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(serviceSchema),
+          __html:
+            JSON.stringify(
+              serviceSchema,
+            ),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
+          __html:
+            JSON.stringify(
+              breadcrumbSchema,
+            ),
         }}
       />
 
       <section className="page-hero">
         <div className="container">
-          <span className="eyebrow">خدمات الكهرباء المنزلية</span>
+          <span className="eyebrow">
+            خدمات الكهرباء المنزلية
+          </span>
 
-          <h1>تشطيب كهرباء المنازل في جدة</h1>
+          <h1>
+            {service.shortName}
+            {' في جدة'}
+          </h1>
 
           <p>
-            تنفيذ أعمال التشطيب الكهربائي للمنازل وتجهيز النقاط
-            النهائية للكهرباء والإنارة والمفاتيح والأفياش.
+            {service.pageIntro}
           </p>
         </div>
       </section>
 
       <section className="section">
         <div className="container service-detail">
-          <h2>أعمال تشطيب الكهرباء</h2>
+          <h2>
+            {service.content.introduction.heading}
+          </h2>
 
           <p>
-            تشطيب الكهرباء هو المرحلة التي تكتمل فيها نقاط الاستخدام
-            والتجهيزات الكهربائية داخل المنزل بعد مراحل التأسيس
-            والتمديدات.
+            {service.content.introduction.text}
           </p>
 
-          <h2>الخدمات المرتبطة بالتشطيب</h2>
+          <h2>
+            {service.content.relatedHeading}
+          </h2>
 
           <div className="services-grid services-grid--large">
-            <article className="service-card">
-              <h3>نقاط الكهرباء</h3>
-              <p>
-                تجهيز النقاط النهائية للاستخدام داخل المنزل.
-              </p>
-            </article>
+            {service.content.relatedItems.map(
+              (item) => (
+                <article
+                  className="service-card"
+                  key={item.title}
+                >
+                  <h3>
+                    {item.title}
+                  </h3>
 
-            <article className="service-card">
-              <h3>الإنارة</h3>
-              <p>
-                تنفيذ نقاط وتجهيزات الإنارة ضمن أعمال التشطيب.
-              </p>
-            </article>
-
-            <article className="service-card">
-              <h3>المفاتيح والأفياش</h3>
-              <p>
-                تركيب وتجهيز نقاط المفاتيح والأفياش للمنزل.
-              </p>
-            </article>
+                  <p>
+                    {item.description}
+                  </p>
+                </article>
+              ),
+            )}
           </div>
 
           <div className="detail-cta">
-            <h2>تحتاج تشطيب كهرباء لمنزلك في جدة؟</h2>
+            <h2>
+              {service.content.ctaTitle}
+            </h2>
 
             <p>
-              تواصل مباشرة للاستفسار عن الأعمال التي تحتاجها.
+              {service.content.ctaText}
             </p>
 
             <div className="cta-actions">
               <a
                 className="button button-primary"
-                href="tel:0546856974"
+                href={`tel:${BUSINESS_PHONE}`}
+                aria-label={`الاتصال بنور جدة للكهرباء على الرقم ${BUSINESS_PHONE}`}
               >
                 اتصل الآن
               </a>

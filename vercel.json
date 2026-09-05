@@ -23,6 +23,10 @@
       "destination": "/services/lighting/index.html"
     },
     {
+      "source": "/services/electrical-repair",
+      "destination": "/services/electrical-repair/index.html"
+    },
+    {
       "source": "/contact",
       "destination": "/contact/index.html"
     }

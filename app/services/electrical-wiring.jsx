@@ -1,126 +1,158 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
+
 import {
+  BUSINESS_PHONE,
   createBreadcrumbSchema,
   createPageMeta,
   createServiceSchema,
 } from '../../src/lib/seo'
 
-const TITLE = 'تمديدات كهربائية للمنازل في جدة | نور جدة للكهرباء'
+import {
+  getServiceById,
+} from '../../src/lib/services'
 
-const DESCRIPTION =
-  'خدمات التمديدات الكهربائية للمنازل في جدة ضمن أعمال تأسيس وتشطيب الكهرباء، مع تجهيز نقاط الاستخدام والإنارة.'
-
-const PATH = '/services/electrical-wiring'
+const service =
+  getServiceById(
+    'electrical-wiring',
+  )
 
 export const meta = () =>
   createPageMeta({
-    title: TITLE,
-    description: DESCRIPTION,
-    path: PATH,
+    title:
+      service.title,
+
+    description:
+      service.description,
+
+    path:
+      service.path,
   })
 
 export default function ElectricalWiring() {
-  const serviceSchema = createServiceSchema({
-    name: 'التمديدات الكهربائية للمنازل',
-    description:
-      'خدمات التمديدات الكهربائية للمنازل ضمن أعمال التأسيس والتشطيب وتجهيز نقاط الاستخدام والإنارة في جدة.',
-    serviceType: 'التمديدات الكهربائية',
-    path: PATH,
-  })
+  const serviceSchema =
+    createServiceSchema({
+      name:
+        service.shortName,
 
-  const breadcrumbSchema = createBreadcrumbSchema({
-    items: [
-      {
-        name: 'الرئيسية',
-        path: '/',
-      },
-      {
-        name: 'خدمات الكهرباء',
-        path: '/services',
-      },
-      {
-        name: 'التمديدات الكهربائية',
-        path: PATH,
-      },
-    ],
-  })
+      description:
+        service.description,
+
+      path:
+        service.path,
+    })
+
+  const breadcrumbSchema =
+    createBreadcrumbSchema({
+      items: [
+        {
+          name:
+            'الرئيسية',
+          path:
+            '/',
+        },
+
+        {
+          name:
+            'خدمات الكهرباء',
+          path:
+            '/services',
+        },
+
+        {
+          name:
+            service.shortName,
+          path:
+            service.path,
+        },
+      ],
+    })
 
   return (
     <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(serviceSchema),
+          __html:
+            JSON.stringify(
+              serviceSchema,
+            ),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
+          __html:
+            JSON.stringify(
+              breadcrumbSchema,
+            ),
         }}
       />
 
       <section className="page-hero">
         <div className="container">
-          <span className="eyebrow">خدمات الكهرباء المنزلية</span>
+          <span className="eyebrow">
+            خدمات الكهرباء المنزلية
+          </span>
 
-          <h1>تمديدات كهربائية للمنازل في جدة</h1>
+          <h1>
+            {service.shortName}
+            {' في جدة'}
+          </h1>
 
           <p>
-            تنفيذ أعمال التمديدات الكهربائية للمنازل ضمن مراحل
-            التأسيس والتشطيب.
+            {service.pageIntro}
           </p>
         </div>
       </section>
 
       <section className="section">
         <div className="container service-detail">
-          <h2>تمديدات الكهرباء للمنازل</h2>
+          <h2>
+            {service.content.introduction.heading}
+          </h2>
 
           <p>
-            تشمل أعمال التمديدات تجهيز المسارات والنقاط الكهربائية
-            المرتبطة باستخدامات المنزل المختلفة ضمن مراحل العمل
-            الكهربائي.
+            {service.content.introduction.text}
           </p>
 
-          <h2>أنواع النقاط المرتبطة بالتمديدات</h2>
+          <h2>
+            {service.content.relatedHeading}
+          </h2>
 
           <div className="services-grid services-grid--large">
-            <article className="service-card">
-              <h3>نقاط الكهرباء</h3>
-              <p>
-                تجهيز نقاط الاستخدام الكهربائية في الأماكن المناسبة
-                داخل المنزل.
-              </p>
-            </article>
+            {service.content.relatedItems.map(
+              (item) => (
+                <article
+                  className="service-card"
+                  key={item.title}
+                >
+                  <h3>
+                    {item.title}
+                  </h3>
 
-            <article className="service-card">
-              <h3>نقاط الإنارة</h3>
-              <p>
-                تجهيز التمديدات ونقاط الإنارة ضمن أعمال التشطيب.
-              </p>
-            </article>
-
-            <article className="service-card">
-              <h3>المفاتيح والأفياش</h3>
-              <p>
-                تجهيز نقاط المفاتيح والأفياش ضمن احتياجات المنزل.
-              </p>
-            </article>
+                  <p>
+                    {item.description}
+                  </p>
+                </article>
+              ),
+            )}
           </div>
 
           <div className="detail-cta">
-            <h2>استفسر عن التمديدات الكهربائية لمنزلك</h2>
+            <h2>
+              {service.content.ctaTitle}
+            </h2>
 
             <p>
-              تواصل مباشرة لمعرفة تفاصيل العمل المناسب لاحتياجك.
+              {service.content.ctaText}
             </p>
 
             <div className="cta-actions">
               <a
                 className="button button-primary"
-                href="tel:0546856974"
+                href={`tel:${BUSINESS_PHONE}`}
+                aria-label={`الاتصال بنور جدة للكهرباء على الرقم ${BUSINESS_PHONE}`}
               >
                 اتصل الآن
               </a>

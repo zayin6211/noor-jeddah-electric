@@ -1,18 +1,25 @@
-const phoneNumber = '0546856974'
-const whatsappUrl = 'https://wa.me/966546856974'
+import {
+  BUSINESS_NAME,
+  BUSINESS_PHONE,
+  WHATSAPP_URL,
+} from '../lib/seo'
 
 function Contact() {
   return (
     <main>
       <section className="page-hero">
         <div className="container">
-          <span className="eyebrow">التواصل</span>
+          <span className="eyebrow">
+            التواصل
+          </span>
 
-          <h1>تواصل مع كهربائي في جدة</h1>
+          <h1>
+            تواصل مع كهربائي في جدة
+          </h1>
 
           <p>
-            للتواصل والاستفسار عن أعمال الكهرباء المنزلية، يمكنك
-            الاتصال مباشرة أو التواصل عبر واتساب.
+            للتواصل والاستفسار عن أعمال الكهرباء المنزلية،
+            يمكنك الاتصال مباشرة أو التواصل عبر واتساب.
           </p>
         </div>
       </section>
@@ -20,11 +27,16 @@ function Contact() {
       <section className="section">
         <div className="container contact-grid">
           <div className="contact-card contact-card--primary">
-            <span className="contact-icon" aria-hidden="true">
+            <span
+              className="contact-icon"
+              aria-hidden="true"
+            >
               ☎
             </span>
 
-            <h2>اتصال مباشر</h2>
+            <h2>
+              اتصال مباشر
+            </h2>
 
             <p>
               الخيار الأسرع للتواصل والاستفسار عن احتياجك.
@@ -32,26 +44,32 @@ function Contact() {
 
             <a
               className="contact-number"
-              href={`tel:${phoneNumber}`}
-              aria-label={`الاتصال على ${phoneNumber}`}
+              href={`tel:${BUSINESS_PHONE}`}
+              aria-label={`الاتصال بـ${BUSINESS_NAME} على الرقم ${BUSINESS_PHONE}`}
             >
-              {phoneNumber}
+              {BUSINESS_PHONE}
             </a>
 
             <a
               className="button button-primary"
-              href={`tel:${phoneNumber}`}
+              href={`tel:${BUSINESS_PHONE}`}
+              aria-label={`الاتصال بـ${BUSINESS_NAME} على الرقم ${BUSINESS_PHONE}`}
             >
               اتصل الآن
             </a>
           </div>
 
           <div className="contact-card">
-            <span className="contact-icon" aria-hidden="true">
+            <span
+              className="contact-icon"
+              aria-hidden="true"
+            >
               وات
             </span>
 
-            <h2>واتساب</h2>
+            <h2>
+              واتساب
+            </h2>
 
             <p>
               يمكنك أيضًا التواصل مباشرة عبر واتساب.
@@ -59,21 +77,26 @@ function Contact() {
 
             <a
               className="button button-secondary"
-              href={whatsappUrl}
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="فتح واتساب للتواصل مع نور جدة للكهرباء"
+              aria-label={`فتح واتساب للتواصل مع ${BUSINESS_NAME}`}
             >
               فتح واتساب
             </a>
           </div>
 
           <div className="contact-card">
-            <span className="contact-icon" aria-hidden="true">
+            <span
+              className="contact-icon"
+              aria-hidden="true"
+            >
               جدة
             </span>
 
-            <h2>منطقة الخدمة</h2>
+            <h2>
+              منطقة الخدمة
+            </h2>
 
             <p>
               الخدمة متاحة في جميع مناطق جدة.
@@ -85,11 +108,16 @@ function Contact() {
           </div>
 
           <div className="contact-card">
-            <span className="contact-icon" aria-hidden="true">
+            <span
+              className="contact-icon"
+              aria-hidden="true"
+            >
               15
             </span>
 
-            <h2>الخبرة</h2>
+            <h2>
+              الخبرة
+            </h2>
 
             <p>
               خبرة في مجال الكهرباء تمتد إلى 15 سنة.
@@ -104,7 +132,9 @@ function Contact() {
 
       <section className="section section--soft">
         <div className="container contact-note">
-          <h2>متى يمكن التواصل؟</h2>
+          <h2>
+            متى يمكن التواصل؟
+          </h2>
 
           <p>
             العمل متاح كل يوم، ومعظم ساعات العمل تكون في الصباح.
@@ -112,7 +142,8 @@ function Contact() {
 
           <a
             className="button button-primary"
-            href={`tel:${phoneNumber}`}
+            href={`tel:${BUSINESS_PHONE}`}
+            aria-label={`الاتصال بـ${BUSINESS_NAME} على الرقم ${BUSINESS_PHONE}`}
           >
             تواصل مباشرة
           </a>

@@ -5,11 +5,19 @@ export default {
 
   prerender: [
     '/',
+
     '/services',
+
     '/services/electrical-foundation',
+
     '/services/electrical-wiring',
+
     '/services/electrical-finishing',
+
     '/services/lighting',
+
+    '/services/electrical-repair',
+
     '/contact',
   ],
 } satisfies Config

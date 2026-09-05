@@ -13,7 +13,7 @@ import {
 
 const service =
   getServiceById(
-    'electrical-foundation',
+    'electrical-repair',
   )
 
 export const meta = () =>
@@ -28,7 +28,7 @@ export const meta = () =>
       service.path,
   })
 
-export default function ElectricalFoundation() {
+export default function ElectricalRepair() {
   const serviceSchema =
     createServiceSchema({
       name:
@@ -47,7 +47,6 @@ export default function ElectricalFoundation() {
         {
           name:
             'الرئيسية',
-
           path:
             '/',
         },
@@ -55,7 +54,6 @@ export default function ElectricalFoundation() {
         {
           name:
             'خدمات الكهرباء',
-
           path:
             '/services',
         },
@@ -63,7 +61,6 @@ export default function ElectricalFoundation() {
         {
           name:
             service.shortName,
-
           path:
             service.path,
         },

@@ -9,48 +9,22 @@ import {
 import Header from '../src/components/Header'
 import Footer from '../src/components/Footer'
 
+import {
+  businessSchema,
+  DEFAULT_ROBOTS,
+  GOOGLE_SITE_VERIFICATION,
+} from '../src/lib/seo'
+
 import '../src/index.css'
-
-const SITE_URL = 'https://noor-jeddah-electric.vercel.app'
-
-const businessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Electrician',
-  '@id': `${SITE_URL}/#business`,
-  name: 'نور جدة للكهرباء',
-  description:
-    'خدمات الكهرباء المنزلية وتشطيب الكهرباء للمنازل في جميع مناطق جدة.',
-  telephone: '+966546856974',
-  url: `${SITE_URL}/`,
-  areaServed: {
-    '@type': 'City',
-    name: 'جدة',
-  },
-  serviceType: [
-    'تأسيس الكهرباء',
-    'التمديدات الكهربائية',
-    'تشطيب الكهرباء',
-    'تركيب الإنارة',
-    'تركيب المفاتيح والأفياش',
-  ],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: '+966546856974',
-    contactType: 'customer service',
-    availableLanguage: ['ar'],
-  },
-}
 
 export const meta = () => [
   {
     name: 'robots',
-    content:
-      'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    content: DEFAULT_ROBOTS,
   },
   {
     name: 'google-site-verification',
-    content:
-      'P1R0C4WNtdGsXOhpf6SD9Rxoeuf2wIWgE8mpPcPbb-4',
+    content: GOOGLE_SITE_VERIFICATION,
   },
 ]
 

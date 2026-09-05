@@ -28,6 +28,11 @@ export default [
     './services/lighting.jsx',
   ),
 
+  route(
+    'services/electrical-repair',
+    './services/electrical-repair.jsx',
+  ),
+
   route('contact', './contact.jsx'),
 
   route('*', './not-found.jsx'),
