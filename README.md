@@ -1,16 +1,83 @@
-# React + Vite
+# نور جدة للكهرباء
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+موقع عربي متجاوب لخدمات الكهرباء المنزلية في جميع مناطق جدة.
 
-Currently, two official plugins are available:
+المشروع مبني ليكون موقع خدمات حقيقيًا يركز على سهولة الوصول إلى الخدمة، الاتصال المباشر، واتساب، الصفحات الخدمية، SEO، الأداء، إمكانية الوصول، والأمان.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## معلومات النشاط
 
-## React Compiler
+- الاسم: نور جدة للكهرباء
+- المرجع بالإنجليزية: Noor Jeddah Electricity
+- مقدم الخدمة: علي
+- الهاتف: 0546856974
+- واتساب: https://wa.me/966546856974
+- نطاق الخدمة: جميع مناطق جدة
+- الخبرة: 15+ عامًا من الخبرة
+- أيام العمل: جميع الأيام
+- أوقات العمل: معظم ساعات الصباح
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+لا يحتوي المشروع على عنوان تجاري غير مؤكد أو فروع أو أسعار أو تقييمات أو شهادات غير موثقة.
 
-## Expanding the ESLint configuration
+## الخدمات
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+الخدمات المعتمدة في المشروع:
+
+- تأسيس الكهرباء
+- التمديدات الكهربائية
+- تشطيب الكهرباء
+- تركيب نقاط الكهرباء
+- تركيب الإنارة
+- تركيب المفاتيح والأفياش
+- إصلاح الأعطال الكهربائية
+- أعمال الكهرباء المنزلية
+
+## التقنية
+
+- React 19
+- React Router 7
+- Vite 8
+- JavaScript / JSX
+- CSS
+- Neon PostgreSQL
+- Vercel
+
+## الهيكل الأساسي
+
+```text
+app/
+├── contact.jsx
+├── head.jsx
+├── home.jsx
+├── not-found.jsx
+├── root.jsx
+├── routes.js
+├── services.jsx
+└── services/
+    ├── electrical-finishing.jsx
+    ├── electrical-foundation.jsx
+    ├── electrical-wiring.jsx
+    └── lighting.jsx
+
+src/
+├── components/
+│   ├── Footer.jsx
+│   └── Header.jsx
+├── pages/
+│   ├── Contact.jsx
+│   ├── Home.jsx
+│   └── Services.jsx
+├── assets/
+├── entry.client.jsx
+├── index.css
+└── lib/
+    ├── db.js
+    └── seo.js
+
+api/
+└── reviews.js
+
+public/
+├── favicon.svg
+├── icons.svg
+├── robots.txt
+└── sitemap.xml
