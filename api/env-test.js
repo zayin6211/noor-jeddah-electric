@@ -2,30 +2,25 @@ export default async function handler() {
   const databaseUrl = globalThis.process?.env?.DATABASE_URL;
   const databaseUrlUnpooled = globalThis.process?.env?.DATABASE_URL_UNPOOLED;
 
-  let pooledHost = null;
-  let unpooledHost = null;
+  const getHost = (value) => {
+    if (!value) {
+      return null;
+    }
 
-  try {
-    pooledHost = databaseUrl ? new URL(databaseUrl).hostname : null;
-  } catch {
-    pooledHost = "invalid-url";
-  }
-
-  try {
-    unpooledHost = databaseUrlUnpooled
-      ? new URL(databaseUrlUnpooled).hostname
-      : null;
-  } catch {
-    unpooledHost = "invalid-url";
-  }
+    try {
+      return new URL(value).hostname;
+    } catch {
+      return "invalid-url";
+    }
+  };
 
   return new Response(
     JSON.stringify({
       ok: true,
       hasDatabaseUrl: Boolean(databaseUrl),
       hasDatabaseUrlUnpooled: Boolean(databaseUrlUnpooled),
-      pooledHost,
-      unpooledHost,
+      pooledHost: getHost(databaseUrl),
+      unpooledHost: getHost(databaseUrlUnpooled),
     }),
     {
       status: 200,
