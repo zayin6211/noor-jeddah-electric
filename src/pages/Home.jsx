@@ -468,7 +468,12 @@ function Home() {
                           onChange={() => setRating(value)}
                         />
 
-                        <span aria-hidden="true">
+                        <span
+                          aria-hidden="true"
+                          className={
+                            value <= rating ? 'is-filled' : ''
+                          }
+                        >
                           ★
                         </span>
 
