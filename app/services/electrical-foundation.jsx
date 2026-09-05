@@ -8,6 +8,7 @@ import {
 } from '../../src/lib/seo'
 
 import {
+  getRelatedServices,
   getServiceById,
 } from '../../src/lib/services'
 
@@ -15,6 +16,9 @@ const service =
   getServiceById(
     'electrical-foundation',
   )
+
+const relatedServices =
+  getRelatedServices(service)
 
 export const meta = () =>
   createPageMeta({
@@ -47,23 +51,18 @@ export default function ElectricalFoundation() {
         {
           name:
             'الرئيسية',
-
           path:
             '/',
         },
-
         {
           name:
             'خدمات الكهرباء',
-
           path:
             '/services',
         },
-
         {
           name:
             service.shortName,
-
           path:
             service.path,
         },
@@ -111,6 +110,37 @@ export default function ElectricalFoundation() {
 
       <section className="section">
         <div className="container service-detail">
+          <nav
+            className="breadcrumbs"
+            aria-label="مسار التنقل"
+          >
+            <ol>
+              <li>
+                <Link
+                  to="/"
+                  reloadDocument
+                >
+                  الرئيسية
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/services"
+                  reloadDocument
+                >
+                  خدمات الكهرباء
+                </Link>
+              </li>
+
+              <li>
+                <span aria-current="page">
+                  {service.shortName}
+                </span>
+              </li>
+            </ol>
+          </nav>
+
           <h2>
             {
               service.content
@@ -160,6 +190,90 @@ export default function ElectricalFoundation() {
               )
             }
           </div>
+
+          {relatedServices.length > 0 && (
+            <section
+              className="related-services"
+              aria-labelledby="related-services-heading"
+            >
+              <h2 id="related-services-heading">
+                خدمات كهربائية ذات صلة
+              </h2>
+
+              <div className="services-grid services-grid--large">
+                {relatedServices.map(
+                  (relatedService) => (
+                    <Link
+                      className="service-card"
+                      key={
+                        relatedService.id
+                      }
+                      to={
+                        relatedService.path
+                      }
+                      reloadDocument
+                      aria-label={`التعرف على ${relatedService.shortName}`}
+                    >
+                      <h3>
+                        {
+                          relatedService.shortName
+                        }
+                      </h3>
+
+                      <p>
+                        {
+                          relatedService.description
+                        }
+                      </p>
+
+                      <span
+                        className="text-link"
+                        aria-hidden="true"
+                      >
+                        تفاصيل الخدمة
+                        <span>
+                          ←
+                        </span>
+                      </span>
+                    </Link>
+                  ),
+                )}
+              </div>
+            </section>
+          )}
+
+          {service.content.faq?.length > 0 && (
+            <section
+              className="related-services"
+              aria-labelledby="faq-heading"
+            >
+              <h2 id="faq-heading">
+                الأسئلة الشائعة حول{' '}
+                {service.shortName}
+              </h2>
+
+              <div className="services-grid services-grid--large">
+                {service.content.faq.map(
+                  (item) => (
+                    <details
+                      className="service-card"
+                      key={
+                        item.question
+                      }
+                    >
+                      <summary>
+                        {item.question}
+                      </summary>
+
+                      <p>
+                        {item.answer}
+                      </p>
+                    </details>
+                  ),
+                )}
+              </div>
+            </section>
+          )}
 
           <div className="detail-cta">
             <h2>

@@ -1,13 +1,13 @@
 import { SERVICE_CATALOG } from './services'
 
-export const SITE_URL =
-  'https://noor-jeddah-electric.vercel.app'
-
 /**
  * =========================================================
  * BUSINESS IDENTITY
  * =========================================================
  */
+
+export const SITE_URL =
+  'https://noor-jeddah-electric.vercel.app'
 
 export const BUSINESS_NAME =
   'نور جدة للكهرباء'
@@ -226,7 +226,8 @@ export function createPageMeta({
 
       {
         property: 'og:image:alt',
-        content: BUSINESS_NAME,
+        content:
+          `${BUSINESS_NAME} - خدمات الكهرباء المنزلية في جدة`,
       },
 
       {
@@ -236,7 +237,8 @@ export function createPageMeta({
 
       {
         name: 'twitter:image:alt',
-        content: BUSINESS_NAME,
+        content:
+          `${BUSINESS_NAME} - خدمات الكهرباء المنزلية في جدة`,
       },
 
       {
@@ -285,7 +287,7 @@ export const websiteSchema = {
     absoluteUrl('/'),
 
   inLanguage:
-    'ar',
+    BUSINESS_LANGUAGE,
 
   publisher: {
     '@id':
@@ -316,7 +318,7 @@ export const businessSchema = {
     BUSINESS_NAME_EN,
 
   description:
-    'خدمات الكهرباء المنزلية وتشطيب الكهرباء للمنازل في جميع مناطق جدة.',
+    'خدمات الكهرباء المنزلية وتأسيس وتمديد وتشطيب الكهرباء للمنازل في جميع مناطق جدة.',
 
   telephone:
     BUSINESS_PHONE_INTERNATIONAL,
@@ -377,6 +379,9 @@ export function createServiceSchema({
     )
   }
 
+  const serviceUrl =
+    absoluteUrl(path)
+
   return {
     '@context':
       'https://schema.org',
@@ -385,7 +390,7 @@ export function createServiceSchema({
       'Service',
 
     '@id':
-      `${absoluteUrl(path)}#service`,
+      `${serviceUrl}#service`,
 
     name,
 
@@ -395,7 +400,7 @@ export function createServiceSchema({
       name,
 
     url:
-      absoluteUrl(path),
+      serviceUrl,
 
     provider: {
       '@type':
@@ -406,6 +411,12 @@ export function createServiceSchema({
 
       name:
         BUSINESS_NAME,
+
+      telephone:
+        BUSINESS_PHONE_INTERNATIONAL,
+
+      url:
+        absoluteUrl('/'),
     },
 
     areaServed: {
