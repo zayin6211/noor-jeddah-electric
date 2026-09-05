@@ -112,43 +112,68 @@ export default function ElectricalFoundation() {
       <section className="section">
         <div className="container service-detail">
           <h2>
-            {service.content.introduction.heading}
+            {
+              service.content
+                .introduction
+                .heading
+            }
           </h2>
 
           <p>
-            {service.content.introduction.text}
+            {
+              service.content
+                .introduction
+                .text
+            }
           </p>
 
           <h2>
-            {service.content.relatedHeading}
+            {
+              service.content
+                .relatedHeading
+            }
           </h2>
 
           <div className="services-grid services-grid--large">
-            {service.content.relatedItems.map(
-              (item) => (
-                <article
-                  className="service-card"
-                  key={item.title}
-                >
-                  <h3>
-                    {item.title}
-                  </h3>
+            {
+              service.content.relatedItems.map(
+                (item) => (
+                  <article
+                    className="service-card"
+                    key={
+                      item.title
+                    }
+                  >
+                    <h3>
+                      {
+                        item.title
+                      }
+                    </h3>
 
-                  <p>
-                    {item.description}
-                  </p>
-                </article>
-              ),
-            )}
+                    <p>
+                      {
+                        item.description
+                      }
+                    </p>
+                  </article>
+                ),
+              )
+            }
           </div>
 
           <div className="detail-cta">
             <h2>
-              {service.content.ctaTitle}
+              {
+                service.content
+                  .ctaTitle
+              }
             </h2>
 
             <p>
-              {service.content.ctaText}
+              {
+                service.content
+                  .ctaText
+              }
             </p>
 
             <div className="cta-actions">
@@ -163,6 +188,7 @@ export default function ElectricalFoundation() {
               <Link
                 className="button button-secondary"
                 to="/services"
+                reloadDocument
               >
                 جميع الخدمات
               </Link>

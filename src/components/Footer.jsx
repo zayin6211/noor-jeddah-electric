@@ -7,40 +7,59 @@ import {
 } from '../lib/seo'
 
 function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear =
+    new Date().getFullYear()
 
   return (
     <footer className="site-footer">
       <div className="container footer-grid">
         <div>
-          <h2>{BUSINESS_NAME}</h2>
+          <h2>
+            {BUSINESS_NAME}
+          </h2>
 
           <p>
-            كهربائي منازل في جدة يقدم أعمال تأسيس وتمديد وتشطيب
-            الكهرباء للمنازل في جميع مناطق جدة.
+            كهربائي منازل في جدة يقدم أعمال
+            تأسيس وتمديد وتشطيب الكهرباء
+            للمنازل في جميع مناطق جدة.
           </p>
         </div>
 
         <div>
-          <h2>روابط الموقع</h2>
+          <h2>
+            روابط الموقع
+          </h2>
 
-          <nav aria-label="روابط الموقع">
-            <Link to="/">
+          <nav
+            aria-label="روابط الموقع"
+          >
+            <Link
+              to="/"
+              reloadDocument
+            >
               الرئيسية
             </Link>
 
-            <Link to="/services">
+            <Link
+              to="/services"
+              reloadDocument
+            >
               خدمات الكهرباء
             </Link>
 
-            <Link to="/contact">
+            <Link
+              to="/contact"
+              reloadDocument
+            >
               التواصل مع كهربائي في جدة
             </Link>
           </nav>
         </div>
 
         <div>
-          <h2>تواصل مباشر</h2>
+          <h2>
+            تواصل مباشر
+          </h2>
 
           <a
             href={`tel:${BUSINESS_PHONE}`}
@@ -60,7 +79,8 @@ function Footer() {
 
       <div className="container footer-bottom">
         <p>
-          © {currentYear} {BUSINESS_NAME}. جميع الحقوق محفوظة.
+          © {currentYear} {BUSINESS_NAME}.
+          جميع الحقوق محفوظة.
         </p>
       </div>
     </footer>

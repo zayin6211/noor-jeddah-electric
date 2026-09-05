@@ -1,4 +1,3 @@
-import { Link, NavLink } from 'react-router'
 import {
   BUSINESS_NAME,
   BUSINESS_PHONE,
@@ -9,36 +8,44 @@ function Header() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <Link
+        <a
           className="brand"
-          to="/"
+          href="/"
           aria-label={`${BUSINESS_NAME} - الصفحة الرئيسية`}
         >
-          <span className="brand-mark" aria-hidden="true">
+          <span
+            className="brand-mark"
+            aria-hidden="true"
+          >
             ن
           </span>
 
           <span>
-            <strong>{BUSINESS_NAME}</strong>
-            <small>كهربائي منازل في جدة</small>
+            <strong>
+              {BUSINESS_NAME}
+            </strong>
+
+            <small>
+              كهربائي منازل في جدة
+            </small>
           </span>
-        </Link>
+        </a>
 
         <nav
           className="main-nav"
           aria-label="التنقل الرئيسي"
         >
-          <NavLink to="/" end>
+          <a href="/">
             الرئيسية
-          </NavLink>
+          </a>
 
-          <NavLink to="/services">
+          <a href="/services">
             الخدمات
-          </NavLink>
+          </a>
 
-          <NavLink to="/contact">
+          <a href="/contact">
             التواصل
-          </NavLink>
+          </a>
         </nav>
 
         <div className="header-actions">

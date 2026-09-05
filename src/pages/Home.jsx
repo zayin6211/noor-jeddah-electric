@@ -58,7 +58,8 @@ const gallery = [
 ]
 
 function normalizeRating(value) {
-  const numericRating = Number(value)
+  const numericRating =
+    Number(value)
 
   if (!Number.isFinite(numericRating)) {
     return 0
@@ -73,7 +74,9 @@ function normalizeRating(value) {
   )
 }
 
-function StarRating({ rating }) {
+function StarRating({
+  rating,
+}) {
   const normalizedRating =
     normalizeRating(rating)
 
@@ -109,29 +112,50 @@ function StarRating({ rating }) {
 }
 
 function Home() {
-  const [reviews, setReviews] = useState([])
-  const [reviewsLoading, setReviewsLoading] =
-    useState(true)
-  const [reviewsError, setReviewsError] =
-    useState('')
+  const [reviews, setReviews] =
+    useState([])
+
+  const [
+    reviewsLoading,
+    setReviewsLoading,
+  ] = useState(true)
+
+  const [
+    reviewsError,
+    setReviewsError,
+  ] = useState('')
 
   const [name, setName] =
     useState('')
+
   const [rating, setRating] =
     useState(5)
-  const [hoverRating, setHoverRating] =
-    useState(0)
+
+  const [
+    hoverRating,
+    setHoverRating,
+  ] = useState(0)
+
   const [comment, setComment] =
     useState('')
+
   const [website, setWebsite] =
     useState('')
 
-  const [submitLoading, setSubmitLoading] =
-    useState(false)
-  const [submitMessage, setSubmitMessage] =
-    useState('')
-  const [submitError, setSubmitError] =
-    useState('')
+  const [
+    submitLoading,
+    setSubmitLoading,
+  ] = useState(false)
+
+  const [
+    submitMessage,
+    setSubmitMessage,
+  ] = useState('')
+
+  const [
+    submitError,
+    setSubmitError,
+  ] = useState('')
 
   useEffect(() => {
     let cancelled = false
@@ -139,7 +163,9 @@ function Home() {
     async function loadReviews() {
       try {
         const response =
-          await fetch('/api/reviews')
+          await fetch(
+            '/api/reviews',
+          )
 
         if (!response.ok) {
           throw new Error(
@@ -167,7 +193,9 @@ function Home() {
         }
       } finally {
         if (!cancelled) {
-          setReviewsLoading(false)
+          setReviewsLoading(
+            false,
+          )
         }
       }
     }
@@ -383,7 +411,10 @@ function Home() {
 
           <div className="services-grid services-grid--large">
             {SERVICES.map(
-              (service, index) => (
+              (
+                service,
+                index,
+              ) => (
                 <article
                   className="service-card"
                   key={service.path}
@@ -408,9 +439,13 @@ function Home() {
                   <Link
                     className="text-link"
                     to={service.path}
+                    reloadDocument
                   >
                     تفاصيل الخدمة
-                    <span aria-hidden="true">
+
+                    <span
+                      aria-hidden="true"
+                    >
                       ←
                     </span>
                   </Link>
@@ -423,9 +458,13 @@ function Home() {
             <Link
               className="text-link"
               to="/services"
+              reloadDocument
             >
               عرض جميع خدمات الكهرباء
-              <span aria-hidden="true">
+
+              <span
+                aria-hidden="true"
+              >
                 ←
               </span>
             </Link>
@@ -513,7 +552,8 @@ function Home() {
                 >
                   {reviewsError}
                 </p>
-              ) : reviews.length === 0 ? (
+              ) : reviews.length ===
+                0 ? (
                 <p className="reviews-status">
                   لا توجد تقييمات منشورة حاليًا.
                 </p>
@@ -528,7 +568,9 @@ function Home() {
                         <div className="review-card-header">
                           <div>
                             <h4>
-                              {review.name}
+                              {
+                                review.name
+                              }
                             </h4>
 
                             <StarRating
@@ -540,7 +582,9 @@ function Home() {
                         </div>
 
                         <p>
-                          {review.comment}
+                          {
+                            review.comment
+                          }
                         </p>
                       </article>
                     ),
@@ -576,9 +620,12 @@ function Home() {
                     name="name"
                     type="text"
                     value={name}
-                    onChange={(event) =>
+                    onChange={(
+                      event,
+                    ) =>
                       setName(
-                        event.target.value,
+                        event.target
+                          .value,
                       )
                     }
                     maxLength={60}
@@ -595,14 +642,19 @@ function Home() {
                   <div
                     className="rating-options"
                     onMouseLeave={() =>
-                      setHoverRating(0)
+                      setHoverRating(
+                        0,
+                      )
                     }
                   >
                     {Array.from(
                       {
                         length: 5,
                       },
-                      (_, index) => {
+                      (
+                        _,
+                        index,
+                      ) => {
                         const value =
                           index + 1
 
@@ -641,7 +693,8 @@ function Home() {
                             }
                             aria-label={`اختيار ${value} من 5`}
                             aria-pressed={
-                              value === rating
+                              value ===
+                              rating
                             }
                           >
                             <span
@@ -666,9 +719,12 @@ function Home() {
                     id="review-comment"
                     name="comment"
                     value={comment}
-                    onChange={(event) =>
+                    onChange={(
+                      event,
+                    ) =>
                       setComment(
-                        event.target.value,
+                        event.target
+                          .value,
                       )
                     }
                     maxLength={500}
@@ -690,9 +746,12 @@ function Home() {
                     name="website"
                     type="text"
                     value={website}
-                    onChange={(event) =>
+                    onChange={(
+                      event,
+                    ) =>
                       setWebsite(
-                        event.target.value,
+                        event.target
+                          .value,
                       )
                     }
                     tabIndex={-1}
@@ -721,7 +780,9 @@ function Home() {
                 <button
                   className="button button-primary review-submit"
                   type="submit"
-                  disabled={submitLoading}
+                  disabled={
+                    submitLoading
+                  }
                 >
                   {submitLoading
                     ? 'جارٍ الإرسال...'

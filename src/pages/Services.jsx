@@ -45,41 +45,44 @@ function Services() {
           </div>
 
           <div className="services-grid services-grid--large">
-            {SERVICES.map((service) => (
-              <article
-                className="service-card service-card--detailed"
-                key={service.id}
-              >
-                <div
-                  className="service-number"
-                  aria-hidden="true"
+            {SERVICES.map(
+              (service) => (
+                <article
+                  className="service-card service-card--detailed"
+                  key={service.id}
                 >
-                  ✓
-                </div>
-
-                <h2>
-                  {service.name}
-                </h2>
-
-                <p>
-                  {service.description}
-                </p>
-
-                <Link
-                  className="text-link"
-                  to={service.path}
-                  aria-label={`تفاصيل ${service.shortName}`}
-                >
-                  تفاصيل {service.shortName}
-
-                  <span
+                  <div
+                    className="service-number"
                     aria-hidden="true"
                   >
-                    ←
-                  </span>
-                </Link>
-              </article>
-            ))}
+                    ✓
+                  </div>
+
+                  <h2>
+                    {service.name}
+                  </h2>
+
+                  <p>
+                    {service.description}
+                  </p>
+
+                  <Link
+                    className="text-link"
+                    to={service.path}
+                    aria-label={`تفاصيل ${service.shortName}`}
+                    reloadDocument
+                  >
+                    تفاصيل {service.shortName}
+
+                    <span
+                      aria-hidden="true"
+                    >
+                      ←
+                    </span>
+                  </Link>
+                </article>
+              ),
+            )}
           </div>
         </div>
       </section>
@@ -119,6 +122,7 @@ function Services() {
             <Link
               className="text-link"
               to="/contact"
+              reloadDocument
             >
               صفحة التواصل
             </Link>
