@@ -7,6 +7,13 @@ import {
 export default {
   ssr: false,
 
+  future: {
+    v8_middleware: true,
+    v8_splitRouteModules: true,
+    v8_passThroughRequests: true,
+    v8_trailingSlashAwareDataRequests: true,
+  },
+
   prerender: [
     '/',
     '/services',
@@ -18,6 +25,7 @@ export default {
     '/services/electrical-repair',
 
     '/neighborhoods',
+
     ...NEIGHBORHOOD_PATHS,
 
     '/contact',

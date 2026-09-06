@@ -1,5 +1,4 @@
 import {
-  access,
   mkdir,
   writeFile,
 } from 'node:fs/promises'
@@ -25,34 +24,47 @@ const BUILD_CLIENT =
 const STATIC_PATHS = [
   '/',
   '/services',
+
   '/services/electrical-foundation',
   '/services/electrical-wiring',
   '/services/electrical-finishing',
   '/services/lighting',
   '/services/electrical-repair',
+
   '/neighborhoods',
+
   ...NEIGHBORHOOD_PATHS,
+
   '/contact',
 ]
 
 const uniquePaths =
   [...new Set(STATIC_PATHS)]
 
-const lastmod =
-  new Date()
-    .toISOString()
-    .slice(0, 10)
+function escapeXml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;')
+}
+
+function toSitemapUrl(path) {
+  return encodeURI(
+    `${SITE_URL}${path}`,
+  )
+}
 
 const urls =
   uniquePaths
     .map((path) => {
       const loc =
-        `${SITE_URL}${path}`
+        toSitemapUrl(path)
 
       return [
         '  <url>',
-        `    <loc>${loc}</loc>`,
-        `    <lastmod>${lastmod}</lastmod>`,
+        `    <loc>${escapeXml(loc)}</loc>`,
         '  </url>',
       ].join('\n')
     })
@@ -65,8 +77,6 @@ const sitemap = [
   '</urlset>',
   '',
 ].join('\n')
-
-await access(BUILD_CLIENT)
 
 await mkdir(
   BUILD_CLIENT,
