@@ -7,12 +7,32 @@ import {
   join,
 } from 'node:path'
 
-import {
-  NEIGHBORHOOD_PATHS,
-} from '../src/lib/neighborhoods.js'
+const DEFAULT_SITE_URL =
+  'https://noor-jeddah-electric.vercel.app'
+
+function normalizeSiteUrl(value) {
+  const candidate =
+    typeof value === 'string' &&
+    value.trim()
+      ? value.trim()
+      : DEFAULT_SITE_URL
+
+  const withProtocol =
+    /^https?:\/\//i.test(candidate)
+      ? candidate
+      : `https://${candidate}`
+
+  return withProtocol.replace(
+    /\/+$/,
+    '',
+  )
+}
 
 const SITE_URL =
-  'https://noor-jeddah-electric.vercel.app'
+  normalizeSiteUrl(
+    process.env.VITE_SITE_URL ||
+      process.env.SITE_URL,
+  )
 
 const BUILD_CLIENT =
   join(
@@ -21,7 +41,7 @@ const BUILD_CLIENT =
     'client',
   )
 
-const STATIC_PATHS = [
+const INDEXABLE_PATHS = [
   '/',
   '/services',
 
@@ -33,21 +53,34 @@ const STATIC_PATHS = [
 
   '/neighborhoods',
 
-  ...NEIGHBORHOOD_PATHS,
-
   '/contact',
 ]
 
 const uniquePaths =
-  [...new Set(STATIC_PATHS)]
+  [...new Set(INDEXABLE_PATHS)]
 
 function escapeXml(value) {
   return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;')
+    .replaceAll(
+      '&',
+      '&amp;',
+    )
+    .replaceAll(
+      '<',
+      '&lt;',
+    )
+    .replaceAll(
+      '>',
+      '&gt;',
+    )
+    .replaceAll(
+      '"',
+      '&quot;',
+    )
+    .replaceAll(
+      "'",
+      '&apos;',
+    )
 }
 
 function toSitemapUrl(path) {
@@ -78,6 +111,15 @@ const sitemap = [
   '',
 ].join('\n')
 
+const robots = [
+  'User-agent: *',
+  'Allow: /',
+  'Disallow: /api/',
+  '',
+  `Sitemap: ${SITE_URL}/sitemap.xml`,
+  '',
+].join('\n')
+
 await mkdir(
   BUILD_CLIENT,
   {
@@ -94,6 +136,15 @@ await writeFile(
   'utf8',
 )
 
+await writeFile(
+  join(
+    BUILD_CLIENT,
+    'robots.txt',
+  ),
+  robots,
+  'utf8',
+)
+
 console.log(
-  `Generated sitemap.xml with ${uniquePaths.length} URLs.`,
+  `Generated sitemap.xml with ${uniquePaths.length} indexable URLs for ${SITE_URL}.`,
 )

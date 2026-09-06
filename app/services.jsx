@@ -1,6 +1,7 @@
 import Services from '../src/pages/Services'
 
 import {
+  createBreadcrumbSchema,
   createPageMeta,
 } from '../src/lib/seo'
 
@@ -20,5 +21,33 @@ export const meta = () =>
   })
 
 export default function ServicesRoute() {
-  return <Services />
+  const breadcrumbSchema =
+    createBreadcrumbSchema({
+      items: [
+        {
+          name: 'الرئيسية',
+          path: '/',
+        },
+        {
+          name: 'خدمات الكهرباء',
+          path: '/services',
+        },
+      ],
+    })
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html:
+            JSON.stringify(
+              breadcrumbSchema,
+            ),
+        }}
+      />
+
+      <Services />
+    </>
+  )
 }

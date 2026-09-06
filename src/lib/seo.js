@@ -1,13 +1,23 @@
 import { SERVICE_CATALOG } from './services'
 
-/**
- * =========================================================
- * BUSINESS IDENTITY
- * =========================================================
- */
+function normalizeSiteUrl(value) {
+  const fallback = 'https://noor-jeddah-electric.vercel.app'
 
-export const SITE_URL =
-  'https://noor-jeddah-electric.vercel.app'
+  if (typeof value !== 'string' || !value.trim()) {
+    return fallback
+  }
+
+  const trimmed = value.trim()
+  const withProtocol = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : `https://${trimmed}`
+
+  return withProtocol.replace(/\/+$/, '')
+}
+
+export const SITE_URL = normalizeSiteUrl(
+  import.meta.env?.VITE_SITE_URL,
+)
 
 export const BUSINESS_NAME =
   'نور جدة للكهرباء'
@@ -57,13 +67,8 @@ export const BUSINESS_LANGUAGE =
 export const BUSINESS_DIRECTION =
   'rtl'
 
-/**
- * =========================================================
- * SEO CONFIGURATION
- * =========================================================
- */
-
 export const GOOGLE_SITE_VERIFICATION =
+  import.meta.env?.VITE_GOOGLE_SITE_VERIFICATION ||
   'P1R0C4WNtdGsXOhpf6SD9Rxoeuf2wIWgE8mpPcPbb-4'
 
 export const DEFAULT_ROBOTS =
@@ -75,12 +80,6 @@ export const DEFAULT_SOCIAL_IMAGE =
 export const NOINDEX_ROBOTS =
   'noindex, follow'
 
-/**
- * =========================================================
- * SERVICE PATHS
- * =========================================================
- */
-
 export const SERVICE_PATHS =
   Object.fromEntries(
     SERVICE_CATALOG.map((service) => [
@@ -91,12 +90,6 @@ export const SERVICE_PATHS =
 
 export const SERVICES =
   SERVICE_CATALOG
-
-/**
- * =========================================================
- * URL HELPERS
- * =========================================================
- */
 
 export function absoluteUrl(path = '/') {
   if (
@@ -115,18 +108,13 @@ export function absoluteUrl(path = '/') {
   return `${SITE_URL}${normalizedPath}`
 }
 
-/**
- * =========================================================
- * PAGE SEO
- * =========================================================
- */
-
 export function createPageMeta({
   title,
   description,
   path = '/',
   image = DEFAULT_SOCIAL_IMAGE,
   indexable = true,
+  type = 'website',
 }) {
   if (!title || !description) {
     throw new Error(
@@ -136,6 +124,13 @@ export function createPageMeta({
 
   const canonicalUrl =
     absoluteUrl(path)
+
+  const isNeighborhoodDetail =
+    typeof path === 'string' &&
+    /^\/neighborhoods\/[^/]+$/.test(path)
+
+  const effectiveIndexable =
+    indexable && !isNeighborhoodDetail
 
   const descriptors = [
     {
@@ -149,7 +144,7 @@ export function createPageMeta({
 
     {
       name: 'robots',
-      content: indexable
+      content: effectiveIndexable
         ? DEFAULT_ROBOTS
         : NOINDEX_ROBOTS,
     },
@@ -162,7 +157,7 @@ export function createPageMeta({
 
     {
       property: 'og:type',
-      content: 'website',
+      content: type,
     },
 
     {
@@ -255,108 +250,58 @@ export function createPageMeta({
   return descriptors
 }
 
-/**
- * =========================================================
- * WEBSITE STRUCTURED DATA
- * =========================================================
- */
-
 export const websiteSchema = {
-  '@context':
-    'https://schema.org',
-
-  '@type':
-    'WebSite',
-
-  '@id':
-    `${SITE_URL}/#website`,
-
-  name:
-    BUSINESS_NAME,
-
-  alternateName:
-    BUSINESS_NAME_EN,
-
-  url:
-    absoluteUrl('/'),
-
-  inLanguage:
-    BUSINESS_LANGUAGE,
-
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  name: BUSINESS_NAME,
+  alternateName: BUSINESS_NAME_EN,
+  url: absoluteUrl('/'),
+  inLanguage: BUSINESS_LANGUAGE,
   publisher: {
-    '@id':
-      `${SITE_URL}/#business`,
+    '@id': `${SITE_URL}/#business`,
   },
 }
 
-/**
- * =========================================================
- * BUSINESS STRUCTURED DATA
- * =========================================================
- */
-
 export const businessSchema = {
-  '@context':
-    'https://schema.org',
-
-  '@type':
-    'Electrician',
-
-  '@id':
-    `${SITE_URL}/#business`,
-
-  name:
-    BUSINESS_NAME,
-
-  alternateName:
-    BUSINESS_NAME_EN,
-
+  '@context': 'https://schema.org',
+  '@type': 'Electrician',
+  '@id': `${SITE_URL}/#business`,
+  name: BUSINESS_NAME,
+  alternateName: BUSINESS_NAME_EN,
   description:
-    'خدمات الكهرباء المنزلية وتأسيس وتمديد وتشطيب الكهرباء للمنازل في جميع مناطق جدة.',
-
-  telephone:
-    BUSINESS_PHONE_INTERNATIONAL,
-
-  url:
-    absoluteUrl('/'),
-
-  image:
-    absoluteUrl(DEFAULT_SOCIAL_IMAGE),
+    'خدمات الكهرباء المنزلية وتأسيس وتمديد وتشطيب الكهرباء للمنازل في جدة.',
+  telephone: BUSINESS_PHONE_INTERNATIONAL,
+  url: absoluteUrl('/'),
+  image: absoluteUrl(DEFAULT_SOCIAL_IMAGE),
 
   areaServed: {
-    '@type':
-      'City',
-
-    name:
-      BUSINESS_CITY,
+    '@type': 'City',
+    name: BUSINESS_CITY,
+    containedInPlace: {
+      '@type': 'AdministrativeArea',
+      name: BUSINESS_REGION,
+      containedInPlace: {
+        '@type': 'Country',
+        name: 'المملكة العربية السعودية',
+        identifier: BUSINESS_COUNTRY,
+      },
+    },
   },
 
   serviceType:
     SERVICE_CATALOG.map(
-      (service) =>
-        service.name,
+      (service) => service.name,
     ),
 
   contactPoint: {
-    '@type':
-      'ContactPoint',
-
-    telephone:
-      BUSINESS_PHONE_INTERNATIONAL,
-
-    contactType:
-      'customer service',
-
-    availableLanguage:
-      ['ar'],
+    '@type': 'ContactPoint',
+    telephone: BUSINESS_PHONE_INTERNATIONAL,
+    contactType: 'customer service',
+    areaServed: BUSINESS_CITY,
+    availableLanguage: ['ar'],
   },
 }
-
-/**
- * =========================================================
- * SERVICE STRUCTURED DATA
- * =========================================================
- */
 
 export function createServiceSchema({
   name,
@@ -377,57 +322,29 @@ export function createServiceSchema({
     absoluteUrl(path)
 
   return {
-    '@context':
-      'https://schema.org',
-
-    '@type':
-      'Service',
-
-    '@id':
-      `${serviceUrl}#service`,
-
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${serviceUrl}#service`,
     name,
-
     description,
-
-    serviceType:
-      name,
-
-    url:
-      serviceUrl,
+    serviceType: name,
+    url: serviceUrl,
+    mainEntityOfPage: serviceUrl,
 
     provider: {
-      '@type':
-        'Electrician',
-
-      '@id':
-        `${SITE_URL}/#business`,
-
-      name:
-        BUSINESS_NAME,
-
-      telephone:
-        BUSINESS_PHONE_INTERNATIONAL,
-
-      url:
-        absoluteUrl('/'),
+      '@type': 'Electrician',
+      '@id': `${SITE_URL}/#business`,
+      name: BUSINESS_NAME,
+      telephone: BUSINESS_PHONE_INTERNATIONAL,
+      url: absoluteUrl('/'),
     },
 
     areaServed: {
-      '@type':
-        'City',
-
-      name:
-        BUSINESS_CITY,
+      '@type': 'City',
+      name: BUSINESS_CITY,
     },
   }
 }
-
-/**
- * =========================================================
- * BREADCRUMB STRUCTURED DATA
- * =========================================================
- */
 
 export function createBreadcrumbSchema({
   items,
@@ -442,28 +359,16 @@ export function createBreadcrumbSchema({
   }
 
   return {
-    '@context':
-      'https://schema.org',
-
-    '@type':
-      'BreadcrumbList',
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
 
     itemListElement:
       items.map(
         (item, index) => ({
-          '@type':
-            'ListItem',
-
-          position:
-            index + 1,
-
-          name:
-            item.name,
-
-          item:
-            absoluteUrl(
-              item.path,
-            ),
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          item: absoluteUrl(item.path),
         }),
       ),
   }

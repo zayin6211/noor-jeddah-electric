@@ -1,45 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <url>
-    <loc>https://noor-jeddah-electric.vercel.app/</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-
-  <url>
-    <loc>https://noor-jeddah-electric.vercel.app/services</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-
-  <url>
-    <loc>https://noor-jeddah-electric.vercel.app/services/electrical-foundation</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-
-  <url>
-    <loc>https://noor-jeddah-electric.vercel.app/services/electrical-wiring</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-
-  <url>
-    <loc>https://noor-jeddah-electric.vercel.app/services/electrical-finishing</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-
-  <url>
-    <loc>https://noor-jeddah-electric.vercel.app/services/lighting</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-
-  <url>
-    <loc>https://noor-jeddah-electric.vercel.app/services/electrical-repair</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-
-  <url>
-    <loc>https://noor-jeddah-electric.vercel.app/contact</loc>
-    <lastmod>2026-09-05</lastmod>
-  </url>
-
+  <url><loc>https://noor-jeddah-electric.vercel.app/</loc></url>
+  <url><loc>https://noor-jeddah-electric.vercel.app/services</loc></url>
+  <url><loc>https://noor-jeddah-electric.vercel.app/services/electrical-foundation</loc></url>
+  <url><loc>https://noor-jeddah-electric.vercel.app/services/electrical-wiring</loc></url>
+  <url><loc>https://noor-jeddah-electric.vercel.app/services/electrical-finishing</loc></url>
+  <url><loc>https://noor-jeddah-electric.vercel.app/services/lighting</loc></url>
+  <url><loc>https://noor-jeddah-electric.vercel.app/services/electrical-repair</loc></url>
+  <url><loc>https://noor-jeddah-electric.vercel.app/neighborhoods</loc></url>
+  <url><loc>https://noor-jeddah-electric.vercel.app/contact</loc></url>
 </urlset>
