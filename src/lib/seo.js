@@ -1,23 +1,27 @@
 import { SERVICE_CATALOG } from './services'
 
+const DEFAULT_SITE_URL =
+  'https://noor-jeddah-electric.vercel.app'
+
 function normalizeSiteUrl(value) {
-  const fallback = 'https://noor-jeddah-electric.vercel.app'
+  const candidate =
+    typeof value === 'string' &&
+    value.trim()
+      ? value.trim()
+      : DEFAULT_SITE_URL
 
-  if (typeof value !== 'string' || !value.trim()) {
-    return fallback
-  }
-
-  const trimmed = value.trim()
-  const withProtocol = /^https?:\/\//i.test(trimmed)
-    ? trimmed
-    : `https://${trimmed}`
+  const withProtocol =
+    /^https?:\/\//i.test(candidate)
+      ? candidate
+      : `https://${candidate}`
 
   return withProtocol.replace(/\/+$/, '')
 }
 
-export const SITE_URL = normalizeSiteUrl(
-  import.meta.env?.VITE_SITE_URL,
-)
+export const SITE_URL =
+  normalizeSiteUrl(
+    import.meta.env?.VITE_SITE_URL,
+  )
 
 export const BUSINESS_NAME =
   'نور جدة للكهرباء'
@@ -28,9 +32,6 @@ export const BUSINESS_NAME_EN =
 export const BUSINESS_PERSON =
   'علي'
 
-export const BUSINESS_TYPE =
-  'Independent Residential Electrician'
-
 export const BUSINESS_PHONE =
   '0546856974'
 
@@ -40,9 +41,6 @@ export const BUSINESS_PHONE_INTERNATIONAL =
 export const WHATSAPP_URL =
   'https://wa.me/966546856974'
 
-export const BUSINESS_SERVICE_AREA =
-  'جميع مناطق جدة'
-
 export const BUSINESS_CITY =
   'جدة'
 
@@ -51,6 +49,9 @@ export const BUSINESS_REGION =
 
 export const BUSINESS_COUNTRY =
   'SA'
+
+export const BUSINESS_SERVICE_AREA =
+  'جميع مناطق جدة'
 
 export const BUSINESS_EXPERIENCE =
   '15+ عامًا من الخبرة'
@@ -74,18 +75,20 @@ export const GOOGLE_SITE_VERIFICATION =
 export const DEFAULT_ROBOTS =
   'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 
-export const DEFAULT_SOCIAL_IMAGE =
-  '/og-image.webp'
-
 export const NOINDEX_ROBOTS =
   'noindex, follow'
 
+export const DEFAULT_SOCIAL_IMAGE =
+  '/og-image.webp'
+
 export const SERVICE_PATHS =
   Object.fromEntries(
-    SERVICE_CATALOG.map((service) => [
-      service.id,
-      service.path,
-    ]),
+    SERVICE_CATALOG.map(
+      (service) => [
+        service.id,
+        service.path,
+      ],
+    ),
   )
 
 export const SERVICES =
@@ -116,21 +119,32 @@ export function createPageMeta({
   indexable = true,
   type = 'website',
 }) {
-  if (!title || !description) {
+  if (
+    typeof title !== 'string' ||
+    !title.trim()
+  ) {
     throw new Error(
-      'createPageMeta requires both title and description.',
+      'createPageMeta requires a non-empty title.',
+    )
+  }
+
+  if (
+    typeof description !== 'string' ||
+    !description.trim()
+  ) {
+    throw new Error(
+      'createPageMeta requires a non-empty description.',
     )
   }
 
   const canonicalUrl =
     absoluteUrl(path)
 
-  const isNeighborhoodDetail =
-    typeof path === 'string' &&
-    /^\/neighborhoods\/[^/]+$/.test(path)
-
   const effectiveIndexable =
-    indexable && !isNeighborhoodDetail
+    indexable &&
+    !/^\/neighborhoods\/[^/]+$/i.test(
+      path,
+    )
 
   const descriptors = [
     {
@@ -147,6 +161,12 @@ export function createPageMeta({
       content: effectiveIndexable
         ? DEFAULT_ROBOTS
         : NOINDEX_ROBOTS,
+    },
+
+    {
+      name: 'google-site-verification',
+      content:
+        GOOGLE_SITE_VERIFICATION,
     },
 
     {
@@ -220,17 +240,6 @@ export function createPageMeta({
       },
 
       {
-        name: 'twitter:image',
-        content: imageUrl,
-      },
-
-      {
-        name: 'twitter:image:alt',
-        content:
-          `${BUSINESS_NAME} - خدمات الكهرباء المنزلية في جدة`,
-      },
-
-      {
         property: 'og:image:width',
         content: '1024',
       },
@@ -244,6 +253,17 @@ export function createPageMeta({
         property: 'og:image:type',
         content: 'image/webp',
       },
+
+      {
+        name: 'twitter:image',
+        content: imageUrl,
+      },
+
+      {
+        name: 'twitter:image:alt',
+        content:
+          `${BUSINESS_NAME} - خدمات الكهرباء المنزلية في جدة`,
+      },
     )
   }
 
@@ -251,55 +271,98 @@ export function createPageMeta({
 }
 
 export const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  '@id': `${SITE_URL}/#website`,
-  name: BUSINESS_NAME,
-  alternateName: BUSINESS_NAME_EN,
-  url: absoluteUrl('/'),
-  inLanguage: BUSINESS_LANGUAGE,
+  '@context':
+    'https://schema.org',
+
+  '@type':
+    'WebSite',
+
+  '@id':
+    `${SITE_URL}/#website`,
+
+  name:
+    BUSINESS_NAME,
+
+  alternateName:
+    BUSINESS_NAME_EN,
+
+  url:
+    absoluteUrl('/'),
+
+  inLanguage:
+    BUSINESS_LANGUAGE,
+
   publisher: {
-    '@id': `${SITE_URL}/#business`,
+    '@id':
+      `${SITE_URL}/#business`,
   },
 }
 
 export const businessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Electrician',
-  '@id': `${SITE_URL}/#business`,
-  name: BUSINESS_NAME,
-  alternateName: BUSINESS_NAME_EN,
+  '@context':
+    'https://schema.org',
+
+  '@type':
+    'Electrician',
+
+  '@id':
+    `${SITE_URL}/#business`,
+
+  name:
+    BUSINESS_NAME,
+
+  alternateName:
+    BUSINESS_NAME_EN,
+
   description:
-    'خدمات الكهرباء المنزلية وتأسيس وتمديد وتشطيب الكهرباء للمنازل في جدة.',
-  telephone: BUSINESS_PHONE_INTERNATIONAL,
-  url: absoluteUrl('/'),
-  image: absoluteUrl(DEFAULT_SOCIAL_IMAGE),
+    'خدمات الكهرباء المنزلية وتأسيس وتمديد وتشطيب الكهرباء للمنازل في جميع مناطق جدة.',
+
+  telephone:
+    BUSINESS_PHONE_INTERNATIONAL,
+
+  url:
+    absoluteUrl('/'),
+
+  image:
+    absoluteUrl(DEFAULT_SOCIAL_IMAGE),
 
   areaServed: {
-    '@type': 'City',
-    name: BUSINESS_CITY,
+    '@type':
+      'City',
+
+    name:
+      BUSINESS_CITY,
+
     containedInPlace: {
-      '@type': 'AdministrativeArea',
-      name: BUSINESS_REGION,
-      containedInPlace: {
-        '@type': 'Country',
-        name: 'المملكة العربية السعودية',
-        identifier: BUSINESS_COUNTRY,
-      },
+      '@type':
+        'AdministrativeArea',
+
+      name:
+        BUSINESS_REGION,
     },
   },
 
   serviceType:
     SERVICE_CATALOG.map(
-      (service) => service.name,
+      (service) =>
+        service.name,
     ),
 
   contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: BUSINESS_PHONE_INTERNATIONAL,
-    contactType: 'customer service',
-    areaServed: BUSINESS_CITY,
-    availableLanguage: ['ar'],
+    '@type':
+      'ContactPoint',
+
+    telephone:
+      BUSINESS_PHONE_INTERNATIONAL,
+
+    contactType:
+      'customer service',
+
+    areaServed:
+      BUSINESS_CITY,
+
+    availableLanguage:
+      ['ar'],
   },
 }
 
@@ -322,26 +385,51 @@ export function createServiceSchema({
     absoluteUrl(path)
 
   return {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    '@id': `${serviceUrl}#service`,
+    '@context':
+      'https://schema.org',
+
+    '@type':
+      'Service',
+
+    '@id':
+      `${serviceUrl}#service`,
+
     name,
+
     description,
-    serviceType: name,
-    url: serviceUrl,
-    mainEntityOfPage: serviceUrl,
+
+    serviceType:
+      name,
+
+    url:
+      serviceUrl,
+
+    mainEntityOfPage:
+      serviceUrl,
 
     provider: {
-      '@type': 'Electrician',
-      '@id': `${SITE_URL}/#business`,
-      name: BUSINESS_NAME,
-      telephone: BUSINESS_PHONE_INTERNATIONAL,
-      url: absoluteUrl('/'),
+      '@type':
+        'Electrician',
+
+      '@id':
+        `${SITE_URL}/#business`,
+
+      name:
+        BUSINESS_NAME,
+
+      telephone:
+        BUSINESS_PHONE_INTERNATIONAL,
+
+      url:
+        absoluteUrl('/'),
     },
 
     areaServed: {
-      '@type': 'City',
-      name: BUSINESS_CITY,
+      '@type':
+        'City',
+
+      name:
+        BUSINESS_CITY,
     },
   }
 }
@@ -359,16 +447,28 @@ export function createBreadcrumbSchema({
   }
 
   return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    '@context':
+      'https://schema.org',
+
+    '@type':
+      'BreadcrumbList',
 
     itemListElement:
       items.map(
         (item, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          name: item.name,
-          item: absoluteUrl(item.path),
+          '@type':
+            'ListItem',
+
+          position:
+            index + 1,
+
+          name:
+            item.name,
+
+          item:
+            absoluteUrl(
+              item.path,
+            ),
         }),
       ),
   }

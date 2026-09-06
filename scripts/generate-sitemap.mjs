@@ -56,9 +56,6 @@ const INDEXABLE_PATHS = [
   '/contact',
 ]
 
-const uniquePaths =
-  [...new Set(INDEXABLE_PATHS)]
-
 function escapeXml(value) {
   return value
     .replaceAll(
@@ -90,35 +87,28 @@ function toSitemapUrl(path) {
 }
 
 const urls =
-  uniquePaths
-    .map((path) => {
-      const loc =
-        toSitemapUrl(path)
+  INDEXABLE_PATHS
+    .map(
+      (path) => `
+  <url>
+    <loc>${escapeXml(
+      toSitemapUrl(path),
+    )}</loc>
+  </url>`,
+    )
+    .join('')
 
-      return [
-        '  <url>',
-        `    <loc>${escapeXml(loc)}</loc>`,
-        '  </url>',
-      ].join('\n')
-    })
-    .join('\n')
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}
+</urlset>
+`
 
-const sitemap = [
-  '<?xml version="1.0" encoding="UTF-8"?>',
-  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-  urls,
-  '</urlset>',
-  '',
-].join('\n')
+const robots = `User-agent: *
+Allow: /
+Disallow: /api/
 
-const robots = [
-  'User-agent: *',
-  'Allow: /',
-  'Disallow: /api/',
-  '',
-  `Sitemap: ${SITE_URL}/sitemap.xml`,
-  '',
-].join('\n')
+Sitemap: ${SITE_URL}/sitemap.xml
+`
 
 await mkdir(
   BUILD_CLIENT,
@@ -146,5 +136,5 @@ await writeFile(
 )
 
 console.log(
-  `Generated sitemap.xml with ${uniquePaths.length} indexable URLs for ${SITE_URL}.`,
+  `Generated sitemap.xml with ${INDEXABLE_PATHS.length} indexable URLs for ${SITE_URL}.`,
 )
