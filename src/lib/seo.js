@@ -15,7 +15,10 @@ function normalizeSiteUrl(value) {
       ? candidate
       : `https://${candidate}`
 
-  return withProtocol.replace(/\/+$/, '')
+  return withProtocol.replace(
+    /\/+$/,
+    '',
+  )
 }
 
 export const SITE_URL =
@@ -68,15 +71,24 @@ export const BUSINESS_LANGUAGE =
 export const BUSINESS_DIRECTION =
   'rtl'
 
+/*
+ * Google Search Console verification is intentionally
+ * controlled by an environment variable.
+ *
+ * Do not hard-code a verification token in source code.
+ */
 export const GOOGLE_SITE_VERIFICATION =
-  import.meta.env?.VITE_GOOGLE_SITE_VERIFICATION ||
-  'P1R0C4WNtdGsXOhpf6SD9Rxoeuf2wIWgE8mpPcPbb-4'
+  typeof import.meta.env
+    ?.VITE_GOOGLE_SITE_VERIFICATION ===
+    'string'
+    ? import.meta.env.VITE_GOOGLE_SITE_VERIFICATION.trim()
+    : ''
 
 export const DEFAULT_ROBOTS =
   'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 
 export const NOINDEX_ROBOTS =
-  'noindex, follow'
+  'noindex, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 
 export const DEFAULT_SOCIAL_IMAGE =
   '/og-image.webp'
@@ -104,11 +116,41 @@ export function absoluteUrl(path = '/') {
 
   const normalizedPath =
     typeof path === 'string' &&
-    path.startsWith('/')
-      ? path
-      : `/${path}`
+    path.trim()
+      ? path.trim()
+      : '/'
 
-  return `${SITE_URL}${normalizedPath}`
+  const pathWithLeadingSlash =
+    normalizedPath.startsWith('/')
+      ? normalizedPath
+      : `/${normalizedPath}`
+
+  return `${SITE_URL}${pathWithLeadingSlash}`
+}
+
+function normalizeMetaText(value) {
+  return typeof value === 'string'
+    ? value.trim()
+    : ''
+}
+
+function normalizePath(value) {
+  const path =
+    typeof value === 'string' &&
+    value.trim()
+      ? value.trim()
+      : '/'
+
+  return path.startsWith('/')
+    ? path
+    : `/${path}`
+}
+
+function isValidImageValue(value) {
+  return (
+    typeof value === 'string' &&
+    value.trim().length > 0
+  )
 }
 
 export function createPageMeta({
@@ -119,54 +161,59 @@ export function createPageMeta({
   indexable = true,
   type = 'website',
 }) {
-  if (
-    typeof title !== 'string' ||
-    !title.trim()
-  ) {
+  const normalizedTitle =
+    normalizeMetaText(title)
+
+  const normalizedDescription =
+    normalizeMetaText(description)
+
+  const normalizedPath =
+    normalizePath(path)
+
+  if (!normalizedTitle) {
     throw new Error(
       'createPageMeta requires a non-empty title.',
     )
   }
 
-  if (
-    typeof description !== 'string' ||
-    !description.trim()
-  ) {
+  if (!normalizedDescription) {
     throw new Error(
       'createPageMeta requires a non-empty description.',
     )
   }
 
-  const canonicalUrl =
-    absoluteUrl(path)
-
-  const effectiveIndexable =
-    indexable &&
-    !/^\/neighborhoods\/[^/]+$/i.test(
-      path,
+  if (
+    typeof indexable !== 'boolean'
+  ) {
+    throw new Error(
+      'createPageMeta requires indexable to be a boolean.',
     )
+  }
+
+  const canonicalUrl =
+    absoluteUrl(normalizedPath)
+
+  const normalizedImage =
+    isValidImageValue(image)
+      ? image.trim()
+      : ''
 
   const descriptors = [
     {
-      title,
+      title: normalizedTitle,
     },
 
     {
       name: 'description',
-      content: description,
+      content: normalizedDescription,
     },
 
     {
       name: 'robots',
-      content: effectiveIndexable
-        ? DEFAULT_ROBOTS
-        : NOINDEX_ROBOTS,
-    },
-
-    {
-      name: 'google-site-verification',
       content:
-        GOOGLE_SITE_VERIFICATION,
+        indexable
+          ? DEFAULT_ROBOTS
+          : NOINDEX_ROBOTS,
     },
 
     {
@@ -177,7 +224,11 @@ export function createPageMeta({
 
     {
       property: 'og:type',
-      content: type,
+      content:
+        typeof type === 'string' &&
+        type.trim()
+          ? type.trim()
+          : 'website',
     },
 
     {
@@ -192,12 +243,12 @@ export function createPageMeta({
 
     {
       property: 'og:title',
-      content: title,
+      content: normalizedTitle,
     },
 
     {
       property: 'og:description',
-      content: description,
+      content: normalizedDescription,
     },
 
     {
@@ -207,29 +258,35 @@ export function createPageMeta({
 
     {
       name: 'twitter:card',
-      content: image
-        ? 'summary_large_image'
-        : 'summary',
+      content:
+        normalizedImage
+          ? 'summary_large_image'
+          : 'summary',
     },
 
     {
       name: 'twitter:title',
-      content: title,
+      content: normalizedTitle,
     },
 
     {
       name: 'twitter:description',
-      content: description,
+      content: normalizedDescription,
     },
   ]
 
-  if (image) {
+  if (normalizedImage) {
     const imageUrl =
-      absoluteUrl(image)
+      absoluteUrl(normalizedImage)
 
     descriptors.push(
       {
         property: 'og:image',
+        content: imageUrl,
+      },
+
+      {
+        property: 'og:image:secure_url',
         content: imageUrl,
       },
 
@@ -247,11 +304,6 @@ export function createPageMeta({
       {
         property: 'og:image:height',
         content: '768',
-      },
-
-      {
-        property: 'og:image:type',
-        content: 'image/webp',
       },
 
       {
@@ -324,7 +376,9 @@ export const businessSchema = {
     absoluteUrl('/'),
 
   image:
-    absoluteUrl(DEFAULT_SOCIAL_IMAGE),
+    absoluteUrl(
+      DEFAULT_SOCIAL_IMAGE,
+    ),
 
   areaServed: {
     '@type':
@@ -366,23 +420,107 @@ export const businessSchema = {
   },
 }
 
+export function createWebPageSchema({
+  name,
+  description,
+  path = '/',
+  type = 'WebPage',
+}) {
+  const normalizedName =
+    normalizeMetaText(name)
+
+  const normalizedDescription =
+    normalizeMetaText(description)
+
+  const normalizedPath =
+    normalizePath(path)
+
+  if (!normalizedName) {
+    throw new Error(
+      'createWebPageSchema requires a non-empty name.',
+    )
+  }
+
+  if (!normalizedDescription) {
+    throw new Error(
+      'createWebPageSchema requires a non-empty description.',
+    )
+  }
+
+  return {
+    '@context':
+      'https://schema.org',
+
+    '@type':
+      typeof type === 'string' &&
+      type.trim()
+        ? type.trim()
+        : 'WebPage',
+
+    '@id':
+      `${absoluteUrl(normalizedPath)}#webpage`,
+
+    url:
+      absoluteUrl(normalizedPath),
+
+    name:
+      normalizedName,
+
+    description:
+      normalizedDescription,
+
+    inLanguage:
+      BUSINESS_LANGUAGE,
+
+    isPartOf: {
+      '@id':
+        `${SITE_URL}/#website`,
+    },
+
+    about: {
+      '@id':
+        `${SITE_URL}/#business`,
+    },
+  }
+}
+
 export function createServiceSchema({
   name,
   description,
   path,
 }) {
+  const normalizedName =
+    normalizeMetaText(name)
+
+  const normalizedDescription =
+    normalizeMetaText(description)
+
+  const normalizedPath =
+    normalizePath(path)
+
+  if (!normalizedName) {
+    throw new Error(
+      'createServiceSchema requires a non-empty name.',
+    )
+  }
+
+  if (!normalizedDescription) {
+    throw new Error(
+      'createServiceSchema requires a non-empty description.',
+    )
+  }
+
   if (
-    !name ||
-    !description ||
-    !path
+    !path ||
+    typeof path !== 'string'
   ) {
     throw new Error(
-      'createServiceSchema requires name, description, and path.',
+      'createServiceSchema requires a valid path.',
     )
   }
 
   const serviceUrl =
-    absoluteUrl(path)
+    absoluteUrl(normalizedPath)
 
   return {
     '@context':
@@ -394,18 +532,25 @@ export function createServiceSchema({
     '@id':
       `${serviceUrl}#service`,
 
-    name,
+    name:
+      normalizedName,
 
-    description,
+    description:
+      normalizedDescription,
 
     serviceType:
-      name,
+      normalizedName,
 
     url:
       serviceUrl,
 
-    mainEntityOfPage:
-      serviceUrl,
+    mainEntityOfPage: {
+      '@type':
+        'WebPage',
+
+      '@id':
+        `${serviceUrl}#webpage`,
+    },
 
     provider: {
       '@type':
@@ -430,7 +575,18 @@ export function createServiceSchema({
 
       name:
         BUSINESS_CITY,
+
+      containedInPlace: {
+        '@type':
+          'AdministrativeArea',
+
+        name:
+          BUSINESS_REGION,
+      },
     },
+
+    availableLanguage:
+      ['ar'],
   }
 }
 
@@ -446,6 +602,40 @@ export function createBreadcrumbSchema({
     )
   }
 
+  const normalizedItems =
+    items.map(
+      (item, index) => {
+        const name =
+          normalizeMetaText(
+            item?.name,
+          )
+
+        const path =
+          normalizePath(
+            item?.path,
+          )
+
+        if (!name) {
+          throw new Error(
+            `createBreadcrumbSchema received an invalid name at position ${index + 1}.`,
+          )
+        }
+
+        return {
+          '@type':
+            'ListItem',
+
+          position:
+            index + 1,
+
+          name,
+
+          item:
+            absoluteUrl(path),
+        }
+      },
+    )
+
   return {
     '@context':
       'https://schema.org',
@@ -454,22 +644,6 @@ export function createBreadcrumbSchema({
       'BreadcrumbList',
 
     itemListElement:
-      items.map(
-        (item, index) => ({
-          '@type':
-            'ListItem',
-
-          position:
-            index + 1,
-
-          name:
-            item.name,
-
-          item:
-            absoluteUrl(
-              item.path,
-            ),
-        }),
-      ),
+      normalizedItems,
   }
 }
