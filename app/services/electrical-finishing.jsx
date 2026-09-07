@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 
 import {
   BUSINESS_PHONE,
+  WHATSAPP_URL,
   createBreadcrumbSchema,
   createPageMeta,
   createServiceSchema,
@@ -51,18 +52,23 @@ export default function ElectricalFinishing() {
         {
           name:
             'الرئيسية',
+
           path:
             '/',
         },
+
         {
           name:
             'خدمات الكهرباء',
+
           path:
             '/services',
         },
+
         {
           name:
             service.shortName,
+
           path:
             service.path,
         },
@@ -70,7 +76,7 @@ export default function ElectricalFinishing() {
     })
 
   return (
-    <main>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -91,78 +97,133 @@ export default function ElectricalFinishing() {
         }}
       />
 
-      <section className="page-hero">
+      <section
+        className="page-hero"
+        aria-labelledby="service-page-title"
+      >
         <div className="container">
-          <span className="eyebrow">
-            خدمات الكهرباء المنزلية
-          </span>
-
-          <h1>
-            {service.shortName}
-            {' في جدة'}
-          </h1>
-
-          <p>
-            {service.pageIntro}
-          </p>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container service-detail">
           <nav
             className="breadcrumbs"
             aria-label="مسار التنقل"
           >
             <ol>
               <li>
-                <Link
-                  to="/"
-                  reloadDocument
-                >
+                <Link to="/">
                   الرئيسية
                 </Link>
               </li>
 
               <li>
-                <Link
-                  to="/services"
-                  reloadDocument
-                >
+                <Link to="/services">
                   خدمات الكهرباء
                 </Link>
               </li>
 
               <li>
                 <span aria-current="page">
-                  {service.shortName}
+                  {
+                    service.shortName
+                  }
                 </span>
               </li>
             </ol>
           </nav>
 
-          <h2>
-            {
-              service.content
-                .introduction
-                .heading
-            }
-          </h2>
+          <div className="page-hero-content">
+            <span className="eyebrow">
+              خدمات الكهرباء المنزلية
+            </span>
 
-          <p>
-            {
-              service.content
-                .introduction
-                .text
-            }
-          </p>
+            <h1 id="service-page-title">
+              {
+                service.shortName
+              }
+              {' في جدة'}
+            </h1>
 
-          <h2>
-            {
-              service.content
-                .relatedHeading
-            }
-          </h2>
+            <p>
+              {
+                service.pageIntro
+              }
+            </p>
+
+            <div className="hero-actions">
+              <a
+                className="button button-primary"
+                href={`tel:${BUSINESS_PHONE}`}
+                aria-label={`الاتصال بنور جدة للكهرباء على الرقم ${BUSINESS_PHONE}`}
+              >
+                اتصل الآن
+              </a>
+
+              <a
+                className="button button-secondary"
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"
+              >
+                واتساب
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="section"
+        aria-labelledby="service-introduction-heading"
+      >
+        <div className="container service-detail">
+          <div className="section-heading">
+            <span className="eyebrow">
+              عن الخدمة
+            </span>
+
+            <h2 id="service-introduction-heading">
+              {
+                service.content
+                  .introduction
+                  .heading
+              }
+            </h2>
+
+            <p>
+              {
+                service.content
+                  .introduction
+                  .text
+              }
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="section section--soft"
+        aria-labelledby="related-work-heading"
+      >
+        <div className="container">
+          <div className="section-heading">
+            <span className="eyebrow">
+              نطاق الأعمال
+            </span>
+
+            <h2 id="related-work-heading">
+              {
+                service.content
+                  .relatedHeading
+              }
+            </h2>
+
+            <p>
+              تشمل أعمال تشطيب الكهرباء
+              استكمال وتجهيز النقاط
+              والتجهيزات الكهربائية
+              النهائية بحسب مرحلة
+              التشطيب واحتياج المنزل.
+            </p>
+          </div>
 
           <div className="services-grid services-grid--large">
             {
@@ -190,109 +251,153 @@ export default function ElectricalFinishing() {
               )
             }
           </div>
+        </div>
+      </section>
 
-          {relatedServices.length > 0 && (
-            <section
-              className="related-services"
-              aria-labelledby="related-services-heading"
-            >
+      {service.content.faq?.length >
+        0 && (
+        <section
+          className="section"
+          aria-labelledby="service-faq-heading"
+        >
+          <div className="container">
+            <div className="section-heading">
+              <span className="eyebrow">
+                الأسئلة الشائعة
+              </span>
+
+              <h2 id="service-faq-heading">
+                أسئلة شائعة عن تشطيب الكهرباء
+              </h2>
+            </div>
+
+            <div className="faq-list">
+              {service.content.faq.map(
+                (item) => (
+                  <details
+                    className="faq-item"
+                    key={
+                      item.question
+                    }
+                  >
+                    <summary>
+                      {
+                        item.question
+                      }
+                    </summary>
+
+                    <div className="faq-answer">
+                      <p>
+                        {
+                          item.answer
+                        }
+                      </p>
+                    </div>
+                  </details>
+                ),
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {relatedServices.length >
+        0 && (
+        <section
+          className="section section--soft"
+          aria-labelledby="related-services-heading"
+        >
+          <div className="container">
+            <div className="section-heading">
+              <span className="eyebrow">
+                خدمات مرتبطة
+              </span>
+
               <h2 id="related-services-heading">
                 خدمات كهربائية ذات صلة
               </h2>
 
-              <div className="services-grid services-grid--large">
-                {relatedServices.map(
-                  (relatedService) => (
-                    <Link
-                      className="service-card"
-                      key={
-                        relatedService.id
+              <p>
+                قد ترتبط أعمال التشطيب
+                الكهربائي بالتأسيس
+                والتمديدات والإنارة
+                بحسب مرحلة المشروع.
+              </p>
+            </div>
+
+            <div className="services-grid services-grid--large">
+              {relatedServices.map(
+                (
+                  relatedService,
+                ) => (
+                  <article
+                    className="service-card"
+                    key={
+                      relatedService.id
+                    }
+                  >
+                    <h3>
+                      {
+                        relatedService.shortName
                       }
+                    </h3>
+
+                    <p>
+                      {
+                        relatedService.description
+                      }
+                    </p>
+
+                    <Link
+                      className="text-link"
                       to={
                         relatedService.path
                       }
-                      reloadDocument
-                      aria-label={`التعرف على ${relatedService.shortName}`}
+                      aria-label={`عرض تفاصيل ${relatedService.shortName}`}
                     >
-                      <h3>
-                        {
-                          relatedService.shortName
-                        }
-                      </h3>
-
-                      <p>
-                        {
-                          relatedService.description
-                        }
-                      </p>
+                      عرض تفاصيل الخدمة
 
                       <span
-                        className="text-link"
                         aria-hidden="true"
                       >
-                        عرض تفاصيل{' '}
-                        {relatedService.shortName}
-
-                        <span>
-                          ←
-                        </span>
+                        ←
                       </span>
                     </Link>
-                  ),
-                )}
-              </div>
-            </section>
-          )}
+                  </article>
+                ),
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
-          {service.content.faq?.length > 0 && (
-            <section
-              className="related-services"
-              aria-labelledby="faq-heading"
-            >
-              <h2 id="faq-heading">
-                الأسئلة الشائعة حول{' '}
-                {service.shortName}
+      <section
+        className="section section--cta"
+        aria-labelledby="service-cta-heading"
+      >
+        <div className="container">
+          <div className="cta-card">
+            <div>
+              <span className="eyebrow">
+                تواصل مباشر
+              </span>
+
+              <h2 id="service-cta-heading">
+                {
+                  service.content
+                    .ctaTitle
+                }
               </h2>
 
-              <div className="services-grid services-grid--large">
-                {service.content.faq.map(
-                  (item) => (
-                    <details
-                      className="service-card"
-                      key={
-                        item.question
-                      }
-                    >
-                      <summary>
-                        {item.question}
-                      </summary>
+              <p>
+                {
+                  service.content
+                    .ctaText
+                }
+              </p>
+            </div>
 
-                      <p>
-                        {item.answer}
-                      </p>
-                    </details>
-                  ),
-                )}
-              </div>
-            </section>
-          )}
-
-          <div className="detail-cta">
-            <h2>
-              {
-                service.content
-                  .ctaTitle
-              }
-            </h2>
-
-            <p>
-              {
-                service.content
-                  .ctaText
-              }
-            </p>
-
-            <div className="cta-actions">
+            <div className="hero-actions">
               <a
                 className="button button-primary"
                 href={`tel:${BUSINESS_PHONE}`}
@@ -301,17 +406,19 @@ export default function ElectricalFinishing() {
                 اتصل الآن
               </a>
 
-              <Link
+              <a
                 className="button button-secondary"
-                to="/services"
-                reloadDocument
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"
               >
-                جميع الخدمات
-              </Link>
+                واتساب
+              </a>
             </div>
           </div>
         </div>
       </section>
-    </main>
+    </>
   )
 }
