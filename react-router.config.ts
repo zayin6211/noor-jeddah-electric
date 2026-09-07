@@ -1,8 +1,8 @@
 import type { Config } from '@react-router/dev/config'
 
 import {
-  NEIGHBORHOOD_PATHS,
-} from './src/lib/neighborhoods'
+  INDEXABLE_ROUTES,
+} from './src/lib/site-data'
 
 export default {
   ssr: false,
@@ -15,20 +15,5 @@ export default {
     v8_viteEnvironmentApi: true,
   },
 
-  prerender: [
-    '/',
-    '/services',
-
-    '/services/electrical-foundation',
-    '/services/electrical-wiring',
-    '/services/electrical-finishing',
-    '/services/lighting',
-    '/services/electrical-repair',
-
-    '/neighborhoods',
-
-    ...NEIGHBORHOOD_PATHS,
-
-    '/contact',
-  ],
+  prerender: INDEXABLE_ROUTES,
 } satisfies Config

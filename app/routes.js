@@ -42,11 +42,6 @@ export default [
   ),
 
   route(
-    'neighborhoods/:slug',
-    './neighborhood.$slug.jsx',
-  ),
-
-  route(
     'contact',
     './contact.jsx',
   ),

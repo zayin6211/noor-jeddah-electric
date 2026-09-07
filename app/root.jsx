@@ -17,22 +17,18 @@ import {
 
 import '../src/index.css'
 
-export const meta = () => [
-  {
-    name: 'google-site-verification',
-    content: GOOGLE_SITE_VERIFICATION,
-  },
-]
-
 export function Layout({ children }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html
+      lang="ar"
+      dir="rtl"
+    >
       <head>
         <meta charSet="UTF-8" />
 
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1.0"
+          content="width=device-width, initial-scale=1"
         />
 
         <meta
@@ -47,36 +43,66 @@ export function Layout({ children }) {
 
         <link
           rel="icon"
-          type="image/svg+xml"
           href="/favicon.svg"
+          type="image/svg+xml"
         />
 
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        />
+
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
+        {GOOGLE_SITE_VERIFICATION ? (
+          <meta
+            name="google-site-verification"
+            content={
+              GOOGLE_SITE_VERIFICATION
+            }
+          />
+        ) : null}
+
         <Meta />
+
         <Links />
 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(businessSchema),
+            __html:
+              JSON.stringify(
+                businessSchema,
+              ),
           }}
         />
 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
+            __html:
+              JSON.stringify(
+                websiteSchema,
+              ),
           }}
         />
       </head>
 
-      <body suppressHydrationWarning>
+      <body>
         <Header />
 
-        {children}
+        <main id="main-content">
+          {children}
+        </main>
 
         <Footer />
 
         <ScrollRestoration />
+
         <Scripts />
       </body>
     </html>
