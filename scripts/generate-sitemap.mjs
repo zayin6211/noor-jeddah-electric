@@ -1,140 +1,119 @@
-import {
-  mkdir,
-  writeFile,
-} from 'node:fs/promises'
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
-  join,
-} from 'node:path'
+  NEIGHBORHOOD_PATHS,
+} from "../src/lib/neighborhoods.js";
 
-const DEFAULT_SITE_URL =
-  'https://noor-jeddah-electric.vercel.app'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-function normalizeSiteUrl(value) {
-  const candidate =
-    typeof value === 'string' &&
-    value.trim()
-      ? value.trim()
-      : DEFAULT_SITE_URL
+const ROOT_DIR = path.resolve(__dirname, "..");
+const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 
-  const withProtocol =
-    /^https?:\/\//i.test(candidate)
-      ? candidate
-      : `https://${candidate}`
+const SITE_URL = "https://noor-jeddah-electric.vercel.app";
 
-  return withProtocol.replace(
-    /\/+$/,
-    '',
-  )
-}
+const CORE_ROUTES = [
+  {
+    path: "/",
+    priority: "1.0",
+    changefreq: "weekly",
+  },
+  {
+    path: "/services",
+    priority: "0.9",
+    changefreq: "monthly",
+  },
+  {
+    path: "/services/electrical-foundation",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
+  {
+    path: "/services/electrical-wiring",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
+  {
+    path: "/services/electrical-finishing",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
+  {
+    path: "/services/lighting",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
+  {
+    path: "/services/electrical-repair",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
+  {
+    path: "/neighborhoods",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
+  {
+    path: "/contact",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
+];
 
-const SITE_URL =
-  normalizeSiteUrl(
-    process.env.VITE_SITE_URL ||
-      process.env.SITE_URL,
-  )
+const neighborhoodRoutes = NEIGHBORHOOD_PATHS.map((routePath) => ({
+  path: routePath,
+  priority: "0.6",
+  changefreq: "monthly",
+}));
 
-const BUILD_CLIENT =
-  join(
-    process.cwd(),
-    'build',
-    'client',
-  )
+const routes = [...CORE_ROUTES, ...neighborhoodRoutes];
 
-const INDEXABLE_PATHS = [
-  '/',
-  '/services',
+const uniqueRoutes = Array.from(
+  new Map(routes.map((route) => [route.path, route])).values(),
+);
 
-  '/services/electrical-foundation',
-  '/services/electrical-wiring',
-  '/services/electrical-finishing',
-  '/services/lighting',
-  '/services/electrical-repair',
+const escapeXml = (value) =>
+  value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
 
-  '/neighborhoods',
+const toAbsoluteUrl = (routePath) => {
+  if (routePath === "/") {
+    return SITE_URL;
+  }
 
-  '/contact',
-]
+  return `${SITE_URL}${routePath}`;
+};
 
-function escapeXml(value) {
-  return value
-    .replaceAll(
-      '&',
-      '&amp;',
-    )
-    .replaceAll(
-      '<',
-      '&lt;',
-    )
-    .replaceAll(
-      '>',
-      '&gt;',
-    )
-    .replaceAll(
-      '"',
-      '&quot;',
-    )
-    .replaceAll(
-      "'",
-      '&apos;',
-    )
-}
-
-function toSitemapUrl(path) {
-  return encodeURI(
-    `${SITE_URL}${path}`,
-  )
-}
-
-const urls =
-  INDEXABLE_PATHS
-    .map(
-      (path) => `
-  <url>
-    <loc>${escapeXml(
-      toSitemapUrl(path),
-    )}</loc>
+const urlEntries = uniqueRoutes
+  .map(
+    ({ path: routePath, priority, changefreq }) => `  <url>
+    <loc>${escapeXml(toAbsoluteUrl(routePath))}</loc>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
   </url>`,
-    )
-    .join('')
+  )
+  .join("\n");
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+>
+${urlEntries}
 </urlset>
-`
+`;
 
-const robots = `User-agent: *
-Allow: /
-Disallow: /api/
+fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 
-Sitemap: ${SITE_URL}/sitemap.xml
-`
+const sitemapPath = path.join(PUBLIC_DIR, "sitemap.xml");
 
-await mkdir(
-  BUILD_CLIENT,
-  {
-    recursive: true,
-  },
-)
-
-await writeFile(
-  join(
-    BUILD_CLIENT,
-    'sitemap.xml',
-  ),
-  sitemap,
-  'utf8',
-)
-
-await writeFile(
-  join(
-    BUILD_CLIENT,
-    'robots.txt',
-  ),
-  robots,
-  'utf8',
-)
+fs.writeFileSync(sitemapPath, sitemap, "utf8");
 
 console.log(
-  `Generated sitemap.xml with ${INDEXABLE_PATHS.length} indexable URLs for ${SITE_URL}.`,
-)
+  `Generated sitemap.xml with ${uniqueRoutes.length} indexable URLs for ${SITE_URL}`,
+);
