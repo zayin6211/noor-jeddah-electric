@@ -10,21 +10,31 @@ import Header from '../src/components/Header'
 import Footer from '../src/components/Footer'
 
 import {
+  BUSINESS_DIRECTION,
+  BUSINESS_LANGUAGE,
+  GOOGLE_SITE_VERIFICATION,
   businessSchema,
   websiteSchema,
-  GOOGLE_SITE_VERIFICATION,
 } from '../src/lib/seo'
 
 import '../src/index.css'
 
-export function Layout({ children }) {
+export function Layout({
+  children,
+}) {
   return (
     <html
-      lang="ar"
-      dir="rtl"
+      lang={
+        BUSINESS_LANGUAGE
+      }
+      dir={
+        BUSINESS_DIRECTION
+      }
     >
       <head>
-        <meta charSet="UTF-8" />
+        <meta
+          charSet="utf-8"
+        />
 
         <meta
           name="viewport"
@@ -45,17 +55,6 @@ export function Layout({ children }) {
           rel="icon"
           href="/favicon.svg"
           type="image/svg+xml"
-        />
-
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-        />
-
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
         />
 
         {GOOGLE_SITE_VERIFICATION ? (

@@ -57,6 +57,48 @@ export const DEFAULT_ROBOTS =
 export const NOINDEX_ROBOTS =
   'noindex, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 
+function normalizeText(value) {
+  if (
+    typeof value !== 'string'
+  ) {
+    return ''
+  }
+
+  return value.trim()
+}
+
+function normalizePath(value) {
+  const normalized =
+    normalizeText(value)
+
+  if (!normalized) {
+    return '/'
+  }
+
+  if (
+    /^https?:\/\//i.test(
+      normalized,
+    )
+  ) {
+    return normalized
+  }
+
+  return normalized.startsWith('/')
+    ? normalized
+    : `/${normalized}`
+}
+
+function normalizeImagePath(value) {
+  const normalized =
+    normalizeText(value)
+
+  if (!normalized) {
+    return ''
+  }
+
+  return normalized
+}
+
 function normalizeSiteUrl(value) {
   const fallback =
     DEFAULT_SITE_URL
@@ -68,7 +110,9 @@ function normalizeSiteUrl(value) {
       : fallback
 
   const withProtocol =
-    /^https?:\/\//i.test(candidate)
+    /^https?:\/\//i.test(
+      candidate,
+    )
       ? candidate
       : `https://${candidate}`
 
@@ -103,41 +147,9 @@ export const SERVICE_PATHS =
 export const SERVICES =
   SERVICE_CATALOG
 
-function normalizeText(value) {
-  if (
-    typeof value !== 'string'
-  ) {
-    return ''
-  }
-
-  return value.trim()
-}
-
-function normalizePath(value) {
-  const normalized =
-    normalizeText(value)
-
-  if (!normalized) {
-    return '/'
-  }
-
-  return normalized.startsWith('/')
-    ? normalized
-    : `/${normalized}`
-}
-
-function normalizeImagePath(value) {
-  const normalized =
-    normalizeText(value)
-
-  if (!normalized) {
-    return ''
-  }
-
-  return normalized
-}
-
-export function absoluteUrl(path = '/') {
+export function absoluteUrl(
+  path = '/',
+) {
   const normalized =
     normalizeText(path)
 
@@ -153,6 +165,12 @@ export function absoluteUrl(path = '/') {
     normalizePath(
       normalized || '/',
     )
+
+  if (
+    normalizedPath === '/'
+  ) {
+    return `${SITE_URL}/`
+  }
 
   return `${SITE_URL}${normalizedPath}`
 }
@@ -199,7 +217,9 @@ export function createPageMeta({
   }
 
   const canonical =
-    absoluteUrl(normalizedPath)
+    absoluteUrl(
+      normalizedPath,
+    )
 
   const meta = [
     {
@@ -504,7 +524,9 @@ export function createWebPageSchema({
       `${absoluteUrl(normalizedPath)}#webpage`,
 
     url:
-      absoluteUrl(normalizedPath),
+      absoluteUrl(
+        normalizedPath,
+      ),
 
     name:
       normalizedName,
@@ -555,7 +577,8 @@ export function createServiceSchema({
 
   if (
     !path ||
-    typeof path !== 'string'
+    typeof path !==
+      'string'
   ) {
     throw new Error(
       'createServiceSchema: path is required.',
@@ -649,7 +672,10 @@ export function createBreadcrumbSchema({
 
   const itemList =
     items.map(
-      (item, index) => {
+      (
+        item,
+        index,
+      ) => {
         const name =
           normalizeText(
             item?.name,
@@ -676,7 +702,9 @@ export function createBreadcrumbSchema({
           name,
 
           item:
-            absoluteUrl(path),
+            absoluteUrl(
+              path,
+            ),
         }
       },
     )
