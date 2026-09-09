@@ -1,94 +1,145 @@
 import { Link } from 'react-router'
 
-import {
-  BUSINESS_NAME,
-  BUSINESS_PHONE,
-  WHATSAPP_URL,
-} from '../lib/seo'
+const serviceLinks = [
+  {
+    to: '/services/electrical-foundation',
+    label: 'تأسيس الكهرباء',
+  },
+  {
+    to: '/services/electrical-wiring',
+    label: 'التمديدات الكهربائية',
+  },
+  {
+    to: '/services/electrical-finishing',
+    label: 'التشطيب الكهربائي',
+  },
+  {
+    to: '/services/lighting',
+    label: 'أعمال الإنارة',
+  },
+  {
+    to: '/services/electrical-repair',
+    label: 'إصلاح الأعطال',
+  },
+]
+
+const mainLinks = [
+  {
+    to: '/',
+    label: 'الرئيسية',
+  },
+  {
+    to: '/services',
+    label: 'الخدمات',
+  },
+  {
+    to: '/neighborhoods',
+    label: 'أحياء جدة',
+  },
+  {
+    to: '/contact',
+    label: 'تواصل معنا',
+  },
+]
 
 function Footer() {
-  const currentYear =
-    new Date().getFullYear()
-
   return (
     <footer className="site-footer">
-      <div className="container footer-grid">
-        <div>
-          <h2>
-            {BUSINESS_NAME}
-          </h2>
+      <div className="container">
+        <div className="site-footer-grid">
+          <section
+            aria-labelledby="footer-about-title"
+          >
+            <h2
+              id="footer-about-title"
+              className="site-footer-title"
+            >
+              نور جدة للكهرباء
+            </h2>
 
-          <p>
-            كهربائي منازل في جدة يقدم أعمال
-            تأسيس وتمديد وتشطيب الكهرباء
-            للمنازل في جميع مناطق جدة.
-          </p>
-        </div>
+            <p>
+              خدمات كهرباء منزلية في جدة تشمل
+              التأسيس والتمديدات والتشطيب
+              والإنارة وإصلاح الأعطال.
+            </p>
 
-        <div>
-          <h2>
-            روابط الموقع
-          </h2>
+            <div className="footer-contact">
+              <a
+                href="tel:0546856974"
+                aria-label="الاتصال بنور جدة للكهرباء"
+              >
+                0546856974
+              </a>
+
+              <a
+                href="https://wa.me/966546856974"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"
+              >
+                واتساب
+              </a>
+            </div>
+          </section>
 
           <nav
-            aria-label="روابط الموقع"
+            aria-labelledby="footer-navigation-title"
           >
-            <Link
-              to="/"
-              reloadDocument
+            <h2
+              id="footer-navigation-title"
+              className="site-footer-title"
             >
-              الرئيسية
-            </Link>
+              روابط الموقع
+            </h2>
 
-            <Link
-              to="/services"
-              reloadDocument
-            >
-              خدمات الكهرباء
-            </Link>
+            <ul className="footer-links">
+              {mainLinks.map(
+                (link) => (
+                  <li key={link.to}>
+                    <Link to={link.to}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ),
+              )}
+            </ul>
+          </nav>
 
-            <Link
-              to="/neighborhoods"
-              reloadDocument
+          <nav
+            aria-labelledby="footer-services-title"
+          >
+            <h2
+              id="footer-services-title"
+              className="site-footer-title"
             >
-              كهربائي أحياء جدة
-            </Link>
+              الخدمات
+            </h2>
 
-            <Link
-              to="/contact"
-              reloadDocument
-            >
-              التواصل مع كهربائي في جدة
-            </Link>
+            <ul className="footer-links">
+              {serviceLinks.map(
+                (link) => (
+                  <li key={link.to}>
+                    <Link to={link.to}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ),
+              )}
+            </ul>
           </nav>
         </div>
 
-        <div>
-          <h2>
-            تواصل مباشر
-          </h2>
+        <div className="site-footer-bottom">
+          <p>
+            © {new Date().getFullYear()}{' '}
+            نور جدة للكهرباء. جميع الحقوق
+            محفوظة.
+          </p>
 
-          <a
-            href={`tel:${BUSINESS_PHONE}`}
-          >
-            {BUSINESS_PHONE}
-          </a>
-
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            التواصل عبر واتساب
-          </a>
+          <Link to="/contact">
+            تواصل معنا
+          </Link>
         </div>
-      </div>
-
-      <div className="container footer-bottom">
-        <p>
-          © {currentYear} {BUSINESS_NAME}.
-          جميع الحقوق محفوظة.
-        </p>
       </div>
     </footer>
   )

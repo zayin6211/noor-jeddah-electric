@@ -7,46 +7,15 @@ import {
   createBreadcrumbSchema,
   createPageMeta,
   createWebPageSchema,
-} from '../src/lib/seo.js'
+} from '../src/lib/seo'
 
 import {
   getNeighborhoodBySlug,
   getNeighborhoodFaqs,
   getRelatedNeighborhoods,
-} from '../src/lib/neighborhoods.js'
+} from '../src/lib/neighborhoods'
 
-const SERVICE_LINKS = [
-  {
-    path: '/services/electrical-foundation',
-    title: 'تأسيس كهرباء المنازل',
-    description:
-      'تجهيز وتمديد نقاط الكهرباء الأساسية للمنازل أثناء مراحل التأسيس.',
-  },
-  {
-    path: '/services/electrical-wiring',
-    title: 'التمديدات الكهربائية للمنازل',
-    description:
-      'تنظيم وتمديد الأسلاك والدوائر الكهربائية بما يناسب احتياجات المنزل.',
-  },
-  {
-    path: '/services/electrical-finishing',
-    title: 'تشطيب كهرباء المنازل',
-    description:
-      'تنفيذ أعمال التشطيب الكهربائي وترتيب نقاط المفاتيح والأفياش والإنارة.',
-  },
-  {
-    path: '/services/lighting',
-    title: 'نقاط وتركيب الإنارة',
-    description:
-      'تجهيز نقاط الإنارة وتركيب وحدات الإضاءة المناسبة للمساحات المنزلية.',
-  },
-  {
-    path: '/services/electrical-repair',
-    title: 'إصلاح الأعطال الكهربائية',
-    description:
-      'فحص الأعطال الكهربائية المنزلية وتحديد سبب المشكلة قبل الإصلاح.',
-  },
-]
+import { SERVICE_CATALOG } from '../src/lib/services'
 
 function NeighborhoodPage() {
   const { slug = '' } = useParams()
@@ -57,22 +26,18 @@ function NeighborhoodPage() {
   if (!neighborhood) {
     return (
       <>
-        <section
-          className="page-hero"
-          aria-labelledby="neighborhood-not-found-title"
-        >
+        <section className="page-hero">
           <div className="container">
             <span className="eyebrow">
-              {BUSINESS_NAME}
+              نور جدة للكهرباء
             </span>
 
-            <h1 id="neighborhood-not-found-title">
+            <h1>
               الصفحة غير موجودة
             </h1>
 
             <p>
-              لم نتمكن من العثور على صفحة
-              الحي المطلوبة.
+              لم نتمكن من العثور على صفحة الحي المطلوبة.
             </p>
           </div>
         </section>
@@ -116,14 +81,9 @@ function NeighborhoodPage() {
 
   const webPageSchema =
     createWebPageSchema({
-      name:
-        neighborhood.title,
-
-      description:
-        neighborhood.description,
-
-      path:
-        neighborhoodPath,
+      name: neighborhood.title,
+      description: neighborhood.description,
+      path: neighborhoodPath,
     })
 
   const breadcrumbSchema =
@@ -138,10 +98,8 @@ function NeighborhoodPage() {
           path: '/neighborhoods',
         },
         {
-          name:
-            `حي ${neighborhood.name}`,
-          path:
-            neighborhoodPath,
+          name: `حي ${neighborhood.name}`,
+          path: neighborhoodPath,
         },
       ],
     })
@@ -168,18 +126,14 @@ function NeighborhoodPage() {
         }}
       />
 
-      <section
-        className="page-hero"
-        aria-labelledby="neighborhood-title"
-      >
+      <section className="page-hero">
         <div className="container">
           <span className="eyebrow">
             كهربائي منازل في جدة
           </span>
 
-          <h1 id="neighborhood-title">
-            كهربائي في حي{' '}
-            {neighborhood.name} بجدة
+          <h1>
+            كهربائي في حي {neighborhood.name} بجدة
           </h1>
 
           <p>
@@ -208,8 +162,7 @@ function NeighborhoodPage() {
             </span>
 
             <h2>
-              {serviceIntent} في حي{' '}
-              {neighborhood.name}
+              {serviceIntent} في حي {neighborhood.name}
             </h2>
 
             <p>
@@ -243,17 +196,14 @@ function NeighborhoodPage() {
         </div>
       </section>
 
-      <section
-        className="section section--soft"
-        aria-labelledby="scenario-heading"
-      >
+      <section className="section section--soft">
         <div className="container service-detail">
           <div className="section-heading">
             <span className="eyebrow">
               حسب حالة المنزل
             </span>
 
-            <h2 id="scenario-heading">
+            <h2>
               {neighborhood.scenarioHeading}
             </h2>
           </div>
@@ -263,8 +213,7 @@ function NeighborhoodPage() {
           </p>
 
           <h2>
-            ما الذي يحدد نوع الخدمة في حي{' '}
-            {neighborhood.name}؟
+            ما الذي يحدد نوع الخدمة في حي {neighborhood.name}؟
           </h2>
 
           <p>
@@ -272,8 +221,7 @@ function NeighborhoodPage() {
           </p>
 
           <h2>
-            مرحلة العمل الكهربائي في حي{' '}
-            {neighborhood.name}
+            مرحلة العمل الكهربائي في حي {neighborhood.name}
           </h2>
 
           <p>
@@ -282,39 +230,34 @@ function NeighborhoodPage() {
         </div>
       </section>
 
-      <section
-        className="section"
-        aria-labelledby="neighborhood-services-heading"
-      >
+      <section className="section">
         <div className="container">
           <div className="section-heading">
             <span className="eyebrow">
               الخدمات الكهربائية
             </span>
 
-            <h2 id="neighborhood-services-heading">
-              خدمات الكهرباء المنزلية المتاحة
-              في حي {neighborhood.name}
+            <h2>
+              خدمات الكهرباء المنزلية المتاحة في حي {neighborhood.name}
             </h2>
 
             <p>
-              اختر نوع العمل الأقرب إلى
-              احتياج منزلك في حي{' '}
-              {neighborhood.name}.
+              اختر نوع العمل الأقرب إلى احتياج منزلك
+              في حي {neighborhood.name}.
             </p>
           </div>
 
           <div className="services-grid services-grid--large">
-            {SERVICE_LINKS.map(
+            {SERVICE_CATALOG.map(
               (service) => (
                 <Link
                   className="service-card"
-                  key={service.path}
+                  key={service.id}
                   to={service.path}
-                  aria-label={`${service.title} في حي ${neighborhood.name} بجدة`}
+                  aria-label={`${service.shortName} في حي ${neighborhood.name} بجدة`}
                 >
                   <h3>
-                    {service.title}
+                    {service.shortName}
                   </h3>
 
                   <p>
@@ -325,9 +268,9 @@ function NeighborhoodPage() {
                     className="text-link"
                     aria-hidden="true"
                   >
-                    عرض {service.title}
+                    عرض {service.shortName}
 
-                    <span aria-hidden="true">
+                    <span>
                       ←
                     </span>
                   </span>
@@ -338,14 +281,10 @@ function NeighborhoodPage() {
         </div>
       </section>
 
-      <section
-        className="section section--soft"
-        aria-labelledby="before-work-heading"
-      >
+      <section className="section section--soft">
         <div className="container service-detail">
-          <h2 id="before-work-heading">
-            قبل طلب كهربائي في حي{' '}
-            {neighborhood.name}
+          <h2>
+            قبل طلب كهربائي في حي {neighborhood.name}
           </h2>
 
           <p>
@@ -363,8 +302,7 @@ function NeighborhoodPage() {
           {Array.isArray(
             neighborhood.requestChecklist,
           ) &&
-            neighborhood.requestChecklist.length >
-              0 && (
+            neighborhood.requestChecklist.length > 0 && (
               <ul>
                 {neighborhood.requestChecklist.map(
                   (item) => (
@@ -377,8 +315,7 @@ function NeighborhoodPage() {
             )}
 
           <h2>
-            تنبيه السلامة قبل تنفيذ العمل
-            الكهربائي
+            تنبيه السلامة قبل تنفيذ العمل الكهربائي
           </h2>
 
           <p>
@@ -388,24 +325,20 @@ function NeighborhoodPage() {
       </section>
 
       {relatedNeighborhoods.length > 0 && (
-        <section
-          className="section"
-          aria-labelledby="related-neighborhoods-heading"
-        >
+        <section className="section">
           <div className="container">
             <div className="section-heading">
               <span className="eyebrow">
                 نطاق الخدمة
               </span>
 
-              <h2 id="related-neighborhoods-heading">
+              <h2>
                 أحياء أخرى نخدمها في جدة
               </h2>
 
               <p>
-                تعرف على صفحات أخرى لخدمات
-                الكهرباء المنزلية داخل أحياء
-                جدة.
+                تعرف على صفحات أخرى لخدمات الكهرباء
+                المنزلية داخل أحياء جدة.
               </p>
             </div>
 
@@ -419,8 +352,7 @@ function NeighborhoodPage() {
                     aria-label={`كهربائي في حي ${related.name} بجدة`}
                   >
                     <h3>
-                      كهربائي في حي{' '}
-                      {related.name}
+                      كهربائي في حي {related.name}
                     </h3>
 
                     <p>
@@ -433,10 +365,9 @@ function NeighborhoodPage() {
                       className="text-link"
                       aria-hidden="true"
                     >
-                      كهربائي في حي{' '}
-                      {related.name}
+                      كهربائي في حي {related.name}
 
-                      <span aria-hidden="true">
+                      <span>
                         ←
                       </span>
                     </span>
@@ -459,8 +390,7 @@ function NeighborhoodPage() {
             </span>
 
             <h2 id="neighborhood-faq-heading">
-              أسئلة عن كهربائي حي{' '}
-              {neighborhood.name}
+              أسئلة عن كهربائي حي {neighborhood.name}
             </h2>
           </div>
 
@@ -485,26 +415,21 @@ function NeighborhoodPage() {
         </div>
       </section>
 
-      <section
-        className="section"
-        aria-labelledby="neighborhood-cta-heading"
-      >
+      <section className="section">
         <div className="container simple-cta">
           <div>
             <span className="eyebrow">
-              {BUSINESS_NAME}
+              نور جدة للكهرباء
             </span>
 
-            <h2 id="neighborhood-cta-heading">
-              تحتاج كهربائي في حي{' '}
-              {neighborhood.name}؟
+            <h2>
+              تحتاج كهربائي في حي {neighborhood.name}؟
             </h2>
 
             <p>
-              تواصل مباشرة مع{' '}
-              {BUSINESS_NAME} واشرح نوع
-              العمل أو العطل المطلوب داخل
-              المنزل.
+              تواصل مباشرة مع {BUSINESS_NAME}
+              واشرح نوع العمل أو العطل المطلوب
+              داخل المنزل.
             </p>
           </div>
 
@@ -550,13 +475,10 @@ export function meta({ params }) {
     return createPageMeta({
       title:
         'الحي غير موجود | نور جدة للكهرباء',
-
       description:
         'صفحة الحي المطلوبة غير متاحة في موقع نور جدة للكهرباء.',
-
       path:
         `/neighborhoods/${params?.slug || ''}`,
-
       indexable: false,
     })
   }
@@ -564,13 +486,10 @@ export function meta({ params }) {
   return createPageMeta({
     title:
       neighborhood.title,
-
     description:
       neighborhood.description,
-
     path:
       `/neighborhoods/${neighborhood.slug}`,
-
     indexable: false,
   })
 }

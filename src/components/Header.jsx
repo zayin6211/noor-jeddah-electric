@@ -1,94 +1,91 @@
-import {
-  BUSINESS_NAME,
-  BUSINESS_PHONE,
-  WHATSAPP_URL,
-} from '../lib/seo'
+import { Link, NavLink } from 'react-router'
 
-function navigateTo(path) {
-  window.location.assign(path)
-}
+const navigation = [
+  {
+    to: '/',
+    label: 'الرئيسية',
+    end: true,
+  },
+  {
+    to: '/services',
+    label: 'الخدمات',
+  },
+  {
+    to: '/neighborhoods',
+    label: 'أحياء جدة',
+  },
+  {
+    to: '/contact',
+    label: 'تواصل معنا',
+  },
+]
 
 function Header() {
   return (
     <header className="site-header">
-      <div className="container header-inner">
-        <a
-          className="brand"
-          href="/"
-          aria-label={`${BUSINESS_NAME} - الصفحة الرئيسية`}
-          onClick={(event) => {
-            event.preventDefault()
-            navigateTo('/')
-          }}
+      <div className="container site-header-inner">
+        <Link
+          className="site-logo"
+          to="/"
+          aria-label="نور جدة للكهرباء - الصفحة الرئيسية"
         >
-          <span
-            className="brand-mark"
-            aria-hidden="true"
-          >
-            ن
+          <span className="site-logo-mark" aria-hidden="true">
+            ⚡
           </span>
 
-          <span>
-            <strong>
-              {BUSINESS_NAME}
-            </strong>
-
-            <small>
-              كهربائي منازل في جدة
-            </small>
+          <span className="site-logo-text">
+            نور جدة للكهرباء
           </span>
-        </a>
+        </Link>
 
         <nav
-          className="main-nav"
+          className="site-navigation"
           aria-label="التنقل الرئيسي"
         >
-          <a
-            href="/"
-            onClick={(event) => {
-              event.preventDefault()
-              navigateTo('/')
-            }}
-          >
-            الرئيسية
-          </a>
-
-          <a
-            href="/services"
-            onClick={(event) => {
-              event.preventDefault()
-              navigateTo('/services')
-            }}
-          >
-            الخدمات
-          </a>
-
-          <a
-            href="/contact"
-            onClick={(event) => {
-              event.preventDefault()
-              navigateTo('/contact')
-            }}
-          >
-            التواصل
-          </a>
+          {navigation.map(
+            (item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) =>
+                  [
+                    'nav-link',
+                    isActive
+                      ? 'nav-link--active'
+                      : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')
+                }
+              >
+                {item.label}
+              </NavLink>
+            ),
+          )}
         </nav>
 
-        <div className="header-actions">
+        <div className="site-header-actions">
           <a
             className="header-phone"
-            href={`tel:${BUSINESS_PHONE}`}
-            aria-label={`الاتصال بـ${BUSINESS_NAME} على الرقم ${BUSINESS_PHONE}`}
+            href="tel:0546856974"
+            aria-label="الاتصال بنور جدة للكهرباء"
           >
-            اتصل الآن
+            <span aria-hidden="true">
+              ☎
+            </span>
+
+            <span>
+              0546856974
+            </span>
           </a>
 
           <a
             className="header-whatsapp"
-            href={WHATSAPP_URL}
+            href="https://wa.me/966546856974"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`التواصل مع ${BUSINESS_NAME} عبر واتساب`}
+            aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"
           >
             واتساب
           </a>

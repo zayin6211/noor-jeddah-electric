@@ -1,119 +1,108 @@
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-import {
-  NEIGHBORHOOD_PATHS,
-} from "../src/lib/neighborhoods.js";
+import { INDEXABLE_ROUTES } from '../src/lib/site-data.js'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-const ROOT_DIR = path.resolve(__dirname, "..");
-const PUBLIC_DIR = path.join(ROOT_DIR, "public");
+const ROOT_DIR = path.resolve(__dirname, '..')
+const PUBLIC_DIR = path.join(ROOT_DIR, 'public')
 
-const SITE_URL = "https://noor-jeddah-electric.vercel.app";
+function normalizeSiteUrl(value) {
+  const fallback =
+    'https://noor-jeddah-electric.vercel.app'
 
-const CORE_ROUTES = [
-  {
-    path: "/",
-    priority: "1.0",
-    changefreq: "weekly",
-  },
-  {
-    path: "/services",
-    priority: "0.9",
-    changefreq: "monthly",
-  },
-  {
-    path: "/services/electrical-foundation",
-    priority: "0.8",
-    changefreq: "monthly",
-  },
-  {
-    path: "/services/electrical-wiring",
-    priority: "0.8",
-    changefreq: "monthly",
-  },
-  {
-    path: "/services/electrical-finishing",
-    priority: "0.8",
-    changefreq: "monthly",
-  },
-  {
-    path: "/services/lighting",
-    priority: "0.8",
-    changefreq: "monthly",
-  },
-  {
-    path: "/services/electrical-repair",
-    priority: "0.8",
-    changefreq: "monthly",
-  },
-  {
-    path: "/neighborhoods",
-    priority: "0.8",
-    changefreq: "monthly",
-  },
-  {
-    path: "/contact",
-    priority: "0.8",
-    changefreq: "monthly",
-  },
-];
+  const candidate =
+    typeof value === 'string' && value.trim()
+      ? value.trim()
+      : fallback
 
-const neighborhoodRoutes = NEIGHBORHOOD_PATHS.map((routePath) => ({
-  path: routePath,
-  priority: "0.6",
-  changefreq: "monthly",
-}));
+  const withProtocol =
+    /^https?:\/\//i.test(candidate)
+      ? candidate
+      : `https://${candidate}`
 
-const routes = [...CORE_ROUTES, ...neighborhoodRoutes];
+  return withProtocol.replace(/\/+$/, '')
+}
+
+const SITE_URL = normalizeSiteUrl(
+  process.env.VITE_SITE_URL,
+)
 
 const uniqueRoutes = Array.from(
-  new Map(routes.map((route) => [route.path, route])).values(),
-);
+  new Set(INDEXABLE_ROUTES),
+)
+
+const priorityForPath = (routePath) => {
+  if (routePath === '/') return '1.0'
+  if (routePath === '/services') return '0.9'
+  if (routePath === '/contact') return '0.8'
+  if (routePath === '/neighborhoods') return '0.8'
+
+  if (routePath.startsWith('/services/')) {
+    return '0.8'
+  }
+
+  return '0.5'
+}
+
+const changefreqForPath = (routePath) =>
+  routePath === '/' ? 'weekly' : 'monthly'
 
 const escapeXml = (value) =>
   value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&apos;");
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;')
 
-const toAbsoluteUrl = (routePath) => {
-  if (routePath === "/") {
-    return SITE_URL;
-  }
-
-  return `${SITE_URL}${routePath}`;
-};
+const toAbsoluteUrl = (routePath) =>
+  routePath === '/'
+    ? `${SITE_URL}/`
+    : `${SITE_URL}${routePath}`
 
 const urlEntries = uniqueRoutes
   .map(
-    ({ path: routePath, priority, changefreq }) => `  <url>
+    (routePath) => `  <url>
     <loc>${escapeXml(toAbsoluteUrl(routePath))}</loc>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
+    <changefreq>${changefreqForPath(routePath)}</changefreq>
+    <priority>${priorityForPath(routePath)}</priority>
   </url>`,
   )
-  .join("\n");
+  .join('\n')
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntries}
 </urlset>
-`;
+`
 
-fs.mkdirSync(PUBLIC_DIR, { recursive: true });
+const robots = `User-agent: *
+Allow: /
+Disallow: /api/
 
-const sitemapPath = path.join(PUBLIC_DIR, "sitemap.xml");
+Sitemap: ${SITE_URL}/sitemap.xml
+`
 
-fs.writeFileSync(sitemapPath, sitemap, "utf8");
+fs.mkdirSync(PUBLIC_DIR, {
+  recursive: true,
+})
+
+fs.writeFileSync(
+  path.join(PUBLIC_DIR, 'sitemap.xml'),
+  sitemap,
+  'utf8',
+)
+
+fs.writeFileSync(
+  path.join(PUBLIC_DIR, 'robots.txt'),
+  robots,
+  'utf8',
+)
 
 console.log(
   `Generated sitemap.xml with ${uniqueRoutes.length} indexable URLs for ${SITE_URL}`,
-);
+)

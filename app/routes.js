@@ -12,33 +12,18 @@ export default [
   ),
 
   route(
-    'services/electrical-foundation',
-    './services/electrical-foundation.jsx',
-  ),
-
-  route(
-    'services/electrical-wiring',
-    './services/electrical-wiring.jsx',
-  ),
-
-  route(
-    'services/electrical-finishing',
-    './services/electrical-finishing.jsx',
-  ),
-
-  route(
-    'services/lighting',
-    './services/lighting.jsx',
-  ),
-
-  route(
-    'services/electrical-repair',
-    './services/electrical-repair.jsx',
+    'services/:slug',
+    './services.$slug.jsx',
   ),
 
   route(
     'neighborhoods',
     './neighborhoods.jsx',
+  ),
+
+  route(
+    'neighborhoods/:slug',
+    './neighborhood.$slug.jsx',
   ),
 
   route(

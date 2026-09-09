@@ -5,6 +5,8 @@ import {
 import {
   createBreadcrumbSchema,
   createPageMeta,
+  BUSINESS_PHONE,
+  WHATSAPP_URL,
 } from '../src/lib/seo'
 
 import {
@@ -85,7 +87,7 @@ export default function ServicesRoute() {
             <div className="hero-actions">
               <a
                 className="button button-primary"
-                href="tel:0546856974"
+                href={`tel:${BUSINESS_PHONE}`}
               >
                 اتصل الآن
               </a>
@@ -265,7 +267,7 @@ export default function ServicesRoute() {
             <div className="hero-actions">
               <a
                 className="button button-primary"
-                href="tel:0546856974"
+                href={`tel:${BUSINESS_PHONE}`}
                 aria-label="الاتصال بنور جدة للكهرباء"
               >
                 اتصل الآن
@@ -273,7 +275,7 @@ export default function ServicesRoute() {
 
               <a
                 className="button button-secondary"
-                href="https://wa.me/966546856974"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="التواصل مع نور جدة للكهرباء عبر واتساب"

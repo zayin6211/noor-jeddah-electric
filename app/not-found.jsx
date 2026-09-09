@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 export const meta = () => [
   {
     title:
@@ -17,60 +19,74 @@ export const meta = () => [
 
 export default function NotFoundRoute() {
   return (
-    <main>
-      <section className="page-hero">
+    <>
+      <section
+        className="page-hero"
+        aria-labelledby="not-found-title"
+      >
         <div className="container">
-          <span className="eyebrow">
+          <span
+            className="eyebrow"
+            aria-hidden="true"
+          >
             404
           </span>
 
-          <h1>
+          <h1 id="not-found-title">
             الصفحة غير موجودة
           </h1>
 
           <p>
-            الصفحة التي تبحث عنها غير موجودة أو ربما تم تغيير رابطها.
+            الصفحة التي تبحث عنها غير موجودة
+            أو ربما تم تغيير رابطها.
           </p>
         </div>
       </section>
 
-      <section className="section">
+      <section
+        className="section"
+        aria-labelledby="not-found-actions-title"
+      >
         <div className="container">
           <div className="detail-cta">
-            <h2>
+            <h2 id="not-found-actions-title">
               يمكنك متابعة التصفح
             </h2>
 
             <p>
-              انتقل إلى الصفحة الرئيسية أو اطلع على خدمات الكهرباء
-              المنزلية أو تواصل معنا مباشرة.
+              انتقل إلى الصفحة الرئيسية أو
+              اطلع على خدمات الكهرباء المنزلية
+              أو تواصل معنا مباشرة.
             </p>
 
-            <div className="cta-actions">
-              <a
+            <nav
+              className="cta-actions"
+              aria-label="خيارات التنقل"
+            >
+              <Link
                 className="button button-primary"
-                href="/"
+                to="/"
               >
                 الصفحة الرئيسية
-              </a>
+              </Link>
 
-              <a
+              <Link
                 className="button button-secondary"
-                href="/services"
+                to="/services"
               >
                 خدمات الكهرباء
-              </a>
+              </Link>
 
-              <a
+              <Link
                 className="button button-secondary"
-                href="/contact"
+                to="/contact"
               >
                 التواصل معنا
-              </a>
-            </div>
+              </Link>
+            </nav>
           </div>
         </div>
       </section>
-    </main>
+    </>
   )
 }

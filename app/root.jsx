@@ -24,17 +24,11 @@ export function Layout({
 }) {
   return (
     <html
-      lang={
-        BUSINESS_LANGUAGE
-      }
-      dir={
-        BUSINESS_DIRECTION
-      }
+      lang={BUSINESS_LANGUAGE}
+      dir={BUSINESS_DIRECTION}
     >
       <head>
-        <meta
-          charSet="utf-8"
-        />
+        <meta charSet="utf-8" />
 
         <meta
           name="viewport"
@@ -73,25 +67,30 @@ export function Layout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html:
-              JSON.stringify(
-                businessSchema,
-              ),
+            __html: JSON.stringify(
+              businessSchema,
+            ),
           }}
         />
 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html:
-              JSON.stringify(
-                websiteSchema,
-              ),
+            __html: JSON.stringify(
+              websiteSchema,
+            ),
           }}
         />
       </head>
 
       <body>
+        <a
+          className="skip-link"
+          href="#main-content"
+        >
+          الانتقال إلى المحتوى الرئيسي
+        </a>
+
         <Header />
 
         <main id="main-content">

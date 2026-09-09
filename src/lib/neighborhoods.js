@@ -440,14 +440,8 @@ const FAQ_TEMPLATES = [
   },
 ]
 
-function replaceNeighborhoodName(
-  text,
-  name,
-) {
-  return text.replaceAll(
-    '{name}',
-    name,
-  )
+function replaceNeighborhoodName(text, name) {
+  return text.replaceAll('{name}', name)
 }
 
 function createSlug(name) {
@@ -464,75 +458,68 @@ function createSlug(name) {
     .replace(/^-|-$/g, '')
 }
 
-function createNeighborhood(
-  name,
-  index,
-) {
+function createNeighborhood(name, index) {
   const profile =
     AREA_PROFILES[
-      index %
-        AREA_PROFILES.length
+      index % AREA_PROFILES.length
     ]
 
   const opener =
     OPENERS[
-      index %
-        OPENERS.length
+      index % OPENERS.length
     ]
 
   const secondParagraph =
     SECOND_PARAGRAPHS[
-      index %
-        SECOND_PARAGRAPHS.length
+      index % SECOND_PARAGRAPHS.length
     ]
 
   const pageAngle =
     PAGE_ANGLES[
-      index %
-        PAGE_ANGLES.length
+      index % PAGE_ANGLES.length
     ]
 
   const requestContext =
     REQUEST_CONTEXTS[
-      index %
-        REQUEST_CONTEXTS.length
+      index % REQUEST_CONTEXTS.length
     ]
 
   const beforeWorkNote =
     BEFORE_WORK_NOTES[
-      index %
-        BEFORE_WORK_NOTES.length
+      index % BEFORE_WORK_NOTES.length
     ]
 
-  const slug =
-    createSlug(name)
+  const slug = createSlug(name)
 
-  const intro =
-    replaceNeighborhoodName(
-      opener,
-      name,
-    )
+  const intro = replaceNeighborhoodName(
+    opener,
+    name,
+  )
 
   const details =
     `${profile.details} ${replaceNeighborhoodName(secondParagraph, name)}`
 
   const faqStart =
-    index %
-    FAQ_TEMPLATES.length
+    index % FAQ_TEMPLATES.length
 
   return {
-    id:
-      `neighborhood-${slug}`,
+    id: `neighborhood-${slug}`,
 
     name,
 
     slug,
 
-    path:
-      `/neighborhoods/${slug}`,
+    path: `/neighborhoods/${slug}`,
 
-    indexable:
-      true,
+    /*
+     * هذه الصفحات لا تحتوي حاليًا على محتوى محلي أصلي
+     * ومختلف بدرجة كافية لتبرير فهرستها في محركات البحث.
+     *
+     * لذلك تظل الصفحات متاحة للمستخدم والتنقل الداخلي،
+     * لكن لا يتم اعتبارها أهدافًا للفهرسة حتى يتم تطوير
+     * محتوى محلي حقيقي ومدعوم بمعلومات مؤكدة.
+     */
+    indexable: false,
 
     primaryKeyword:
       `كهربائي ${name} جدة`,
@@ -570,8 +557,7 @@ function createNeighborhood(
 
     details,
 
-    focus:
-      profile.keywords,
+    focus: profile.keywords,
 
     serviceIntent:
       profile.serviceIntent,

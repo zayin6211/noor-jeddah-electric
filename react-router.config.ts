@@ -1,7 +1,7 @@
 import type { Config } from '@react-router/dev/config'
 
 import {
-  INDEXABLE_ROUTES,
+  PRERENDER_ROUTES,
 } from './src/lib/site-data'
 
 export default {
@@ -15,5 +15,5 @@ export default {
     v8_viteEnvironmentApi: true,
   },
 
-  prerender: INDEXABLE_ROUTES,
+  prerender: PRERENDER_ROUTES,
 } satisfies Config

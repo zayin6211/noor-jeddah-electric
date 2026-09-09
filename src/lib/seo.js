@@ -1,4 +1,4 @@
-import { SERVICE_CATALOG } from './services'
+import { SERVICE_CATALOG } from './services.js'
 
 const DEFAULT_SITE_URL =
   'https://noor-jeddah-electric.vercel.app'
@@ -83,9 +83,21 @@ function normalizePath(value) {
     return normalized
   }
 
-  return normalized.startsWith('/')
-    ? normalized
-    : `/${normalized}`
+  const withLeadingSlash =
+    normalized.startsWith('/')
+      ? normalized
+      : `/${normalized}`
+
+  if (
+    withLeadingSlash === '/'
+  ) {
+    return '/'
+  }
+
+  return withLeadingSlash.replace(
+    /\/+$/,
+    '',
+  )
 }
 
 function normalizeImagePath(value) {
@@ -100,14 +112,11 @@ function normalizeImagePath(value) {
 }
 
 function normalizeSiteUrl(value) {
-  const fallback =
-    DEFAULT_SITE_URL
-
   const candidate =
     typeof value === 'string' &&
     value.trim()
       ? value.trim()
-      : fallback
+      : DEFAULT_SITE_URL
 
   const withProtocol =
     /^https?:\/\//i.test(
@@ -208,8 +217,7 @@ export function createPageMeta({
   }
 
   if (
-    typeof indexable !==
-    'boolean'
+    typeof indexable !== 'boolean'
   ) {
     throw new Error(
       'createPageMeta: indexable must be boolean.',
@@ -464,8 +472,9 @@ export const businessSchema = {
         service.name,
     ),
 
-  availableLanguage:
-    ['ar'],
+  availableLanguage: [
+    'ar',
+  ],
 
   contactPoint: {
     '@type':
@@ -480,8 +489,9 @@ export const businessSchema = {
     areaServed:
       BUSINESS_CITY,
 
-    availableLanguage:
-      ['ar'],
+    availableLanguage: [
+      'ar',
+    ],
   },
 }
 
@@ -560,6 +570,15 @@ export function createServiceSchema({
   const normalizedDescription =
     normalizeText(description)
 
+  if (
+    typeof path !== 'string' ||
+    !path.trim()
+  ) {
+    throw new Error(
+      'createServiceSchema: path is required.',
+    )
+  }
+
   const normalizedPath =
     normalizePath(path)
 
@@ -572,16 +591,6 @@ export function createServiceSchema({
   if (!normalizedDescription) {
     throw new Error(
       'createServiceSchema: description is required.',
-    )
-  }
-
-  if (
-    !path ||
-    typeof path !==
-      'string'
-  ) {
-    throw new Error(
-      'createServiceSchema: path is required.',
     )
   }
 
@@ -653,8 +662,9 @@ export function createServiceSchema({
       },
     },
 
-    availableLanguage:
-      ['ar'],
+    availableLanguage: [
+      'ar',
+    ],
   }
 }
 
@@ -681,9 +691,22 @@ export function createBreadcrumbSchema({
             item?.name,
           )
 
+        const rawPath =
+          item?.path
+
+        if (
+          typeof rawPath !==
+            'string' ||
+          !rawPath.trim()
+        ) {
+          throw new Error(
+            `createBreadcrumbSchema: invalid path at position ${index + 1}.`,
+          )
+        }
+
         const path =
           normalizePath(
-            item?.path,
+            rawPath,
           )
 
         if (!name) {

@@ -1,25 +1,20 @@
 import {
   NEIGHBORHOOD_PATHS,
-} from './neighborhoods'
+} from './neighborhoods.js'
 
-const CORE_INDEXABLE_ROUTES = [
+import {
+  SERVICE_CATALOG,
+} from './services.js'
+
+export const CORE_INDEXABLE_ROUTES = [
   '/',
   '/services',
-
-  '/services/electrical-foundation',
-  '/services/electrical-wiring',
-  '/services/electrical-finishing',
-  '/services/lighting',
-  '/services/electrical-repair',
-
+  ...SERVICE_CATALOG.map(
+    (service) =>
+      `/services/${service.slug}`,
+  ),
   '/neighborhoods',
-
   '/contact',
-]
-
-export const INDEXABLE_ROUTES = [
-  ...CORE_INDEXABLE_ROUTES,
-  ...NEIGHBORHOOD_PATHS,
 ]
 
 export const CORE_ROUTES =
@@ -28,10 +23,22 @@ export const CORE_ROUTES =
 export const NEIGHBORHOOD_ROUTES =
   NEIGHBORHOOD_PATHS
 
-export function isIndexableRoute(
-  path,
-) {
-  return INDEXABLE_ROUTES.includes(
-    path,
-  )
-}
+/*
+ * المسارات القابلة للفهرسة في محركات البحث.
+ *
+ * صفحات الأحياء مستبعدة حاليًا لأن محتواها
+ * يحتاج إلى معلومات محلية أصلية ومتمايزة قبل
+ * تحويلها إلى صفحات SEO مستقلة.
+ */
+export const INDEXABLE_ROUTES =
+  CORE_INDEXABLE_ROUTES
+
+/*
+ * جميع المسارات التي ينبغي تجهيزها مسبقًا
+ * لتوفير HTML جاهز عند الطلب، سواء كانت
+ * قابلة للفهرسة أم لا.
+ */
+export const PRERENDER_ROUTES = [
+  ...CORE_INDEXABLE_ROUTES,
+  ...NEIGHBORHOOD_PATHS,
+]
